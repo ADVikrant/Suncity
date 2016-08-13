@@ -1,0 +1,45 @@
+
+Log Entry :
+ Date Time :21-12-2015 12:52:36
+Activity:-  Member Id:31 has been blocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :21-12-2015 12:52:51
+Activity:-  Member Id:31 has been unblocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :21-12-2015 12:53:01
+Activity:-  Member Id:31 has been blocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :21-12-2015 12:54:32
+Activity:-  Member Id:31 has been blocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :21-12-2015 12:55:57
+Activity:-  Member Id:31 has been blocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :21-12-2015 12:57:35
+Activity:-  Member Id:31 has been unblocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :21-12-2015 12:57:46
+Activity:-  Member Id:31 has been blocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :21-12-2015 12:57:57
+Activity:-  Member Id:31 has been unblocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :21-12-2015 20:19:52
+Activity:- Pratik Patel logged out of system
+----------------------------------------------------------------------------------

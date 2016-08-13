@@ -1,0 +1,118 @@
+﻿@model List<SunCity.DAL.TblPackage>
+@{
+    ViewBag.Title = "Map Package-Activity";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Package-Activity</strong> mapped successfully.
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                <a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Map Package-Activity</h4>
+            <p>This form is used to map packages with activities listed.</p>
+        </div>
+        @using (Html.BeginForm("MapPackageActivity", "Function", FormMethod.Post, new { id = "FrmMapPkgActivitys" }))
+        {  
+            
+
+            <div class="panel-body">
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input type="hidden" name="PackageId" id="PackageId" />
+                            <label class="control-label">Package Name</label>
+                            <select id="select-package" data-placeholder="Choose One" class="width300" onclick="getval();">
+                                <option value="-1">Choose One</option>
+                                @foreach (var p in Model)
+                                {
+                                    <option value="@p.PackageId">@p.PackageName</option>
+                                }
+                            </select>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Activities</label>
+                            <div class="col-sm-8" id="divimgcolor">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- row -->
+
+
+                <!-- row -->
+            </div>
+            <!-- panel-body -->
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+            <!-- panel-footer -->
+        }
+    </div>
+    <!-- panel -->
+</div>
+<!-- col-md-6 -->
+<div class="col-md-6">
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.Action("_GridPackageActivity")
+        </div>
+    </div>
+</div>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        // Error Message In One Container
+        $("#FrmAddActivity").validate({
+            errorLabelContainer: $("#FrmAddActivity div.errorForm")
+        });
+
+        jQuery("#select-package").select2();
+
+    });
+    function getval() {
+        var pid = $("#select-package").select2("val"); //get the value
+        $("#PackageId").val(pid);
+        //alert(pid);
+
+        $.ajax({
+            url: '@Url.Action("getMappingDetails", "Function")',
+            data: {
+                PackageId: pid
+            },
+            type: 'GET',
+            success: function (data) {
+                $('#divimgcolor').html(data);
+
+            }
+        });
+    }
+        </script>

@@ -1,0 +1,1366 @@
+﻿@model SunCity.DAL.TempMembershipReg
+@{
+    ViewBag.Title = "NewMembership";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<link href="~/Content/MyUploadify/uploadify.css" rel="stylesheet" />
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership</strong> registered successfully..
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                @*<a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>*@
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Membership Registration</h4>
+            <p>This form is used to add new members to our world.</p>
+        </div>
+        @using (Html.BeginForm("NewMembership", "Dashboard", FormMethod.Post, new { id = "FrmAddMemberRegistration", name = "FrmAddMemberRegistration" }))
+        {  
+            @Html.HiddenFor(x => x.TempMembershipRegistrationId)
+
+            
+        
+            <div class="panel-body">
+                <div class="alert alert-danger" id="divphnmsg" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Please enter valid 10 digit mobile number.
+               
+                </div>
+                <div class="alert alert-danger" id="divseniorage" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Member age should be greater then or equal to 60.
+               
+                </div>
+                <div class="errorForm"></div>
+                <div class="row">
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-12">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label class="control-label">Membership No.</label>
+                                @Html.TextBoxFor(x => x.TempMembershipNo, new { @class = "form-control",  @required = "required", @title = "Enter Membership No.", @id = "MembershipNo" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Membership Plan<span style="color: red;">*</span></label>
+                                @Html.DropDownListFor(x => x.TempPlanId, new SelectList(Model.templistMembershipPlan, "TempPlanId", "TempPlanName"), "Select Membership Plan", new { @class = "width250", @id = "MembershipPlanId", @required = "required", @title = "Select Membership Plan!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-5">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Package</label>
+                                @Html.DropDownListFor(x => x.TempPackageId, new SelectList(Model.listPackages, "PackageId", "PackageName"), "Select Package", new { @class = "width250", @id = "PackageId", @title = "Select Package!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Start Date<span style="color: red;">*</span></label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.TempStartDate, new { @class = "form-control", @placeholder = "yyyy-mm-dd", @required = "required", @title = "Select Membership Start Date!", @id = "MembershipStartDate" })@*<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>*@
+                                </div>
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Amount</label>
+                                <input type="text" id="DAmount" name="DAmount" disabled="disabled" class="form-control" />
+
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Documents</label>
+                                <input type="hidden" name="hiddendocs" id="hiddendocs" />
+                                <input type="file" name="membershipdocs" id="membershipdocs" class="form-control" required="required" title="Documents are required!" />
+                            </div>
+                            <!-- form-group -->
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row" id="binddata">
+                </div>
+                <div class="row">
+                    <h4>Membership of Other clubs:</h4>
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Name of Club</label>
+                                @Html.TextBoxFor(x => x.NameofClub, new { @class = "form-control", @title = "Enter Name of other clubs!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Membership Type</label>
+                                @Html.TextBoxFor(x => x.OtherMembershipType, new { @class = "form-control", @title = "Enter Membership Type!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Reference Details:</h4>
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Reference name of existing Suncity member</label>
+                                @Html.TextBoxFor(x => x.ReferenceName, new { @class = "form-control", @title = "Enter Reference name of existing Suncity club members!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Relation with member</label>
+                                @Html.TextBoxFor(x => x.RelationtoMember, new { @class = "form-control", @title = "Enter Relation with member!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">How long are you known to the referrer member</label>
+                                @Html.TextBoxFor(x => x.HowLong, new { @class = "form-control", @title = "Enter How long are you known to the referrer member!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit" id="btnsubmitmembership">Save</button>
+                <input type="hidden" id="hiddendeleteflag" name="hiddendeleteflag" value="0" />
+                @*<button class="btn btn-warning" type="submit" onclick="setDeleteFlag();">Delete</button>*@
+                <input type="hidden" id="hiddencancelflag" name="hiddencancelflag" value="0" />
+                @*<button class="btn btn-default" type="submit" onclick="setCancelFlag();">Cancel</button>*@
+                <a href="@Url.Action("Index", "Dashboard")" class="btn btn-default">Cancel</a>
+                @*<input type="hidden" id="hiddencorporateflag" name="hiddencorporateflag" />
+                <button class="btn btn-dark btn-sm" type="submit" onclick="setCorporateFlag();">Update Members</button>
+                @if (Model.MembershipPlanId == Convert.ToInt32(SunCity.Core.Enum.MembershipPlan.Corporate_Plan))
+                {
+
+                }*@
+                <input type="hidden" id="0_maincheck" name="0_maincheck" />
+                <input type="hidden" id="1_maincheck" name="1_maincheck" />
+                <input type="hidden" id="0_spousecheck" name="0_spousecheck" />
+                <input type="hidden" id="1_spousecheck" name="1_spousecheck" />
+                <input type="hidden" id="0_childcheck" name="0_childcheck" />
+                <input type="hidden" id="1_childcheck" name="1_childcheck" />
+                <input type="hidden" id="2_childcheck" name="2_childcheck" />
+                <input type="hidden" id="3_childcheck" name="3_childcheck" />
+                <input type="hidden" id="seniorcheck" name="seniorcheck" />
+
+                <input type="hidden" id="0_mainphonecheck" name="0_mainphonecheck" />
+                <input type="hidden" id="1_mainphonecheck" name="1_mainphonecheck" />
+                <input type="hidden" id="0_spousephonecheck" name="0_spousephonecheck" />
+                <input type="hidden" id="1_spousephonecheck" name="1_spousephonecheck" />
+                <input type="hidden" id="seniorphonecheck" name="seniorphonecheck" />
+                <input type="hidden" id="membershipnocheck" name="membershipnocheck"
+            </div>
+        }
+    </div>
+
+</div>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/MyUploadify/jquery.uploadify-3.1.js"></script>
+<script src="~/Content/MyUploadify/jquery.uploadify-3.1.min.js"></script>
+<script>
+    $("#MembershipNo").on({
+        focusout: function () {
+            if ($("#MembershipNo").val() == "") {
+
+            }
+            else {
+                $.ajax({
+                    url: '@Url.Action("checkMembershipNo", "Dashboard")',
+                    data: {
+                        membershipnumber: $("#MembershipNo").val()
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        if (data == "true") {
+                            var valu = $("#MembershipNo").val("");
+
+                            alert("Membership No. already exist. Please enter other Membership No.");
+                            $("#membershipnocheck").val("1");
+                            $("#MembershipNo").focus();
+                        }
+                        else {
+                            alert("Membership No. available");
+                            $("#membershipnocheck").val("0");
+                        }
+
+                    }
+                });
+            }
+        }
+     });
+
+
+    $(function () {
+        var str = "";
+        $('#membershipdocs').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreDocs", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'multi': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, data, response) {
+                //$("#hiddendocs").val(data);
+
+                str += data + ",";
+                //console.log(str);
+                $("#hiddendocs").val(str);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+
+    });
+</script>
+<script>
+
+    $(document).ready(function () {
+        var childcheck = 0, seniorcheck = 0, maincheck = 0, spousecheck = 0
+
+        jQuery("#MembershipPlanId,#PackageId").select2({ minimumResultsForSearch: -1 });
+        jQuery('#MembershipStartDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            //showOn: "button",
+            //buttonImage: "/Content/images/calendaricon.png",
+            //buttonImageOnly: true,
+            //buttonText: "Select date"
+
+        });
+
+
+        $("#FrmAddMemberRegistration").validate({
+            submitHandler: function (form) {
+
+                var membershipcheck = $("#membershipnocheck").val();
+                if (membershipcheck == "1")
+                {
+                    alert("Membership No. already exist. Please enter other Membership No.");
+                    $("#MembershipNo").focus();
+                    return false;
+                }
+                
+
+                var pid = $("#MembershipPlanId").select2("val"); //get the value
+                if (pid == '@Convert.ToInt32(SunCity.Core.Enum.TempMembershipPlan.Corporate_Membership_Package)') {
+                    if ($("#0_mainphonecheck").val() == 0 && $("#1_mainphonecheck").val() == 0) {
+                    }
+                    else {
+                        alert("Please enter valid mobile number in members");
+                        return false;
+                    }
+
+                    if ($("#0_maincheck").val() == 0 && $("#1_maincheck").val() == 0 && $("#0_spousecheck").val() == 0 && $("#1_spousecheck").val() == 0 && $("#0_childcheck").val() == 0 && $("#1_childcheck").val() == 0 && $("#2_childcheck").val() == 0 && $("#3_childcheck").val() == 0) {
+                        form.submit();
+
+                    }
+                    else {
+                        alert("Please check the date of birth of the members");
+                        return false;
+                    }
+
+                }
+                else if (pid == '@Convert.ToInt32(SunCity.Core.Enum.TempMembershipPlan.Family_Membership_Package)' || pid == '@Convert.ToInt32(SunCity.Core.Enum.TempMembershipPlan.ThreeYear_Membership_Package)') {
+                    if ($("#0_mainphonecheck").val() == 0) {
+                    }
+                    else {
+                        alert("Please enter valid mobile number in members");
+                        return false;
+                    }
+
+                    if ($("#0_maincheck").val() == 0 && $("#0_spousecheck").val() == 0 && $("#0_childcheck").val() == 0 && $("#1_childcheck").val() == 0) {
+                        form.submit();
+
+                    }
+                    else {
+                        alert("Please check the date of birth of the members");
+                        return false;
+                    }
+                }
+                else if (pid == '@Convert.ToInt32(SunCity.Core.Enum.TempMembershipPlan.Single_Male_Membership)' || pid == '@Convert.ToInt32(SunCity.Core.Enum.TempMembershipPlan.Single_Female_Membership)') {
+                    if ($("#0_mainphonecheck").val() == 0 ) {
+                    }
+                    else {
+                        alert("Please enter valid mobile number in members");
+                        return false;
+                    }
+
+                    if ($("#0_maincheck").val() == 0) {
+                        form.submit();
+
+                    }
+                    else {
+                        alert("Please check the date of birth of the members");
+                        return false;
+                    }
+                }
+                //if ($("#maincheck").val() == 1 || $("#childcheck").val() == 1 || $("#seniorcheck").val() == 1) {
+                //    return false;
+                //}
+                //else {
+                //    form.submit();
+                //}
+                //if ($("#childcheck").val() == 1) {
+                //    return false;
+                //}
+                //else {
+                //    form.submit();
+                //}
+                //if ($("#seniorcheck").val() == 1) {
+                //    return false;
+                //}
+                //else {
+                //    form.submit();
+                //}
+
+            },
+            errorLabelContainer: $("#FrmAddMemberRegistration div.errorForm")
+        });
+
+
+        $("#MembershipPlanId").click(function () {
+            var pid = $("#MembershipPlanId").select2("val"); //get the value
+            if (pid == "") {
+                //alert("Please select a membership plan");
+                return;
+            }
+            else {
+                //alert(pid);
+                $.ajax({
+                    url: '@Url.Action("GetPlanHistory", "Dashboard")',
+                    data: {
+                        planid: pid
+                    },
+                    type: 'GET'
+                }).done(function (data) {
+                    $("#DAmount").val(data.TempAmount);
+
+                    //----------------------------Block for Main person starts here---------------------------------------------//
+                    $("#binddata").html("");
+                    var str = "";
+                    str += " <div class='panel-group' id='accordion2' style='display: block;'> ";
+                    var getusertypecout = data.Mapplanusertypelist.length;
+                    for (k = 0; k < getusertypecout; k++) {
+                        if (data.Mapplanusertypelist[k].UserTypeId == 1) {
+                            for (i = 0; i < data.Mapplanusertypelist[k].Usercount; i++) {
+
+
+                                //Main div open
+                                str += "<div class='panel panel-primary' id='Member_" + i + "' >";
+                                str += "<div class='panel-heading' data-toggle='collapse' data-parent='#accordion2' href='#FormMember" + i + "' style='background-color: #2E424B; color: white;'>";
+                                str += "<h4 class='panel-title'>      <a data-toggle='collapse' data-parent='#accordion2' href='#FormMember" + i + "'>Personal Detail-" + (i + 1) + " </a></h4></div>";
+                                //start of Form div
+                                str += "<div id='FormMember" + i + "' class='panel-collapse collapse in'>";
+                                str += "<div class='panel-body'>";
+
+                                //First row - Surname,firstname, middlename
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[0].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[0].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[0].FieldName + "' class='form-control' required='required' title='Personal -" + (i + 1) + " " + data.Mapfielduser[0].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[1].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[1].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[1].FieldName + "' class='form-control' required='required' title='Personal -" + (i + 1) + " " + data.Mapfielduser[1].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+                                str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[2].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[2].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[2].FieldName + "'  class='form-control' required='required' title='Personal -" + (i + 1) + " " + data.Mapfielduser[2].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                ////Closing of first row
+
+
+                                ////Start of second row-Sex,Fathers name
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'> <div class='col-sm-6' style='left:-10px;'>    <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[3].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='hidden' name='mem_" + i + "_gen' id='mem_" + i + "_gen' />";
+                                str += "<select id='mem_" + i + "_" + data.Mapfielduser[3].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[3].FieldName + "' onclick='getgendermember(mem_" + i + "_" + data.Mapfielduser[3].FieldName + ",mem_" + i + "_gen);'  data-placeholder='Choose One' class='width200'  required='required' title='Select Personal -" + (i + 1) + "  Sex!'>";
+                                str += "<option value=''>Choose One</option> <option value='Male'>Male</option> <option value='Female'>Female</option> </select>";
+                                str += "</div></div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[4].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[4].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[4].FieldName + "' class='form-control' required='required' title='Personal -" + (i + 1) + " Father/Husband name is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                //End of second row
+
+                                //Start of third row--Address, Phone No.(Res)
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[5].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[5].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[5].FieldName + "' class='form-control' required='required' title='Personal -" + (i + 1) + " " + data.Mapfielduser[5].FieldText + " is required!'  />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[6].FieldText + "(Res)</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[6].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[6].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[6].FieldText + "(Res) is required!' maxlength='13' onkeypress='return isNumberKey(event,this.id)'/>";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                ////End of third row
+
+                                ////Start of fourth row-- Phone(M), Nationality
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[7].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[7].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[7].FieldName + "' onchange='getmainphonelength(mem_" + i + "_" + data.Mapfielduser[7].FieldName + "," + i + ");' class='form-control' required='required' title='Personal -" + (i + 1) + " " + data.Mapfielduser[7].FieldText + " is required!' maxlength='13' onkeypress='return isNumberKey(event,this.id)' />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[8].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[8].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[8].FieldName + "' class='form-control' required='required' title='Personal -" + (i + 1) + " " + data.Mapfielduser[8].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                ////End of fourth row
+
+                                ////Start of fifth row-- Email,PAN No.
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[9].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='email' name='mem_" + i + "_" + data.Mapfielduser[9].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[9].FieldName + "' class='form-control' required='required' title='Personal -" + (i + 1) + " " + data.Mapfielduser[9].FieldText + " is required/Enter valid email id!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[10].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[10].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[10].FieldName + "' class='form-control' title='Personal -" + (i + 1) + " " + data.Mapfielduser[10].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                ////End of fifth row
+
+                                ////Start of sixth row-- Date of birth,Maritial Status
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[11].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[11].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[11].FieldName + "' onchange='getdob(mem_" + i + "_" + data.Mapfielduser[11].FieldName + "," + i + ");' class='form-control' required='required' title='Personal -" + (i + 1) + " " + data.Mapfielduser[11].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+
+
+                                str += "<div class='col-sm-4'> <div class='col-sm-6' style='left:-10px;'>    <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[12].FieldText + "<span style='color:red;'>*</span></label>";
+                                str += "<input type='hidden' name='mem_" + i + "_mar' id='mem_" + i + "_mar' />";
+                                str += "<select id='mem_" + i + "_" + data.Mapfielduser[12].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[12].FieldName + "' onclick='getmaritialmember(mem_" + i + "_" + data.Mapfielduser[12].FieldName + ",mem_" + i + "_mar);'  data-placeholder='Choose One' class='width200'  required='required' title='Select Personal -" + (i + 1) + "  Maritial Status!'>";
+                                str += "<option value=''>Choose One</option> <option value='Married'>Married</option> <option value='UnMarried'>UnMarried</option> </select>";
+                                str += "</div></div></div></div></div>";
+
+                                //End of sixth row
+
+                                //Start of seventh row-- Educational, Blood Group
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[13].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[13].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[13].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[13].FieldText + " is required!'  />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[14].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[14].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[14].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[14].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                //End of seventh row
+
+                                //Start of eight row--Marriage Date,Religion
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[15].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[15].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[15].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[15].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[16].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[16].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[16].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[16].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                //End of eight row
+
+                                //Start of nineth row-- Physical Disability, Interests/Hobbies
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[17].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[17].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[17].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[17].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[18].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[18].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[18].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[18].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                //End of nineth row
+
+                                //Adding Bussiness professional details
+                                str += "<h4>Business / Professional / Service Details</h4>";
+
+                                //
+
+                                //Start of tenth row-- Name  of FIrm,Business Address
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[19].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[19].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[19].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[19].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[20].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[20].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[20].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[20].FieldText + " is required!'  />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                //End of tenth row
+
+                                //Start of eleventh row- Office Address, Email
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[21].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[21].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[21].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[21].FieldText + " is required!'  />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[22].FieldText + "</label>";
+                                str += "<input type='email' name='mem_" + i + "_" + data.Mapfielduser[22].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[22].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[22].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                //End of eleventh row
+
+                                //Start of twelveth row- office phone,Nature of business card
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[23].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[23].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[23].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[23].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[24].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[24].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[24].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[24].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                //End of twelveth row
+
+                                //Start of thirtenth row-- Designation,Annual Income
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[25].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[25].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[25].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[25].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[26].FieldText + "</label>";
+                                str += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[26].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[26].FieldName + "' class='form-control'  title='Personal -" + (i + 1) + " " + data.Mapfielduser[26].FieldText + " is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                //End of thirtenth row
+
+                                //Start of fourteen row- Profile pic
+                                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>Photo</label>";
+                                str += "<input type='hidden' name='hiddenmem" + i + "photo' id='hiddenmem" + i + "photo' />";
+                                str += "<input type='text' name='mem_" + i + "_photo' id='mem_" + i + "_photo' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />";
+                                str += "</div></div>";
+
+                                str += "</div></div>";
+                                //End of fourteen row
+
+                                str += "</div></div>";
+                                //Main div closed
+                                str += "</div>";
+
+
+                            }
+                        }
+                    }
+
+                    str += "</div>";
+                    //console.log(str);
+
+                    $("#binddata").html(str);
+                    for (k = 0; k < getusertypecout; k++) {
+                        if (data.Mapplanusertypelist[k].UserTypeId == 1) {
+                            for (i = 0; i < data.Mapplanusertypelist[k].Usercount; i++) {
+                                var getmapfieldcount = data.Mapfielduser.length;
+                                for (l = 0; l < getmapfieldcount; l++) {
+
+                                    if (data.Mapfielduser[l].FieldType == "select") {
+                                        jQuery("#mem_" + i + "_" + data.Mapfielduser[l].FieldName).select2({ allowClear: true });
+                                    }
+                                    if (data.Mapfielduser[l].FieldText == "Date of Birth" || data.Mapfielduser[l].FieldText == "Marriage Date") {
+                                        jQuery("#mem_" + i + "_" + data.Mapfielduser[l].FieldName).datepicker({
+                                            dateFormat: "yy-mm-dd",
+                                            changeMonth: true,
+                                            changeYear: true
+                                        });
+                                    }
+
+                                }
+                                adduploader(i);
+
+                            }
+                        }
+                    }
+
+                    //----------------------------Block for Main person ends here---------------------------------------------//
+
+                    //----------------------------Block for Spouse starts here---------------------------------------------//
+
+                    var strspouse = "";
+                    strspouse += " <div class='panel-group' id='accordion3' style='display: block;'> ";
+                    var getusertypecout = data.Mapplanusertypelist.length;
+                    for (k = 0; k < getusertypecout; k++) {
+                        if (data.Mapplanusertypelist[k].UserTypeId == 2) {
+                            for (i = 0; i < data.Mapplanusertypelist[k].Usercount; i++) {
+                                //Main div open
+                                strspouse += "<div class='panel panel-primary' id='Member_" + i + "' >";
+                                strspouse += "<div class='panel-heading' data-toggle='collapse' data-parent='#accordion3' href='#SFormMember" + i + "' style='background-color: #2E424B; color: white;'>";
+                                strspouse += "<h4 class='panel-title'>      <a data-toggle='collapse' data-parent='#accordion3' href='#SFormMember" + i + "'>Spouse Detail-" + (i + 1) + " </a></h4></div>";
+                                //start of Form div
+                                strspouse += "<div id='SFormMember" + i + "' class='panel-collapse collapse in'>";
+                                strspouse += "<div class='panel-body'>";
+
+                                //First row- Surname,FIrstname, middlename
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[27].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[27].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[27].FieldName + "' class='form-control' required='required' title='Spouse -" + (i + 1) + " " + data.Mapfielduser[27].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[28].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[28].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[28].FieldName + "' class='form-control' required='required' title='Spouse -" + (i + 1) + " " + data.Mapfielduser[28].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+                                strspouse += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[29].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[29].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[29].FieldName + "'  class='form-control' required='required' title='Spouse -" + (i + 1) + " " + data.Mapfielduser[29].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //Closing of first row
+
+                                //Start of second row-Blood group ,DOB
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[30].FieldText + "</label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[30].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[30].FieldName + "' class='form-control'  title='Spouse -" + (i + 1) + " " + data.Mapfielduser[30].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[31].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[31].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[31].FieldName + "' onchange='getspousedob(smem_" + i + "_" + data.Mapfielduser[31].FieldName + "," + i + ");' class='form-control' required='required' title='Spouse -" + (i + 1) + " " + data.Mapfielduser[31].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of second row
+
+                                //Start of third row--Nationality,Email
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[32].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[32].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[32].FieldName + "' class='form-control' required='required' title='Spouse -" + (i + 1) + " " + data.Mapfielduser[32].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[33].FieldText + "</label>";
+                                strspouse += "<input type='email' name='smem_" + i + "_" + data.Mapfielduser[33].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[33].FieldName + "' class='form-control'  title='Spouse -" + (i + 1) + " " + data.Mapfielduser[9].FieldText + " is required/Enter valid email id!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of third row
+
+                                //Start of fourth row- Phone(res), PAN No.
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[40].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[40].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[40].FieldName + "' class='form-control' onchange='getspousephonelength(mem_" + i + "_" + data.Mapfielduser[40].FieldName + "," + i + ");' title='Spouse -" + (i + 1) + " " + data.Mapfielduser[40].FieldText + " is required!' maxlength='13' onkeypress='return isNumberKey(event,this.id)' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[34].FieldText + "</label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[34].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[34].FieldName + "' class='form-control'  title='Spouse -" + (i + 1) + " " + data.Mapfielduser[34].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of fourth row
+
+                                //Start of fifth row- Educational qualification,Occupation
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[35].FieldText + "</label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[35].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[35].FieldName + "' class='form-control' title='Spouse -" + (i + 1) + " " + data.Mapfielduser[35].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+
+
+
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[36].FieldText + "</label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[36].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[36].FieldName + "' class='form-control'  title='Spouse -" + (i + 1) + " " + data.Mapfielduser[36].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+                                strspouse += "</div></div>";
+
+                                //End of fifth row
+
+                                //Start of sixth row-Designation, Annual income
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[37].FieldText + "</label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[37].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[37].FieldName + "' class='form-control'  title='Spouse -" + (i + 1) + " " + data.Mapfielduser[37].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+
+
+
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[38].FieldText + "</label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[38].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[38].FieldName + "' class='form-control'  title='Spouse -" + (i + 1) + " " + data.Mapfielduser[38].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of sixth row
+
+                                //Start of seventh row-Interests/Hobbies
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[39].FieldText + "</label>";
+                                strspouse += "<input type='text' name='smem_" + i + "_" + data.Mapfielduser[39].FieldName + "' id='smem_" + i + "_" + data.Mapfielduser[39].FieldName + "' class='form-control'  title='Spouse -" + (i + 1) + " " + data.Mapfielduser[39].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+
+
+
+                                //strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[39].FieldText + "</label>";
+                                //strspouse += "<input type='text' name='mem_" + i + "_" + data.Mapfielduser[39].FieldName + "' id='mem_" + i + "_" + data.Mapfielduser[39].FieldName + "' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />";
+                                //strspouse += "</div></div>";
+                                strspouse += "</div>";
+
+                                //End of seventh row
+
+                                //Start of eight row- photo
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>Photo</label>";
+                                strspouse += "<input type='hidden' name='shiddenmem" + i + "photo' id='shiddenmem" + i + "photo' />";
+                                strspouse += "<input type='text' name='smem_" + i + "_photo' id='smem_" + i + "_photo' class='form-control' required='required' title='Photo is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of eight row
+
+                                strspouse += "</div></div>";
+                                //Main div closed
+                                strspouse += "</div></div>";
+                            }
+                        }
+                    }
+
+                    strspouse += "</div>";
+
+                    $("#binddata").append(strspouse);
+                    for (k = 0; k < getusertypecout; k++) {
+                        if (data.Mapplanusertypelist[k].UserTypeId == 2) {
+                            for (i = 0; i < data.Mapplanusertypelist[k].Usercount; i++) {
+                                var getmapfieldcount = data.Mapfielduser.length;
+                                for (l = 0; l < getmapfieldcount; l++) {
+
+
+                                    if (data.Mapfielduser[l].FieldText == "Date of Birth" || data.Mapfielduser[l].FieldText == "Marriage Date") {
+                                        jQuery("#smem_" + i + "_" + data.Mapfielduser[l].FieldName).datepicker({
+                                            dateFormat: "yy-mm-dd",
+                                            changeMonth: true,
+                                            changeYear: true
+                                        });
+                                    }
+
+                                }
+                                sadduploader(i);
+                            }
+                        }
+                    }
+
+                    //----------------------------Block for Spouse ends here---------------------------------------------//
+
+                    //----------------------------Block for Child starts here---------------------------------------------//
+
+                    var strspouse = "";
+                    strspouse += " <div class='panel-group' id='accordion4' style='display: block;'> ";
+                    var getusertypecout = data.Mapplanusertypelist.length;
+                    for (k = 0; k < getusertypecout; k++) {
+                        if (data.Mapplanusertypelist[k].UserTypeId == 3) {
+                            for (i = 0; i < data.Mapplanusertypelist[k].Usercount; i++) {
+                                //Main div open
+                                strspouse += "<div class='panel panel-primary' id='Member_" + i + "' >";
+                                strspouse += "<div class='panel-heading' data-toggle='collapse' data-parent='#accordion4' href='#CFormMember" + i + "' style='background-color: #2E424B; color: white;'>";
+                                strspouse += "<h4 class='panel-title'>      <a data-toggle='collapse' data-parent='#accordion4' href='#CFormMember" + i + "'>Child Detail-" + (i + 1) + " </a></h4></div>";
+                                //start of Form div
+                                strspouse += "<div id='CFormMember" + i + "' class='panel-collapse collapse in'>";
+                                strspouse += "<div class='panel-body'>";
+
+                                //First row - Name,Blood grp, sex
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[41].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' name='cmem_" + i + "_" + data.Mapfielduser[41].FieldName + "' id='cmem_" + i + "_" + data.Mapfielduser[41].FieldName + "' class='form-control' required='required' title='Child -" + (i + 1) + " " + data.Mapfielduser[41].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[42].FieldText + "</label>";
+                                strspouse += "<input type='text' name='cmem_" + i + "_" + data.Mapfielduser[42].FieldName + "' id='cmem_" + i + "_" + data.Mapfielduser[42].FieldName + "' class='form-control'  title='Child -" + (i + 1) + " " + data.Mapfielduser[42].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-4'> <div class='col-sm-4'>    <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[43].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='hidden' name='cmem_" + i + "_gen' id='cmem_" + i + "_gen' />";
+                                strspouse += "<select id='cmem_" + i + "_" + data.Mapfielduser[43].FieldName + "' id='cmem_" + i + "_" + data.Mapfielduser[43].FieldName + "' onclick='getmaritialmember(cmem_" + i + "_" + data.Mapfielduser[43].FieldName + ",cmem_" + i + "_gen);'  data-placeholder='Choose One' class='width200'  required='required' title='Select Child -" + (i + 1) + " " + data.Mapfielduser[43].FieldText + "!'>";
+                                strspouse += "<option value=''>Choose One</option> <option value='Male'>Male</option> <option value='Female'>Female</option> </select>";
+                                strspouse += "</div></div></div>";
+
+                                strspouse += "</div></div>";
+                                //Closing of first row
+
+                                //Start of second row- DOB,Name of school
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[44].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' onchange='getchilddob(cmem_" + i + "_" + data.Mapfielduser[44].FieldName + "," + i + ");' name='cmem_" + i + "_" + data.Mapfielduser[44].FieldName + "' id='cmem_" + i + "_" + data.Mapfielduser[44].FieldName + "' class='form-control' required='required' title='Child -" + (i + 1) + " " + data.Mapfielduser[44].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[45].FieldText + "</label>";
+                                strspouse += "<input type='text' name='cmem_" + i + "_" + data.Mapfielduser[45].FieldName + "' id='cmem_" + i + "_" + data.Mapfielduser[45].FieldName + "' class='form-control' title='Child -" + (i + 1) + " " + data.Mapfielduser[45].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of second row
+
+                                //Start of third row-Interests/Hobbies,Allergy
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[46].FieldText + "</label>";
+                                strspouse += "<input type='text' name='cmem_" + i + "_" + data.Mapfielduser[46].FieldName + "' id='cmem_" + i + "_" + data.Mapfielduser[46].FieldName + "' class='form-control' title='Child -" + (i + 1) + " " + data.Mapfielduser[46].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[47].FieldText + "</label>";
+                                strspouse += "<input type='text' name='cmem_" + i + "_" + data.Mapfielduser[47].FieldName + "' id='cmem_" + i + "_" + data.Mapfielduser[47].FieldName + "' class='form-control' title='Child -" + (i + 1) + " " + data.Mapfielduser[47].FieldText + " is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of third row
+
+                                //Start of fourth row-photo
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>Photo</label>";
+                                strspouse += "<input type='hidden' name='chiddenmem" + i + "photo' id='chiddenmem" + i + "photo' />";
+                                strspouse += "<input type='text' name='cmem_" + i + "_photo' id='cmem_" + i + "_photo' class='form-control' required='required' title='Photo is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of fourth row
+
+                                strspouse += "</div></div>";
+                                //Main div closed
+                                strspouse += "</div>";
+                            }
+                        }
+                    }
+
+                    strspouse += "</div>";
+
+                    $("#binddata").append(strspouse);
+
+                    for (k = 0; k < getusertypecout; k++) {
+                        if (data.Mapplanusertypelist[k].UserTypeId == 3) {
+                            for (i = 0; i < data.Mapplanusertypelist[k].Usercount; i++) {
+                                var getmapfieldcount = data.Mapfielduser.length;
+                                for (l = 0; l < getmapfieldcount; l++) {
+                                    //if (data.Mapfielduser[3].FieldType == "select") {
+                                    //    jQuery("#mem_" + i + "_" + data.Mapfielduser[3].FieldName).select2({ allowClear: true });
+                                    //}
+                                    //if (data.Mapfielduser[12].FieldType == "select") {
+                                    //    jQuery("#mem_" + i + "_" + data.Mapfielduser[12].FieldName).select2({ allowClear: true });
+                                    //}
+                                    if (data.Mapfielduser[l].FieldType == "select" && data.Mapfielduser[l].UserTypeId == 3) {
+                                        jQuery("#cmem_" + i + "_" + data.Mapfielduser[l].FieldName).select2({ allowClear: true });
+                                    }
+
+                                    if (data.Mapfielduser[l].FieldText == "Date of Birth") {
+                                        jQuery("#cmem_" + i + "_" + data.Mapfielduser[l].FieldName).datepicker({
+                                            dateFormat: "yy-mm-dd",
+                                            changeMonth: true,
+                                            changeYear: true
+                                        });
+                                    }
+
+                                }
+                                cadduploader(i);
+                            }
+                        }
+                    }
+                    //----------------------------Block for Child ends here---------------------------------------------//
+
+                    //----------------------------Block for Senior starts here---------------------------------------------//
+
+                    var strspouse = "";
+                    strspouse += " <div class='panel-group' id='accordion5' style='display: block;'> ";
+                    var getusertypecout = data.Mapplanusertypelist.length;
+                    for (k = 0; k < getusertypecout; k++) {
+                        if (data.Mapplanusertypelist[k].UserTypeId == 4) {
+                            for (i = 0; i < data.Mapplanusertypelist[k].Usercount; i++) {
+                                //Main div open
+                                strspouse += "<div class='panel panel-primary' id='Member_" + i + "' >";
+                                strspouse += "<div class='panel-heading' data-toggle='collapse' data-parent='#accordion5' href='#SeFormMember" + i + "' style='background-color: #2E424B; color: white;'>";
+                                strspouse += "<h4 class='panel-title'>      <a data-toggle='collapse' data-parent='#accordion5' href='#SeFormMember" + i + "'>Senior Detail </a></h4></div>";
+                                //start of Form div
+                                strspouse += "<div id='SeFormMember" + i + "' class='panel-collapse collapse in'>";
+                                strspouse += "<div class='panel-body'>";
+
+
+                                //Start of first row- Name,address
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[48].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text'  name='semem_" + i + "_" + data.Mapfielduser[48].FieldName + "' id='semem_" + i + "_" + data.Mapfielduser[48].FieldName + "' class='form-control'  title='" + data.Mapfielduser[48].FieldText + "' is required!' required='required' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[49].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' name='semem_" + i + "_" + data.Mapfielduser[49].FieldName + "' id='semem_" + i + "_" + data.Mapfielduser[49].FieldName + "' class='form-control' required='required' title='" + data.Mapfielduser[49].FieldText + "' is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of first row
+
+                                //Start of second row-- PHone no,dob
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[50].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' name='semem_" + i + "_" + data.Mapfielduser[50].FieldName + "' id='semem_" + i + "_" + data.Mapfielduser[50].FieldName + "' class='form-control' onchange='getseniorphonelength(mem_" + i + "_" + data.Mapfielduser[50].FieldName + "," + i + ");' title='" + data.Mapfielduser[50].FieldText + "' is required!' maxlength='12' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data.Mapfielduser[51].FieldText + "<span style='color:red;'>*</span></label>";
+                                strspouse += "<input type='text' onchange='getseniordob(semem_" + i + "_" + data.Mapfielduser[51].FieldName + "," + i + ");' name='semem_" + i + "_" + data.Mapfielduser[51].FieldName + "' id='semem_" + i + "_" + data.Mapfielduser[51].FieldName + "' class='form-control' required='required' title='" + data.Mapfielduser[51].FieldText + "' is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of second row
+
+                                //Start of third row- profile
+                                strspouse += "<div class='row'>                                            <div class='col-sm-12'>";
+                                strspouse += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>Photo</label>";
+                                strspouse += "<input type='hidden' name='seniormem" + i + "photo' id='seniormem" + i + "photo' />";
+                                strspouse += "<input type='text' name='semem_" + i + "_photo' id='semem_" + i + "_photo' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />";
+                                strspouse += "</div></div>";
+
+                                strspouse += "</div></div>";
+                                //End of third row
+
+                                strspouse += "</div></div>";
+                                //Main div closed
+                                strspouse += "</div>";
+                            }
+                        }
+                    }
+
+                    strspouse += "</div>";
+
+                    $("#binddata").append(strspouse);
+
+                    for (k = 0; k < getusertypecout; k++) {
+                        if (data.Mapplanusertypelist[k].UserTypeId == 4) {
+                            for (i = 0; i < data.Mapplanusertypelist[k].Usercount; i++) {
+                                var getmapfieldcount = data.Mapfielduser.length;
+                                for (l = 0; l < getmapfieldcount; l++) {
+                                    //if (data.Mapfielduser[3].FieldType == "select") {
+                                    //    jQuery("#mem_" + i + "_" + data.Mapfielduser[3].FieldName).select2({ allowClear: true });
+                                    //}
+                                    //if (data.Mapfielduser[12].FieldType == "select") {
+                                    //    jQuery("#mem_" + i + "_" + data.Mapfielduser[12].FieldName).select2({ allowClear: true });
+                                    //}
+
+
+                                    if (data.Mapfielduser[l].FieldText == "Date of Birth") {
+                                        jQuery("#semem_" + i + "_" + data.Mapfielduser[l].FieldName).datepicker({
+                                            dateFormat: "yy-mm-dd",
+                                            changeMonth: true,
+                                            changeYear: true
+                                        });
+                                    }
+
+                                }
+                                senioradduploader(i);
+                            }
+                        }
+                    }
+                    //----------------------------Block for Senior ends here---------------------------------------------//
+                });
+            }
+        });
+    });
+
+    var parent1check = 0;
+    function getgendermember(idname, hiddenname) {
+        //alert(idname['id']);
+        //alert(hiddenname);
+        var idn = "#" + idname['id'] + "";
+        var hdn = "#" + hiddenname['id'] + "";
+        var gen = $(idn).select2("val"); //get the value
+        $(hdn).val(gen);
+        //alert($(hdn).val());
+    }
+
+    function getchilddob(dtdob, j) {
+        var child1date = $("#" + dtdob['id']).datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+        todayDate = new Date();
+        todayYear = todayDate.getFullYear();
+        todayMonth = todayDate.getMonth();
+        todayDay = todayDate.getDate();
+        age = todayYear - year;
+        //alert(age);
+        if (age <= 18) {
+            parent1check = 1;
+            //$("#childcheck").val("0");
+            if (j == 0) {
+                $("#0_childcheck").val("0");
+            }
+            if (j == 1) {
+                $("#1_childcheck").val("0");
+            }
+            if (j == 2) {
+                $("#2_childcheck").val("0");
+            }
+            if (j == 3) {
+                $("#3_childcheck").val("0");
+            }
+        }
+        else {
+            alert("Member age should be <=18");
+            //$("#childcheck").val("1");
+            if (j == 0) {
+                $("#0_childcheck").val("1");
+            }
+            if (j == 1) {
+                $("#1_childcheck").val("1");
+            }
+            if (j == 3) {
+                $("#2_childcheck").val("1");
+            }
+            if (j == 4) {
+                $("#3_childcheck").val("1");
+            }
+            return false;
+        }
+    }
+
+    function getdob(dtdob, j) {
+        //var selected = $("#" + dtdob).val();
+        //Check for  above 18
+        var child1date = $("#" + dtdob['id']).datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+        todayDate = new Date();
+        todayYear = todayDate.getFullYear();
+        todayMonth = todayDate.getMonth();
+        todayDay = todayDate.getDate();
+        age = todayYear - year;
+        //alert(age);
+        if (age >= 18) {
+            parent1check = 1;
+            //$("#maincheck").val("0");
+            if (j == 0) {
+                $("#0_maincheck").val("0");
+            }
+            if (j == 1) {
+                $("#1_maincheck").val("0");
+            }
+        }
+        else {
+            alert("Member age should be >=18");
+            if (j == 0) {
+                $("#0_maincheck").val("1");
+            }
+            if (j == 1) {
+                $("#1_maincheck").val("1");
+            }
+            //$("#maincheck").val("1");
+            return false;
+        }
+    }
+    function getspousedob(dtdob, j) {
+        //var selected = $("#" + dtdob).val();
+        //Check for  above 18
+        var child1date = $("#" + dtdob['id']).datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+        todayDate = new Date();
+        todayYear = todayDate.getFullYear();
+        todayMonth = todayDate.getMonth();
+        todayDay = todayDate.getDate();
+        age = todayYear - year;
+        //alert(age);
+        if (age >= 18) {
+            parent1check = 1;
+            //$("#maincheck").val("0");
+            if (j == 0) {
+                $("#0_spousecheck").val("0");
+            }
+            if (j == 1) {
+                $("#1_spousecheck").val("0");
+            }
+        }
+        else {
+            alert("Member age should be >=18");
+            //$("#maincheck").val("1");
+            if (j == 0) {
+                $("#0_spousecheck").val("1");
+            }
+            if (j == 1) {
+                $("#1_spousecheck").val("1");
+            }
+            return false;
+        }
+    }
+
+    function getmaritialmember(maridname, hiddermaridname) {
+        var sidn = "#" + maridname['id'] + "";
+        var shdn = "#" + hiddermaridname['id'] + "";
+        var sgen = $(sidn).select2("val"); //get the value
+        $(shdn).val(sgen);
+        //alert($(shdn).val());
+    }
+
+    function getchildgender(chiidname, hidderchiidname) {
+        var cidn = "#" + chiidname['id'] + "";
+        var chdn = "#" + hidderchiidname['id'] + "";
+        var cgen = $(cidn).select2("val"); //get the value
+        $(chdn).val(cgen);
+        alert($(chdn).val());
+    }
+    function adduploader(id) {
+        $('#mem_' + id + '_photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeDesc': 'Image Files',
+            'fileTypeExts': '*.jpg; *.png;*.jpeg;*.pdf',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, uploaddata, response) {
+                var vb = 'hiddenmem' + id + 'photo';
+                $('#' + vb).val(uploaddata);
+                //console.log(data);
+                //alert($('#' + vb).val());
+                //alert($('#hiddenmem' + id + 'photo').val());
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+
+    }
+    function sadduploader(id) {
+        $('#smem_' + id + '_photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeDesc': 'Image Files',
+            'fileTypeExts': '*.jpg; *.png;*.jpeg;*.pdf',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, uploaddata, response) {
+                var vb = 'shiddenmem' + id + 'photo';
+                $('#' + vb).val(uploaddata);
+                //console.log(data);
+                //alert($('#' + vb).val());
+                //alert($('#hiddenmem' + id + 'photo').val());
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+
+    }
+    function cadduploader(id) {
+        $('#cmem_' + id + '_photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeDesc': 'Image Files',
+            'fileTypeExts': '*.jpg; *.png;*.jpeg;*.pdf',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, uploaddata, response) {
+                var vb = 'chiddenmem' + id + 'photo';
+                $('#' + vb).val(uploaddata);
+                //console.log(data);
+                //alert($('#' + vb).val());
+                //alert($('#hiddenmem' + id + 'photo').val());
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+
+    }
+    function senioradduploader(id) {
+        $('#semem_' + id + '_photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeDesc': 'Image Files',
+            'fileTypeExts': '*.jpg; *.png;*.jpeg;*.pdf',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, uploaddata, response) {
+                var vb = 'seniormem' + id + 'photo';
+                $('#' + vb).val(uploaddata);
+                //console.log(data);
+                //alert($('#' + vb).val());
+                //alert($('#hiddenmem' + id + 'photo').val());
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+
+    }
+    function getseniordob(dtdob, j) {
+        //var selected = $("#" + dtdob).val();
+        //Check for  above 18
+        var child1date = $("#" + dtdob['id']).datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+        todayDate = new Date();
+        todayYear = todayDate.getFullYear();
+        todayMonth = todayDate.getMonth();
+        todayDay = todayDate.getDate();
+        age = todayYear - year;
+        //alert(age);
+        if (age >= 60) {
+            $("#divseniorage").hide();
+            $("#seniorcheck").val("0");
+        }
+        else {
+            $("#divseniorage").show();
+            $("#seniorcheck").val("1");
+            return false;
+        }
+    }
+
+    function getmainphonelength(phnobj, j) {
+        var child1date = $("#" + phnobj['id']).val();
+
+        var l = child1date.length;
+
+        if (l < 10) {
+
+
+            if (j == 0) {
+                $("#0_mainphonecheck").val("1");
+            }
+            if (j == 1) {
+                $("#1_mainphonecheck").val("1");
+            }
+        }
+        else {
+
+
+            if (j == 0) {
+                $("#0_mainphonecheck").val("0");
+            }
+            if (j == 1) {
+                $("#1_mainphonecheck").val("0");
+            }
+            return false;
+        }
+    }
+
+    function getspousephonelength(phnobj, j) {
+        var child1date = $("#" + phnobj['id']).val();
+
+        var l = child1date.length;
+
+        if (l < 10) {
+
+
+            if (j == 0) {
+                $("#0_spousephonecheck").val("0");
+            }
+            if (j == 1) {
+                $("#1_spousephonecheck").val("0");
+            }
+        }
+        else {
+
+
+            if (j == 0) {
+                $("#0_spousephonecheck").val("1");
+            }
+            if (j == 1) {
+                $("#1_spousephonecheck").val("1");
+            }
+            return false;
+        }
+    }
+    function getseniorphonelength(phnobj, j) {
+        var child1date = $("#" + phnobj['id']).val();
+
+        var l = child1date.length;
+        if (l < 10) {
+            $("#seniorphonecheck").val("0");
+        }
+        else {
+            $("#seniorphonecheck").val("1");
+            return false;
+        }
+    }
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+</script>
+

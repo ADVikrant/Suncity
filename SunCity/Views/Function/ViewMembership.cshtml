@@ -1,0 +1,776 @@
+﻿@model SunCity.DAL.TblMembershipRegistration
+@{
+    ViewBag.Title = "View Membership";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+<link href="~/Content/MyUploadify/uploadify.css" rel="stylesheet" />
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership</strong> updated successfully.
+                               
+    </div>
+}
+@if (TempData["deletestatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership</strong> deleted successfully.
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+    </div>
+}
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @*<div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                <a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>
+
+            </div>*@
+
+            <!-- panel-btns -->
+            <h4 class="panel-title">Membership Detail
+                <div style="float: right;">
+                    @if (Model.MembershipPlanId != Convert.ToInt32(SunCity.Core.Enum.MembershipPlan.Single_Membership) && Model.MembershipPlanId != Convert.ToInt32(SunCity.Core.Enum.MembershipPlan.Corporate_Plan))
+                    {
+                        <button class="btn btn-dark btn-sm" data-toggle="modal" data-target=".bs-example-modal-static">Add New Member</button>
+                    }
+                </div>
+            </h4>
+
+            @*<p>This form is used to add new activities.</p>*@
+
+        </div>
+        @using (Html.BeginForm("ViewMembership", "Function", FormMethod.Post, new { id = "FrmAddMemberRegistration" }))
+        {  
+            @Html.HiddenFor(x => x.MembershipRegistrationId)
+            <input type="hidden" name="hidregistrationid" id="hidregistrationid" value="@Model.MembershipRegistrationId"/>
+            <div class="panel-body">
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Membership Plan</label>
+                                @Html.DropDownListFor(x => x.MembershipPlanId, new SelectList(Model.listMembershipPlan, "MembershipPlanId", "MembershipPlanName"), "Select Membership Plan", new { @class = "width300", @id = "MembershipPlanId", @required = "required", @title = "Select Membership Plan!", @disabled = "disabled" })
+                                <input type="hidden" name="MembershipPlanId" value="@Model.MembershipPlanId" />
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-5">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Package</label>
+                                @Html.DropDownListFor(x => x.PackageId, new SelectList(Model.listPackages, "PackageId", "PackageName"), "Select Package", new { @class = "width300", @id = "PackageId", @required = "required", @title = "Select Package!", @disabled = "disabled" })
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Amount</label>
+                                @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @title = "Amount is required!", @required = "required", @style = "width:300px;" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Is Deleted</label>
+                                <div class="checkbox block">
+                                    @if (Model.IsDeleted == false)
+                                    {
+                                
+                                        <label>
+                                            <input type="checkbox" name="IsDeleted" /></label>
+                                
+                                    }
+                                    else
+                                    {
+                                
+                                        <label>
+                                            <input type="checkbox" name="IsDeleted" checked="checked" /></label>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label class="control-label">Start Date</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.MembershipStartDate, new { @class = "form-control", @placeholder = "yyyy-mm-dd", @required = "required", @title = "Select Membership Start Date!", @readonly = "readonly" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                <!-- input-group -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label class="control-label">Expire Date</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.MembershipEndDate, new { @class = "form-control", @placeholder = "yyyy-mm-dd", @required = "required", @title = "Select Membership End Date!", @readonly = "readonly" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Documents</label>
+                            <input type="hidden" name="hiddendocs" id="hiddendocs" />
+                            <input type="file" name="membershipdocs" id="membershipdocs" class="form-control" required="required" title="Documents are required!" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="control-label">Documents submitted</label>
+                        <div class="input-group">
+                            <ul>
+                                @foreach (var doc in Model.listdocuments)
+                                {
+                                    <li>@doc.DocumentName.Substring(20)<a href="@Url.Action("Download", "Dashboard", new { docid = doc.DocumentId })" title="Download">&nbsp;&nbsp;<span class="glyphicon glyphicon-download"></span></a> <a title="Delete" style="cursor:pointer;" href="@Url.Action("DeleteDocument", "Function", new { Documentid = doc.DocumentId, MembershipRegistrationId = Model.MembershipRegistrationId })"><span class="glyphicon glyphicon-trash"></span></a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @*<h5 class="lg-title mb10">Member Details</h5>*@
+
+                        <!-- <div class="panel-group" id="viewaccordion2">
+                            @foreach (var item in Model.listmembers)
+                            {
+                            
+                                @Html.HiddenFor(x => item.MemberId)
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#viewaccordion2" href="#FormMember @item.MemberId">Member #@item.MemberId
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="FormMember @item.MemberId" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">First Name</label>
+
+                                                            <input type="text" name="@item.MemberId firstname" id="@item.MemberId firstname" class="form-control" required="required" value="@item.MemberFirstName" title="#@item.MemberId First name is required!" maxlength="25" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Middle Name</label>
+                                                            <input type="text" name="@item.MemberId middlename" id="@item.MemberId middlename" class="form-control" required="required" value="@item.MemberMiddleName" title="#@item.MemberId Middle name is required!" maxlength="25" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Last Name</label>
+                                                            <input type="text" name="@item.MemberId lastname" id="@item.MemberId lastname" class="form-control" value="@item.MemberLastName" required="required" title="#@item.MemberId Last name is required!" maxlength="25" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">DOB</label>
+                                                            <div class="input-group">
+
+                                                                <input type="text" name="@item.MemberId dob" id="@item.MemberId dob" class="form-control ddp" value="@item.MemberDOB" required="required" placeholder="yyyy-mm-dd" title="Member#1 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Gender</label>
+                                                            <input type="text" name="@item.MemberId gender" id="@item.MemberId gender" class="form-control" value="@item.Gender" required="required" @*disabled="disabled"*@ />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Email</label>
+                                                            <input type="text" name="@item.MemberId email" id="@item.MemberId email" class="form-control" value="@item.EmailId" required="required" title="#@item.MemberId email is required!" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Address</label>
+
+                                                            <input type="text" name="@item.MemberId address" id="@item.MemberId address" class="form-control" value="@item.Address" required="required" title="#@item.MemberId Address is required!" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Phone</label>
+                                                            <input type="text" name="@item.MemberId phone" id="@item.MemberId phone" value="@item.Phone" class="form-control" required="required" title="#@item.MemberId"" Phone is required!" maxlength="12" />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">City</label>
+
+                                                            <input type="text" name="@item.MemberId city" id="@item.MemberId city" value="@item.City" class="form-control" required="required" title="#@item.MemberId"" City is required!" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">State</label>
+                                                            <input type="text" name="@item.MemberId state" id="@item.MemberId state" value="@item.State" class="form-control" required="required" title="#@item.MemberId"" State is required!" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Country</label>
+                                                            <input type="text" name="@item.MemberId country" id="@item.MemberId country" value="@item.Country" class="form-control" required="required" title="#@item.MemberId"" Country is required!" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Is Deleted</label>
+                                                            <div class="checkbox block">
+                                                                @if (item.IsDeleted == false)
+                                                                {
+                                
+                                                                    <label>
+                                                                        <input type="checkbox" name="@item.MemberId IsDeleted" /></label>
+                                
+                                                                }
+                                                                else
+                                                                {
+                                
+                                                                    <label>
+                                                                        <input type="checkbox" name="@item.MemberId IsDeleted" checked="checked" /></label>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Is Blocked</label>
+                                                            <div class="checkbox block">
+                                                                @if (item.IsBlocked == false)
+                                                                {
+                                
+                                                                    <label>
+                                                                        <input type="checkbox" name="@item.MemberId IsBlocked" /></label>
+                                
+                                                                }
+                                                                else
+                                                                {
+                                
+                                                                    <label>
+                                                                        <input type="checkbox" name="@item.MemberId IsBlocked" checked="checked" /></label>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+
+                        </div>-->
+
+                        <div class="panel panel-primary-head">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Members List</h4>
+                                @*<p>Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example.</p>*@
+                            </div>
+                            <!-- panel-heading -->
+
+                            <table id="UserTable" class="table table-striped table-bordered responsive">
+                                <thead class="">
+                                    <tr>
+                                        <th style="display: none">Member#</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Active</th>
+                                        <th>Is Blocked</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+
+                                    @foreach (var p in Model.listmembers)
+                                    {
+                                        <tr>
+                                            <td style="display: none;">@p.MemberId</td>
+                                            <td>@p.MemberFirstName @p.MemberMiddleName @p.MemberLastName</td>
+                                            <td>@p.EmailId</td>
+                                            <td>@p.Phone</td>
+                                            <td>
+                                                @if (p.IsDeleted == true)
+                                                {
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                }
+                                                else
+                                                { 
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                            
+                                                }
+
+                                            </td>
+                                            <td>
+                                                @if (p.IsBlocked == true)
+                                                {
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                            
+                                                }
+                                                else
+                                                { 
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                }
+
+                                            </td>
+                                            <td><a href="@Url.Action("EditMember", new { MemberId = p.MemberId, rtflag = Model.MembershipRegistrationId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMember", new { MemberId = p.MemberId, rtflag = Model.MembershipRegistrationId })" onclick="javascript:return ConfirmDeleteMember();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- panel-group -->
+                    </div>
+                </div>
+                <!-- row -->
+            </div>
+            <!-- panel-body -->
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit" onclick="CheckConditionsForm();">Save</button>
+                <input type="hidden" id="hiddendeleteflag" name="hiddendeleteflag" value="0" />
+                @*<button class="btn btn-warning" type="submit" onclick="setDeleteFlag();">Delete</button>*@
+                <input type="hidden" id="hiddencancelflag" name="hiddencancelflag" value="0" />
+                <button class="btn btn-default" type="submit" onclick="setCancelFlag();">Cancel</button>
+                @*<input type="hidden" id="hiddencorporateflag" name="hiddencorporateflag" />
+                <button class="btn btn-dark btn-sm" type="submit" onclick="setCorporateFlag();">Update Members</button>
+                @if (Model.MembershipPlanId == Convert.ToInt32(SunCity.Core.Enum.MembershipPlan.Corporate_Plan))
+                {
+
+                }*@
+            </div>
+            <!-- panel-footer -->
+        }
+    </div>
+    <!-- panel -->
+</div>
+<div class="modal fade bs-example-modal-static" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="errorForm"></div>
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                <h4 class="modal-title">New Member</h4>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">First Name</label>
+
+                            <input type="text" name="newfirstname" id="newfirstname" class="form-control" required="required" title="Memeber First name is required!" maxlength="25" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Middle Name</label>
+                            <input type="text" name="newmiddlename" id="newmiddlename" class="form-control" required="required" title="Memeber Middle name is required!" maxlength="25" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Last Name</label>
+                            <input type="text" name="newlastname" id="newlastname" class="form-control" required="required" title="Memeber Last name is required!" maxlength="25" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Gender</label>
+                            <input type="hidden" name="newgen" id="newgen" />
+                            <select id="newgender" data-placeholder="Choose One" class="width100p" required="required" title="Select Member Gender!">
+                                <option value="">Choose One</option>
+
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+                            <input type="text" name="newemail" id="newemail" class="form-control" required="required" title="Memeber email is required!" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">DOB</label>
+                            <div class="input-group">
+
+                                <input type="text" name="newdob" id="newdob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+
+                        </div>
+                        @*<div id="datepicker-inline"></div>*@
+                        <!-- form-group -->
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Photo</label>
+                            <input type="hidden" name="hiddenmemphoto" id="hiddenmemphoto" />
+                            <input type="file" name="memphoto" id="memphoto" class="form-control" required="required" title="Memeber Photo is required!" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Address</label>
+
+                            <input type="text" name="newaddress" id="newaddress" class="form-control" required="required" title="Memeber Address is required!" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Phone</label>
+                            <input type="text" name="newphone" id="newphone" class="form-control" required="required" title="Memeber Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">City</label>
+
+                            <input type="text" name="newcity" id="newcity" class="form-control" required="required" title="Memeber City is required!" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">State</label>
+                            <input type="text" name="newstate" id="newstate" class="form-control" required="required" title="Memeber State is required!" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Country</label>
+                            <input type="text" name="newcountry" id="newcountry" class="form-control" required="required" title="Memeber Country is required!" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" id="AddNewMember" name="AddNewMember" onclick="AddNewConditionsForm();">Save</button>
+                <button class="btn btn-default" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/MyUploadify/jquery.uploadify-3.1.js"></script>
+<script src="~/Content/MyUploadify/jquery.uploadify-3.1.min.js"></script>
+<script>
+    function setDeleteFlag() {
+        var r = confirm("Are you sure you want to delete this membership?");
+        if (r == true) {
+            $("#hiddendeleteflag").val("1");
+        } else {
+            $("#hiddendeleteflag").val("0");
+            return false;
+        }
+        
+    }
+    function setCancelFlag() {
+        $("#hiddencancelflag").val("1");
+    }
+    $(function () {
+        var str = "";
+        $('#membershipdocs').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreDocs", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'multi': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, data, response) {
+                //$("#hiddendocs").val(data);
+
+                str += data + ",";
+                //console.log(str);
+                $("#hiddendocs").val(str);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+
+        $('#memphoto').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.jpg;*.png;*.pdf;*.jpeg',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddenmemphoto").val(data);
+                //console.log(data);
+                //alert($("#hiddenmemphoto").val());
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+    });
+
+    function setCorporateFlag() {
+        $("#hiddencorporateflag").val("1");
+        //alert($("#hiddencorporateflag").val());
+    }
+    $(document).ready(function () {
+        $("#FrmAddMember").validate({
+            rules: {
+                mem4email: {
+                    email: true
+                },
+            },
+            errorLabelContainer: $("#FrmAddMember div.errorForm")
+        });
+
+        jQuery("#MembershipPlanId,#PackageId,#newgender").select2({ minimumResultsForSearch: -1 });
+        jQuery('#newdob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#MembershipStartDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('.ddp').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        //jQuery('#datepicker-inline').datepicker({
+        //    dateFormat: "yy-mm-dd",
+        //    changeMonth: true,
+        //    changeYear: true
+        //});
+
+
+    });
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    function AddNewConditionsForm() {
+        var fname = $("#newfirstname").val();
+        var lname = $("#newmiddlename").val();
+        var mname = $("#newlastname").val();
+        var email = $("#newemail").val();
+        var agen = $("#newgender").val();
+        var adob = $("#newdob").val();
+        var aadd = $("#newaddress").val();
+        var aphone = $("#newphone").val();
+        var acity = $("#newcity").val();
+        var acountry = $("#newcountry").val();
+        var astate = $("#newstate").val();
+
+        if (fname == "") {
+            alert("Please enter First name");
+            return;
+        }
+        if (lname == "") {
+            alert("Please enter Last name");
+            return;
+        }
+        if (mname == "") {
+            alert("Please enter MIddle name");
+            return;
+        }
+        if (email == "") {
+            alert("Please enter email");
+            return;
+        }
+        if (adob == "") {
+            alert("Please select dob");
+            return;
+        }
+        var child1date = $("#newdob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+        todayDate = new Date();
+        todayYear = todayDate.getFullYear();
+        todayMonth = todayDate.getMonth();
+        todayDay = todayDate.getDate();
+        age = todayYear - year;
+        //alert(age);
+        if (day == todayDay) {
+            alert("DOB cannot be today's date");
+            return;
+        }
+
+        if (aadd == "") {
+            alert("Please enter Address");
+            return;
+        }
+        if (aphone == "") {
+            alert("Please enter Phone");
+            return;
+        }
+        if (acity == "") {
+            alert("Please enter City");
+            return;
+        }
+
+        if (astate == "") {
+            alert("Please enter State");
+            return;
+        }
+        if (acountry == "") {
+            alert("Please enter Country");
+            return;
+        }
+        $.ajax({
+            url: '@Url.Action("AddNewMember", "Function")',
+            data: {
+                fname: fname,
+                lname: lname,
+                mname: mname,
+                email: email,
+                adob: adob,
+                aadd: aadd,
+                aphone: aphone,
+                acity: acity,
+                astate: astate,
+                acountry: acountry,
+                agen: agen,
+                MembershipRegistrationId: $("#hidregistrationid").val(),
+                picname: $("#hiddenmemphoto").val()
+            },
+            type: 'POST',
+            success: function (data) {
+                if (data == "true") {
+                    alert("Succsess");
+
+                }
+                else {
+                    //alert("Something went wrong. Please try again later");
+                    var memid = $("#hidregistrationid").val();
+                    var link = '@Url.Action("ViewMembership", "Function", new { MembershipRegestrationId = "replace" })';
+                    link = link.replace("replace", memid);
+                    window.location.href = link;
+                }
+
+            }
+        });
+    }
+</script>

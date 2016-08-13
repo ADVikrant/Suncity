@@ -1,0 +1,118 @@
+﻿@model SunCity.Models.Dashboard
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<div class="row row-stat">
+    <div class="col-md-4">
+        <div class="panel panel-success-alt noborder">
+            <div class="panel-heading noborder">
+
+                <div class="panel-icon"><i class="fa fa-briefcase" style="padding: 12px;"></i></div>
+                <div class="media-body">
+                    <h5 class="md-title nomargin">Total Membership Till Date</h5>
+                    <h1 class="mt5">@Model.MembershipCounter</h1>
+                </div>
+                <!-- media-body -->
+                <hr>
+            </div>
+            <!-- panel-body -->
+        </div>
+        <!-- panel -->
+    </div>
+    <!-- col-md-4 -->
+
+    <div class="col-md-4">
+        <div class="panel panel-primary noborder">
+            <div class="panel-heading noborder">
+
+                <!-- panel-btns -->
+                <div class="panel-icon"><i class="fa fa-users"></i></div>
+                <div class="media-body">
+                    <h5 class="md-title nomargin">Total Members</h5>
+                    <h1 class="mt5">@Model.MembersCounter</h1>
+                </div>
+                <!-- media-body -->
+                <hr>
+            </div>
+            <!-- panel-body -->
+        </div>
+        <!-- panel -->
+    </div>
+    <!-- col-md-4 -->
+
+    <div class="col-md-4">
+        <div class="panel panel-dark noborder">
+            <div class="panel-heading noborder">
+
+                <!-- panel-btns -->
+                <div class="panel-icon"><i class="fa fa-user"></i></div>
+                <div class="media-body">
+                    <h5 class="md-title nomargin">Users Till Date</h5>
+                    <h1 class="mt5">@Model.UserCounter</h1>
+                </div>
+                <!-- media-body -->
+                <hr>
+            </div>
+            <!-- panel-body -->
+        </div>
+        <!-- panel -->
+    </div>
+    <!-- col-md-4 -->
+</div>
+<!-- row -->
+<div class="row row-stat">
+    <div class="col-md-4">
+        <div class="panel panel-success-alt noborder">
+            <div class="panel-heading noborder">
+
+                <div class="panel-icon"><i class="fa fa-inr"></i></div>
+                <div class="media-body">
+                    <h5 class="md-title nomargin">Total Amount Till Date</h5>
+                    <h1 class="mt5">@Model.AmountTillDate</h1>
+                </div>
+                <!-- media-body -->
+                <hr>
+            </div>
+            <!-- panel-body -->
+        </div>
+        <!-- panel -->
+    </div>
+    <!-- col-md-4 -->
+</div>
+
+<div class="col-md-8">
+    <div class="row">
+        @Html.Action("AsyncNoti")
+    </div>
+</div>
+<div class="col-md-8">
+    <div class="row">
+        @Html.Action("CheckConditions")
+    </div>
+</div>
+<link href="~/Content/css/jquery.gritter.css" rel="stylesheet">
+
+
+<script>
+    $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetUpcomingfestival", "Dashboard")',
+                type: 'GET'
+            }).done(function (data) { 
+
+                $.gritter.add({
+                    title: "Festival:-"+data.FestivalName +" Dated:-"+ data.FestivalDate,
+                    text: data.FestivalNote,
+                    class_name: 'growl-primary',
+                    //image: 'images/screen.png',
+                    sticky: true,
+                    time: ''
+                });
+            });
+            return false;
+        
+    });
+
+    </script>

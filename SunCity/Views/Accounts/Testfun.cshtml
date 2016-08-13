@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Testfun";
+    
+}
+
+
+
+<h2>Testfun</h2>
+<a href="#" class="btn btn-primary mr5 mb10" id="growl-primary">Primary</a>
+Savenow:@ViewData["saveNow"]
+
+Save UTC :@ViewData["saveUtcNow"]
+
+SaveIndia:@ViewData["IndiaUtcNow"]
+<link href="~/Content/css/jquery.gritter.css" rel="stylesheet">
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/jquery.gritter.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //jQuery('#growl-primary').click();
+
+        $('#growl-primary').click(function () {
+            $.gritter.add({
+                title: 'This is a regular notice!',
+                text: 'This will fade out after a certain amount of time.',
+                class_name: 'growl-primary',
+                //image: 'images/screen.png',
+                sticky: false,
+                time: ''
+            });
+            return false;
+        });
+    });
+
+    </script>

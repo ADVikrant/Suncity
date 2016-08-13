@@ -1,0 +1,2981 @@
+﻿@model SunCity.DAL.TblMembershipRegistration
+@{
+    ViewBag.Title = "Membership Registration";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+
+<link href="~/Content/MyUploadify/uploadify.css" rel="stylesheet" />
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership</strong> registered successfully..
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                <a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Membership Registration</h4>
+            <p>This form is used to add new members to our world.</p>
+        </div>
+        @using (Html.BeginForm("testupload", "Function", FormMethod.Post, new { id = "FrmAddMemberRegistration", name = "FrmAddMemberRegistration" }))
+        {  
+        @*<form  id = "FrmAddMemberRegistration", name = "FrmAddMemberRegistration">*@
+            @Html.HiddenFor(x => x.MembershipRegistrationId)
+
+            <div class="panel-body">
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Membership Plan</label>
+                            @Html.DropDownListFor(x => x.MembershipPlanId, new SelectList(Model.listMembershipPlan, "MembershipPlanId", "MembershipPlanName"), "Select Membership Plan", new { @class = "width300", @id = "MembershipPlanId", @required = "required", @title = "Select Membership Plan!", onclick = "getplanid();" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label class="control-label">Package</label>
+                            @Html.DropDownListFor(x => x.PackageId, new SelectList(Model.listPackages, "PackageId", "PackageName"), "Select Package", new { @class = "width300", @id = "PackageId", @required = "required", @title = "Select Package!" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Amount</label>
+                            @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @title = "Amount is required!", @required = "required", @style = "width:300px;", @onkeypress = "return isDecimalNumberKey(event)" })
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6" id="divselectperson">
+                        <div class="form-group">
+                            <label class="control-label">No. of Person</label>
+                            <input type="hidden" name="Noppl" id="Noppl" />
+                            <select id="select-person" data-placeholder="Choose One" style="text-decoration: none;" class="width300" onclick="getaccordions();" required="required" title="Select No. of person!">
+                                <option value="">Choose One</option>
+
+                                <option value="1">Single Member</option>
+                                <option value="2">Couple</option>
+
+                                <option value="3">Couple + 1 children</option>
+                                <option value="4">Couple + 2 children</option>
+                                <option value="5">Couple + 2 children + parents</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label class="control-label">Start Date</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.MembershipStartDate, new { @class = "form-control", @placeholder = "yyyy-mm-dd", @required = "required", @title = "Select Membership Start Date!" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <div class="row">
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+
+
+                        <div class="panel-group" id="accordion2" style="display: block;">
+                            <div class="panel panel-primary" id="Member1" style="display: none;">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion2" href="#FormMember1">Member #1
+                                                </a>
+                                    </h4>
+                                </div>
+                                <div id="FormMember1" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="mem1firstname" id="mem1firstname" class="form-control" required="required" title="Memeber#1 First name is required!" maxlength="25" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="mem1middlename" id="mem1middlename" class="form-control" required="required" title="Memeber#1 Middle name is required!" maxlength="25" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="mem1lastname" id="mem1lastname" class="form-control" required="required" title="Memeber#1 Last name is required!" maxlength="25" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="mem1dob" id="mem1dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#1 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="mem1gen" id="mem1gen" />
+                                                        <select id="Member1-gender" data-placeholder="Choose One" class="width175" onclick="getgendermember1();" required="required" title="Select Member#1 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="mem1email" id="mem1email" class="form-control" required="required" title="Memeber#1 email is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="mem1address" id="mem1address" class="form-control" required="required" title="Memeber#1 Address is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="mem1phone" id="mem1phone" class="form-control" required="required" title="Memeber#1 Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="mem1city" id="mem1city" class="form-control" required="required" title="Memeber#1 City is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="mem1state" id="mem1state" class="form-control" required="required" title="Memeber#1 State is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="mem1country" id="mem1country" class="form-control" required="required" title="Memeber#1 Country is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddenmem1photo" id="hiddenmem1photo" />
+                                                        <input type="file" name="mem1photo" id="mem1photo" class="form-control" required="required" title="Memeber#1 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- panel -->
+
+                            <div class="panel panel-primary" id="Member2" style="display: none;">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion2" href="#FormMember2">Member #2
+                                                </a>
+                                    </h4>
+                                </div>
+                                <div id="FormMember2" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="mem2firstname" id="mem2firstname" class="form-control" required="required" title="Memeber#2 First name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="mem2middlename" id="mem2middlename" class="form-control" required="required" title="Memeber#2 Middle name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="mem2lastname" id="mem2lastname" class="form-control" required="required" title="Memeber#2 Last name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="mem2dob" id="mem2dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#2 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="mem2gen" id="mem2gen" />
+                                                        <select id="Member2-gender" data-placeholder="Choose One" class="width225" onclick="getgendermember2();" required="required" title="Select Member#2 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="mem2email" id="mem2email" class="form-control" required="required" title="Memeber#2 email is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="mem2address" id="mem2address" class="form-control" required="required" title="Memeber#2 Address is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="mem2phone" id="mem2phone" class="form-control" required="required" title="Memeber#2 Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="mem2city" id="mem2city" class="form-control" required="required" title="Memeber#2 City is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="mem2state" id="mem2state" class="form-control" required="required" title="Memeber#2 State is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="mem2country" id="mem2country" class="form-control" required="required" title="Memeber#2 Country is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddenmem2photo" id="hiddenmem2photo" />
+                                                        <input type="file" name="mem2photo" id="mem2photo" class="form-control" required="required" title="Memeber#2 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- panel -->
+
+                            <div class="panel panel-primary" id="Member3" style="display: none;">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion2" href="#FormMember3">Member #3(Child-I)
+                                                </a>
+                                    </h4>
+                                </div>
+                                <div id="FormMember3" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="mem3firstname" id="mem3firstname" class="form-control" required="required" title="Memeber#3 First name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="mem3middlename" id="mem3middlename" class="form-control" required="required" title="Memeber#3 Middle name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="mem3lastname" id="mem3lastname" class="form-control" required="required" title="Memeber#3 Last name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="mem3dob" id="mem3dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#3 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="mem3gen" id="mem3gen" />
+                                                        <select id="Member3-gender" data-placeholder="Choose One" class="width225" onclick="getgendermember3();" required="required" title="Select Member#3 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="mem3email" id="mem3email" class="form-control" required="required" title="Memeber#3 email is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="mem3address" id="mem3address" class="form-control" required="required" title="Memeber#3 Address is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="mem3phone" id="mem3phone" class="form-control" required="required" title="Memeber#3 Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="mem3city" id="mem3city" class="form-control" required="required" title="Memeber#3 City is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="mem3state" id="mem3state" class="form-control" required="required" title="Memeber#3 State is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="mem3country" id="mem3country" class="form-control" required="required" title="Memeber#3 Country is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddenmem3photo" id="hiddenmem3photo" />
+                                                        <input type="file" name="mem3photo" id="mem3photo" class="form-control" required="required" title="Memeber#3 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- panel -->
+
+                            <div class="panel panel-primary" id="Member4" style="display: none;">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion2" href="#FormMember4">Member #4(Child-II)
+                                                </a>
+                                    </h4>
+                                </div>
+                                <div id="FormMember4" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="mem4firstname" id="mem4firstname" class="form-control" required="required" title="Memeber#4 First name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="mem4middlename" id="mem4middlename" class="form-control" required="required" title="Memeber#4 Middle name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="mem4lastname" id="mem4lastname" class="form-control" required="required" title="Memeber#4 Last name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="mem4dob" id="mem4dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#4 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="mem4gen" id="mem4gen" />
+                                                        <select id="Member4-gender" data-placeholder="Choose One" class="width225" onclick="getgendermember4();" required="required" title="Select Member#4 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="mem4email" id="mem4email" class="form-control" required="required" title="Memeber#4 email is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="mem4address" id="mem4address" class="form-control" required="required" title="Memeber#4 Address is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="mem4phone" id="mem4phone" class="form-control" required="required" title="Memeber#4 Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="mem4city" id="mem4city" class="form-control" required="required" title="Memeber#4 City is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="mem4state" id="mem4state" class="form-control" required="required" title="Memeber#4 State is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="mem4country" id="mem4country" class="form-control" required="required" title="Memeber#4 Country is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddenmem4photo" id="hiddenmem4photo" />
+                                                        <input type="file" name="mem4photo" id="mem4photo" class="form-control" required="required" title="Memeber#4 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- panel -->
+
+
+                            <div class="panel panel-primary" id="Member5" style="display: none;">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion2" href="#FormMember5">Member #5(Parent-I)
+                                                </a>
+                                    </h4>
+                                </div>
+                                <div id="FormMember5" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="mem5firstname" id="mem5firstname" class="form-control" required="required" title="Memeber#5 First name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="mem5middlename" id="mem5middlename" class="form-control" required="required" title="Memeber#5 Middle name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="mem5lastname" id="mem5lastname" class="form-control" required="required" title="Memeber#5 Last name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="mem5dob" id="mem5dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#5 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="mem5gen" id="mem5gen" />
+                                                        <select id="Member5-gender" data-placeholder="Choose One" class="width225" onclick="getgendermember5();" required="required" title="Select Member#3 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="mem5email" id="mem5email" class="form-control" required="required" title="Memeber#5 email is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="mem5address" id="mem5address" class="form-control" required="required" title="Memeber#5 Address is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="mem5phone" id="mem5phone" class="form-control" required="required" title="Memeber#5 Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="mem5city" id="mem5city" class="form-control" required="required" title="Memeber#5 City is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="mem5state" id="mem5state" class="form-control" required="required" title="Memeber#5 State is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="mem5country" id="mem5country" class="form-control" required="required" title="Memeber#5 Country is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddenmem5photo" id="hiddenmem5photo" />
+                                                        <input type="file" name="mem5photo" id="mem5photo" class="form-control" required="required" title="Memeber#5 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- panel -->
+
+                            <div class="panel panel-primary" id="Member6" style="display: none;">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#accordion2" href="#FormMember6">Member #6(Parent-II)
+                                                </a>
+                                    </h4>
+                                </div>
+                                <div id="FormMember6" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="mem6firstname" id="mem6firstname" class="form-control" required="required" title="Memeber#6 First name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="mem6middlename" id="mem6middlename" class="form-control" required="required" title="Memeber#6 Middle name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="mem6lastname" id="mem6lastname" class="form-control" required="required" title="Memeber#6 Last name is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="mem6dob" id="mem6dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#6 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="mem6gen" id="mem6gen" />
+                                                        <select id="Member6-gender" data-placeholder="Choose One" class="width225" onclick="getgendermember6();" required="required" title="Select Member#6 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="mem6email" id="mem6email" class="form-control" required="required" title="Memeber#6 email is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="mem6address" id="mem6address" class="form-control" required="required" title="Memeber#6 Address is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="mem6phone" id="mem6phone" class="form-control" required="required" title="Memeber#6 Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="mem6city" id="mem6city" class="form-control" required="required" title="Memeber#6 City is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <!-- col-sm-6 -->
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="mem6state" id="mem6state" class="form-control" required="required" title="Memeber#6 State is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="mem6country" id="mem6country" class="form-control" required="required" title="Memeber#6 Country is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddenmem6photo" id="hiddenmem6photo" />
+                                                        <input type="file" name="mem6photo" id="mem6photo" class="form-control" required="required" title="Memeber#6 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- panel -->
+
+                        </div>
+
+
+                        <div class="panel-group" id="corporateaccordion2" style="display: none;">
+                            <div class="panel panel-primary" id="CorportateMember1">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#corporateaccordion2" href="#CorporateFormMember1">Family-I Couple-I(Member #1)</a>
+                                    </h4>
+                                </div>
+                                <div id="CorporateFormMember1" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+                                                        <input type="text" name="corpmem1firstname" id="corpmem1firstname" class="form-control" required="required" title="Memeber#1 First name is required!" maxlength="25" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="corpmem1middlename" id="corpmem1middlename" class="form-control" required="required" title="Memeber#1 Middle name is required!" maxlength="25" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="corpmem1lastname" id="corpmem1lastname" class="form-control" required="required" title="Memeber#1 Last name is required!" maxlength="25" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="corpmem1dob" id="corpmem1dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#1 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="corpmem1gen" id="corpmem1gen" />
+                                                        <select id="CorpMember1-gender" data-placeholder="Choose One" class="width225" onclick="corpgetgendermember1();" required="required" title="Select Member#1 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="corpmem1email" id="corpmem1email" class="form-control" required="required" title="Memeber#1 email is required!" />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="corpmem1address" id="corpmem1address" class="form-control" required="required" title="Memeber#1 Address is required!" />
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="corpmem1phone" id="corpmem1phone" class="form-control" required="required" title="Memeber#1 Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="corpmem1city" id="corpmem1city" class="form-control" required="required" title="Memeber#1 City is required!" />
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="corpmem1state" id="corpmem1state" class="form-control" required="required" title="Memeber#1 State is required!" />
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="corpmem1country" id="corpmem1country" class="form-control" required="required" title="Memeber#1 Country is required!" />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddencorpmem1photo" id="hiddencorpmem1photo" />
+                                                        <input type="file" name="corpmem1photo" id="corpmem1photo" class="form-control" required="required" title="Memeber#1 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="panel panel-primary" id="CorporateMember2">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#corporateaccordion2" href="#CorporateFormMember2">Family-I Couple-I(Member #2)
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="CorporateFormMember2" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="corpmem2firstname" id="corpmem2firstname" class="form-control" required="required" title="Memeber#2 First name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="corpmem2middlename" id="corpmem2middlename" class="form-control" required="required" title="Memeber#2 Middle name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="corpmem2lastname" id="corpmem2lastname" class="form-control" required="required" title="Memeber#2 Last name is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="corpmem2dob" id="corpmem2dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#2 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="corpmem2gen" id="corpmem2gen" />
+                                                        <select id="CorpMember2-gender" data-placeholder="Choose One" class="width225" onclick="corpgetgendermember2();" required="required" title="Select Member#2 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="corpmem2email" id="corpmem2email" class="form-control" required="required" title="Memeber#2 email is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="corpmem2address" id="corpmem2address" class="form-control" required="required" title="Memeber#2 Address is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="corpmem2phone" id="corpmem2phone" class="form-control" required="required" title="Memeber#2 Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="corpmem2city" id="corpmem2city" class="form-control" required="required" title="Memeber#2 City is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="corpmem2state" id="corpmem2state" class="form-control" required="required" title="Memeber#2 State is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="corpmem2country" id="corpmem2country" class="form-control" required="required" title="Memeber#2 Country is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddencorpmem2photo" id="hiddencorpmem2photo" />
+                                                        <input type="file" name="corpmem2photo" id="corpmem2photo" class="form-control" required="required" title="Memeber#2 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-primary" id="CorporateMember3">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#corporateaccordion2" href="#CorporateFormMember3">Family-I Child-I(Member #3)
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="CorporateFormMember3" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="corpmem3firstname" id="corpmem3firstname" class="form-control" required="required" title="Memeber#3 First name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="corpmem3middlename" id="corpmem3middlename" class="form-control" required="required" title="Memeber#3 Middle name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="corpmem3lastname" id="corpmem3lastname" class="form-control" required="required" title="Memeber#3 Last name is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="corpmem3dob" id="corpmem3dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#3 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="corpmem3gen" id="corpmem3gen" />
+                                                        <select id="CorpMember3-gender" data-placeholder="Choose One" class="width225" onclick="corpgetgendermember3();" required="required" title="Select Member#3 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="corpmem3email" id="corpmem3email" class="form-control" @*required="required"*@ title="Memeber#3 email is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="corpmem3address" id="corpmem3address" class="form-control" required="required" title="Memeber#3 Address is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="corpmem3phone" id="corpmem3phone" class="form-control" @*required="required"*@ title="Memeber#3 Phone is required!" onkeypress = "return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="corpmem3city" id="corpmem3city" class="form-control" required="required" title="Memeber#3 City is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="corpmem3state" id="corpmem3state" class="form-control" required="required" title="Memeber#3 State is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="corpmem3country" id="corpmem3country" class="form-control" required="required" title="Memeber#3 Country is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddencorpmem3photo" id="hiddencorpmem3photo" />
+                                                        <input type="file" name="corpmem3photo" id="corpmem3photo" class="form-control" required="required" title="Memeber#3 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-primary" id="CorporateMember4">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#corporateaccordion2" href="#CorporateFormMember4">Family-I Child-II(Member #4)
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="CorporateFormMember4" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="corpmem4firstname" id="corpmem4firstname" class="form-control" required="required" title="Memeber#4 First name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="corpmem4middlename" id="corpmem4middlename" class="form-control" required="required" title="Memeber#4 Middle name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="corpmem4lastname" id="corpmem4lastname" class="form-control" required="required" title="Memeber#4 Last name is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="corpmem4dob" id="corpmem4dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#4 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="corpmem4gen" id="corpmem4gen" />
+                                                        <select id="CorpMember4-gender" data-placeholder="Choose One" class="width225" onclick="corpgetgendermember4();" required="required" title="Select Member#4 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="corpmem4email" id="corpmem4email" class="form-control" @*required="required"*@ title="Memeber#4 email is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="corpmem4address" id="corpmem4address" class="form-control" required="required" title="Memeber#4 Address is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="corpmem4phone" id="corpmem4phone" class="form-control" @*required="required"*@ title="Memeber#4 Phone is required!" onkeypress = "return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="corpmem4city" id="corpmem4city" class="form-control" required="required" title="Memeber#4 City is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="corpmem4state" id="corpmem4state" class="form-control" required="required" title="Memeber#4 State is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="corpmem4country" id="corpmem4country" class="form-control" required="required" title="Memeber#4 Country is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddencorpmem4photo" id="hiddencorpmem4photo" />
+                                                        <input type="file" name="corpmem4photo" id="corpmem4photo" class="form-control" required="required" title="Memeber#4 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="panel panel-primary" id="CorporateMember5">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#corporateaccordion2" href="#CorporateFormMember5">Family-II Couple-II(Member #5)
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="CorporateFormMember5" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="corpmem5firstname" id="corpmem5firstname" class="form-control" required="required" title="Memeber#5 First name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="corpmem5middlename" id="corpmem5middlename" class="form-control" required="required" title="Memeber#5 Middle name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="corpmem5lastname" id="corpmem5lastname" class="form-control" required="required" title="Memeber#5 Last name is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="corpmem5dob" id="corpmem5dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#5 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="corpmem5gen" id="corpmem5gen" />
+                                                        <select id="CorpMember5-gender" data-placeholder="Choose One" class="width225" onclick="corpgetgendermember5();" required="required" title="Select Member#3 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="corpmem5email" id="corpmem5email" class="form-control" required="required" title="Memeber#5 email is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="corpmem5address" id="corpmem5address" class="form-control" required="required" title="Memeber#5 Address is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="corpmem5phone" id="corpmem5phone" class="form-control" required="required" title="Memeber#5 Phone is required!" onkeypress="return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="corpmem5city" id="corpmem5city" class="form-control" required="required" title="Memeber#5 City is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="corpmem5state" id="corpmem5state" class="form-control" required="required" title="Memeber#5 State is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="corpmem5country" id="corpmem5country" class="form-control" required="required" title="Memeber#5 Country is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddencorpmem5photo" id="hiddencorpmem5photo" />
+                                                        <input type="file" name="corpmem5photo" id="corpmem5photo" class="form-control" required="required" title="Memeber#5 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-primary" id="CorporateMember6">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#corporateaccordion2" href="#CorporateFormMember6">Family-II Couple-II(Member #6)
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="CorporateFormMember6" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="corpmem6firstname" id="corpmem6firstname" class="form-control" required="required" title="Memeber#6 First name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="corpmem6middlename" id="corpmem6middlename" class="form-control" required="required" title="Memeber#6 Middle name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="corpmem6lastname" id="corpmem6lastname" class="form-control" required="required" title="Memeber#6 Last name is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="corpmem6dob" id="corpmem6dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#6 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="corpmem6gen" id="corpmem6gen" />
+                                                        <select id="CorpMember6-gender" data-placeholder="Choose One" class="width225" onclick="corpgetgendermember6();" required="required" title="Select Member#6 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="corpmem6email" id="corpmem6email" class="form-control" @*required="required"*@ title="Memeber#6 email is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="corpmem6address" id="corpmem6address" class="form-control" required="required" title="Memeber#6 Address is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="corpmem6phone" id="corpmem6phone" class="form-control" @*required="required"*@ title="Memeber#6 Phone is required!" onkeypress = "return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="corpmem6city" id="corpmem6city" class="form-control" required="required" title="Memeber#6 City is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="corpmem6state" id="corpmem6state" class="form-control" required="required" title="Memeber#6 State is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="corpmem6country" id="corpmem6country" class="form-control" required="required" title="Memeber#6 Country is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddencorpmem6photo" id="hiddencorpmem6photo" />
+                                                        <input type="file" name="corpmem6photo" id="corpmem6photo" class="form-control" required="required" title="Memeber#6 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-primary" id="CorporateMember7">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#corporateaccordion2" href="#CorporateFormMember7">Family-II Child-I(Member #7)
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="CorporateFormMember7" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="corpmem7firstname" id="corpmem7firstname" class="form-control" required="required" title="Memeber#7 First name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="corpmem7middlename" id="corpmem7middlename" class="form-control" required="required" title="Memeber#7 Middle name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="corpmem7lastname" id="corpmem7lastname" class="form-control" required="required" title="Memeber#7 Last name is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="corpmem7dob" id="corpmem7dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#7 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="corpmem7gen" id="corpmem7gen" />
+                                                        <select id="CorpMember7-gender" data-placeholder="Choose One" class="width225" onclick="corpgetgendermember7();" required="required" title="Select Member#3 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="corpmem7email" id="corpmem7email" class="form-control" @*required="required"*@ title="Memeber#7 email is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="corpmem7address" id="corpmem7address" class="form-control" required="required" title="Memeber#7 Address is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="corpmem7phone" id="corpmem7phone" class="form-control" @*required="required"*@ title="Memeber#7 Phone is required!" onkeypress = "return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="corpmem7city" id="corpmem7city" class="form-control" required="required" title="Memeber#7 City is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="corpmem7state" id="corpmem7state" class="form-control" required="required" title="Memeber#7 State is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="corpmem7country" id="corpmem7country" class="form-control" required="required" title="Memeber#7 Country is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddencorpmem7photo" id="hiddencorpmem7photo" />
+                                                        <input type="file" name="corpmem7photo" id="corpmem7photo" class="form-control" required="required" title="Memeber#7 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-primary" id="CorporateMember8">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" class="collapsed" data-parent="#corporateaccordion2" href="#CorporateFormMember8">Family-II Child-II(Member #8)
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="CorporateFormMember8" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">First Name</label>
+
+                                                        <input type="text" name="corpmem8firstname" id="corpmem8firstname" class="form-control" required="required" title="Memeber#8 First name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Middle Name</label>
+                                                        <input type="text" name="corpmem8middlename" id="corpmem8middlename" class="form-control" required="required" title="Memeber#8 Middle name is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Last Name</label>
+                                                        <input type="text" name="corpmem8lastname" id="corpmem8lastname" class="form-control" required="required" title="Memeber#8 Last name is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DOB</label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" name="corpmem8dob" id="corpmem8dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#8 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Gender</label>
+                                                        <input type="hidden" name="corpmem8gen" id="corpmem8gen" />
+                                                        <select id="CorpMember8-gender" data-placeholder="Choose One" class="width225" onclick="corpgetgendermember8();" required="required" title="Select Member#8 Gender!">
+                                                            <option value="">Choose One</option>
+
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="corpmem8email" id="corpmem8email" class="form-control" @*required="required"*@ title="Memeber#8 email is required!" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Address</label>
+
+                                                        <input type="text" name="corpmem8address" id="corpmem8address" class="form-control" required="required" title="Memeber#8 Address is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Phone</label>
+                                                        <input type="text" name="corpmem8phone" id="corpmem8phone" class="form-control" @*required="required"*@ title="Memeber#8 Phone is required!" onkeypress = "return isNumberKey(event,this.id)" maxlength="12" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">City</label>
+
+                                                        <input type="text" name="corpmem8city" id="corpmem8city" class="form-control" required="required" title="Memeber#8 City is required!" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">State</label>
+                                                        <input type="text" name="corpmem8state" id="corpmem8state" class="form-control" required="required" title="Memeber#8 State is required!" />
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="corpmem8country" id="corpmem8country" class="form-control" required="required" title="Memeber#8 Country is required!" />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Photo</label>
+                                                        <input type="hidden" name="hiddencorpmem8photo" id="hiddencorpmem8photo" />
+                                                        <input type="file" name="corpmem8photo" id="corpmem8photo" class="form-control" required="required" title="Memeber#8 Photo is required!" />
+                                                    </div>
+                                                    <!-- form-group -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                
+                <button class="btn btn-primary" type="submit" >Save</button>
+            </div>
+            
+        }
+    </div>
+    <!-- panel onclick="CheckConditionsForm();"-->
+</div>
+<!-- col-md-6 -->
+
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(function () {
+        $('#mem1photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddenmem1photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#mem2photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddenmem2photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#mem3photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddenmem3photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#mem4photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddenmem4photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#mem5photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddenmem5photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#mem6photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddenmem6photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        //----------End of Normal Member Uploadify---------------
+
+        //------Start of Corporate Member Uploadify-----
+        $('#corpmem1photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddencorpmem1photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#corpmem2photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddencorpmem2photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#corpmem3photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddencorpmem3photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#corpmem4photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddencorpmem4photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#corpmem5photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddencorpmem5photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#corpmem6photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddencorpmem6photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#corpmem7photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddencorpmem7photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        $('#corpmem8photo').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddencorpmem6photo").val(data);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+        //--------End of Corporate uploadify----
+      });
+    
+    $(document).ready(function () {
+       
+        // Error Message In One Container
+        $("#FrmAddMemberRegistration").validate({
+            submitHandler: function (form) {
+
+                var planid = $("#select-person").select2("val");
+
+                var nop = $("#select-person").select2("val");
+                var checkcouple = 0; child1check = 0; child2check = 0; checkparent = 0;
+                var corpcheckcouplefamily1 = 0; corpcheckcouplefamily2 = 0; corpchild1checkfamily1 = 0; corpchild2checkfamily1 = 0; corpchild1checkfamily2 = 0; corpchild2checkfamily2 = 0; corpcheckparent = 0;
+
+                //Check for couple forms
+                if (nop == 1) {
+                    form.submit();
+                }
+                else if (nop == 2) {
+                    if ($("#mem1firstname").val() == "" && $("#mem2firstname").val() == "") {
+
+                    }
+                    else {
+                        alert("Please fill details of both the members");
+                        return false;
+                    }
+
+                    if (($("#mem1gen").val() == "Male" && $("#mem2gen").val() == "Female") || ($("#mem1gen").val() == "Female" && $("#mem2gen").val() == "Male")) {
+                        checkcouple = 1;
+                    }
+                    else {
+                        alert("Either of the gender should be Male/Female");
+                    }
+                    if (checkcouple == 1) {
+                        form.submit();
+                    }
+                    else { return false; }
+                }
+                    //
+                else if (nop == 3) {
+                    if ($("#mem1firstname").val() == "" && $("#mem2firstname").val() == "" && $("#mem3firstname").val() == "") {
+                    } else {
+                        alert("Please fill details of all the members");
+                        return false;
+                    }
+
+                    if (($("#mem1gen").val() == "Male" && $("#mem2gen").val() == "Female") || ($("#mem1gen").val() == "Female" && $("#mem2gen").val() == "Male")) {
+                        checkcouple = 1;
+                    }
+                    else {
+                        alert("Either of the gender should be Male/Female");
+                    }
+
+                    //Check for child age below 18
+                    var child1date = $("#mem3dob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+                    todayDate = new Date();
+                    todayYear = todayDate.getFullYear();
+                    todayMonth = todayDate.getMonth();
+                    todayDay = todayDate.getDate();
+                    age = todayYear - year;
+                    //alert(age);
+                    if (age <= 18) {
+                        child1check = 1;
+                    }
+                    else {
+                        alert("Child-1 age should be <=18");
+                    }
+                    if (checkcouple == 1 && child1check == 1) {
+                        form.submit();
+                    }
+                    else { return false; }
+                }
+                else if (nop == 4) {
+                    if ($("#mem1firstname").val() == "" && $("#mem2firstname").val() == "" && $("#mem3firstname").val() == "" && $("#mem4firstname").val() == "") {
+                    } else {
+                        alert("Please fill details of all the members");
+                        return false;
+                    }
+
+                    if (($("#mem1gen").val() == "Male" && $("#mem2gen").val() == "Female") || ($("#mem1gen").val() == "Female" && $("#mem2gen").val() == "Male")) {
+                        checkcouple = 1;
+                    }
+                    else {
+                        alert("Either of the gender should be Male/Female");
+                    }
+
+                    //Check for child-1 age below 18
+                    var child1date = $("#mem3dob").datepicker('getDate'), day1 = child1date.getDate(), month1 = child1date.getMonth(), year1 = child1date.getFullYear();
+                    todayDate1 = new Date();
+                    todayYear1 = todayDate1.getFullYear();
+                    todayMonth1 = todayDate1.getMonth();
+                    todayDay1 = todayDate1.getDate();
+                    age1 = todayYear1 - year1;
+                    //alert(age);
+                    if (age1 <= 18) {
+                        child1check = 1;
+                    }
+                    else {
+                        alert("Child-1 age should be <=18");
+                    }
+                    //Check for child-2 age below 18
+                    var child2date = $("#mem4dob").datepicker('getDate'), day2 = child2date.getDate(), month2 = child2date.getMonth(), year2 = child2date.getFullYear();
+                    todayDate2 = new Date();
+                    todayYear2 = todayDate2.getFullYear();
+                    todayMonth2 = todayDate2.getMonth();
+                    todayDay2 = todayDate2.getDate();
+                    age2 = todayYear2 - year2;
+                    //alert(age);
+                    if (age2 <= 18) {
+                        child2check = 1;
+                    }
+                    else {
+                        alert("Child-2 age should be <=18");
+                    }
+
+                    if (checkcouple == 1 && child1check == 1 && child2check == 1) {
+                        form.submit();
+                    }
+                    else { return false; }
+                }
+                else if (nop == 5) {
+                    if ($("#mem1firstname").val() == "" && $("#mem2firstname").val() == "" && $("#mem3firstname").val() == "" && $("#mem4firstname").val() == "" && $("#mem5firstname").val() == "" && $("#mem6firstname").val() == "") {
+                    } else {
+                        alert("Please fill details of all the members");
+                        return false;
+                    }
+
+                    if (($("#mem1gen").val() == "Male" && $("#mem2gen").val() == "Female") || ($("#mem1gen").val() == "Female" && $("#mem2gen").val() == "Male")) {
+                        checkcouple = 1;
+                    }
+                    else {
+                        alert("Either of the gender should be Male/Female");
+                    }
+
+                    //Check for child-1 age below 18
+                    var child1date = $("#mem3dob").datepicker('getDate'), day1 = child1date.getDate(), month1 = child1date.getMonth(), year1 = child1date.getFullYear();
+                    todayDate1 = new Date();
+                    todayYear1 = todayDate1.getFullYear();
+                    todayMonth1 = todayDate1.getMonth();
+                    todayDay1 = todayDate1.getDate();
+                    age1 = todayYear1 - year1;
+                    //alert(age);
+                    if (age1 <= 18) {
+                        child1check = 1;
+                    }
+                    else {
+                        alert("Child-1 age should be <=18");
+                    }
+                    //Check for child-2 age below 18
+                    var child2date = $("#mem4dob").datepicker('getDate'), day2 = child2date.getDate(), month2 = child2date.getMonth(), year2 = child2date.getFullYear();
+                    todayDate2 = new Date();
+                    todayYear2 = todayDate2.getFullYear();
+                    todayMonth2 = todayDate2.getMonth();
+                    todayDay2 = todayDate2.getDate();
+                    age2 = todayYear2 - year2;
+                    //alert(age);
+                    if (age2 <= 18) {
+                        child2check = 1;
+                    }
+                    else {
+                        alert("Child-2 age should be <=18");
+                    }
+
+                    //Check parent  info
+                    if ($("#mem5firstname").val() == "" && $("#mem6firstname").val() == "") {
+                        alert("Please enter details of both the parent");
+                    }
+                    else {
+                        checkparent = 1;
+                    }
+
+
+                    if (checkcouple == 1 && child1check == 1 && child2check == 1 && checkparent == 1) {
+                        form.submit();
+                    }
+                    else { return false; }
+                }
+
+                //Check for corporate plan
+                if (nop == "") {
+                    if (($("#corpmem1gen").val() == "Male" && $("#corpmem2gen").val() == "Female") || ($("#corpmem1gen").val() == "Female" && $("#corpmem2gen").val() == "Male")) {
+                        corpcheckcouplefamily1 = 1;
+                    }
+                    else {
+                        alert("Either of the couple gender in Family-I should be Male/Female");
+                    }
+                    if (($("#corpmem5gen").val() == "Male" && $("#corpmem6gen").val() == "Female") || ($("#corpmem5gen").val() == "Female" && $("#corpmem6gen").val() == "Male")) {
+                        corpcheckcouplefamily2 = 1;
+                    }
+                    else {
+                        alert("Either of the couple gender in Family-II should be Male/Female");
+                    }
+
+                    //Check for child-1 age below 18
+                    var child1date = $("#corpmem3dob").datepicker('getDate'), day1 = child1date.getDate(), month1 = child1date.getMonth(), year1 = child1date.getFullYear();
+                    todayDate1 = new Date();
+                    todayYear1 = todayDate1.getFullYear();
+                    todayMonth1 = todayDate1.getMonth();
+                    todayDay1 = todayDate1.getDate();
+                    age1 = todayYear1 - year1;
+                    //alert(age);
+                    if (age1 <= 18) {
+                        corpchild1checkfamily1 = 1;
+                    }
+                    else {
+                        alert("Family-I Child-1 age should be <=18");
+                    }
+                    //Check for child-2 age below 18
+                    var child2date = $("#corpmem4dob").datepicker('getDate'), day2 = child2date.getDate(), month2 = child2date.getMonth(), year2 = child2date.getFullYear();
+                    todayDate2 = new Date();
+                    todayYear2 = todayDate2.getFullYear();
+                    todayMonth2 = todayDate2.getMonth();
+                    todayDay2 = todayDate2.getDate();
+                    age2 = todayYear2 - year2;
+                    //alert(age);
+                    if (age2 <= 18) {
+                        corpchild2checkfamily1 = 1;
+                    }
+                    else {
+                        alert("Family-I Child-2 age should be <=18");
+                    }
+
+
+
+                    if (corpcheckcouplefamily1 == 1 && corpcheckcouplefamily2 == 1) {
+                        form.submit();
+                    }
+                    else { return false; }
+                }
+            },
+            rules: {
+                mem1email: {
+                    email: true
+                },
+                mem2email: {
+                    email: true
+                },
+                mem3email: {
+                    email: true
+                },
+                mem4email: {
+                    email: true
+                },
+                mem5email: {
+                    email: true
+                },
+                mem6email: {
+                    email: true
+                },
+                corpmem1email: {
+                    email: true
+                },
+                corpmem2email: {
+                    email: true
+                },
+                corpmem3email: {
+                    email: true
+                },
+                corpmem4email: {
+                    email: true
+                },
+                corpmem5email: {
+                    email: true
+                },
+                corpmem6email: {
+                    email: true
+                },
+                corpmem7email: {
+                    email: true
+                },
+                corpmem8email: {
+                    email: true
+                }
+
+            },
+            messages: {
+
+                mem1email: {
+                    email: "Member#1 Invalid Email"
+                },
+                mem2email: {
+                    email: "Member#2 Invalid Email"
+                },
+                mem3email: {
+                    email: "Child-I Invalid Email"
+                },
+                mem4email: {
+                    email: "Child-II Invalid Email"
+                },
+                mem5email: {
+                    email: "Parent-I Invalid Email"
+                },
+                mem6email: {
+                    email: "Parent-II Invalid Email"
+                },
+                corpmem1email: {
+                    email: "Family-I Member#1 Invalid Email"
+                },
+                corpmem2email: {
+                    email: "Family-I Member#2 Invalid Email"
+                },
+                corpmem3email: {
+                    email: "Family-I Member#3 Invalid Email"
+                },
+                corpmem4email: {
+                    email: "Family-I Member#4 Invalid Email"
+                },
+                corpmem5email: {
+                    email: "Family-II Member#1 Invalid Email"
+                },
+                corpmem6email: {
+                    email: "Family-II Member#2 Invalid Email"
+                },
+                corpmem7email: {
+                    email: "Family-II Member#3 Invalid Email"
+                },
+                corpmem8email: {
+                    email: "Family-II Member#4 Invalid Email"
+                }
+            },
+            errorLabelContainer: $("#FrmAddMemberRegistration div.errorForm")
+        });
+
+        jQuery("#MembershipPlanId,#PackageId,#select-person,#Member1-gender,#Member2-gender,#Member3-gender,#Member4-gender,#Member5-gender,#Member6-gender").select2({ minimumResultsForSearch: -1 });
+        jQuery('#MembershipStartDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#mem1dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+
+        jQuery('#mem2dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+
+        jQuery('#mem3dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#mem4dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#mem5dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#mem6dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+
+        //Corporate assign
+        jQuery("#CorpMember1-gender,#CorpMember2-gender,#CorpMember3-gender,#CorpMember4-gender,#CorpMember5-gender,#CorpMember6-gender,#CorpMember7-gender,#CorpMember8-gender").select2({ minimumResultsForSearch: -1 });
+        jQuery('#MembershipStartDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#corpmem1dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+
+        jQuery('#corpmem2dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+
+        jQuery('#corpmem3dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#corpmem4dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#corpmem5dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#corpmem6dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#corpmem7dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#corpmem8dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+    function CheckConditionsForm() {
+        var nop = $("#select-person").select2("val");
+        var checkcouple = 0; child1check = 0; child2check = 0; checkparent = 0;
+
+        //Check for couple forms
+        if (nop == 2) {
+            if (($("#mem1gen").val() == "Male" && $("#mem2gen").val() == "Female") || ($("#mem1gen").val() == "Female" && $("#mem2gen").val() == "Male")) {
+                checkcouple = 1;
+            }
+            else {
+                alert("Either of the gender should be Male/Female");
+            }
+            if (checkcouple == 0) {
+                return;
+            }
+        }
+            //
+        else if (nop == 3) {
+            if (($("#mem1gen").val() == "Male" && $("#mem2gen").val() == "Female") || ($("#mem1gen").val() == "Female" && $("#mem2gen").val() == "Male")) {
+                checkcouple = 1;
+            }
+            else {
+                alert("Either of the gender should be Male/Female");
+            }
+
+            //Check for child age below 18
+            var child1date = $("#mem3dob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+            todayDate = new Date();
+            todayYear = todayDate.getFullYear();
+            todayMonth = todayDate.getMonth();
+            todayDay = todayDate.getDate();
+            age = todayYear - year;
+            //alert(age);
+            if (age <= 18) {
+                child1check = 1;
+            }
+            else {
+                alert("Child-1 age should be <=18");
+            }
+            if (checkcouple == 1 && child1check == 1) {
+                document.FrmAddMemberRegistration.submit();
+            }
+            else { return false; }
+        }
+        else if (nop == 4) {
+            if (($("#mem1gen").val() == "Male" && $("#mem2gen").val() == "Female") || ($("#mem1gen").val() == "Female" && $("#mem2gen").val() == "Male")) {
+                checkcouple = 1;
+            }
+            else {
+                alert("Either of the gender should be Male/Female");
+            }
+
+            //Check for child-1 age below 18
+            var child1date = $("#mem3dob").datepicker('getDate'), day1 = child1date.getDate(), month1 = child1date.getMonth(), year1 = child1date.getFullYear();
+            todayDate1 = new Date();
+            todayYear1 = todayDate1.getFullYear();
+            todayMonth1 = todayDate1.getMonth();
+            todayDay1 = todayDate1.getDate();
+            age1 = todayYear1 - year1;
+            //alert(age);
+            if (age1 <= 18) {
+                child1check = 1;
+            }
+            else {
+                alert("Child-1 age should be <=18");
+            }
+            //Check for child-2 age below 18
+            var child2date = $("#mem4dob").datepicker('getDate'), day2 = child2date.getDate(), month2 = child2date.getMonth(), year2 = child2date.getFullYear();
+            todayDate2 = new Date();
+            todayYear2 = todayDate2.getFullYear();
+            todayMonth2 = todayDate2.getMonth();
+            todayDay2 = todayDate2.getDate();
+            age2 = todayYear2 - year2;
+            //alert(age);
+            if (age2 <= 18) {
+                child2check = 1;
+            }
+            else {
+                alert("Child-2 age should be <=18");
+            }
+
+            if (checkcouple == 0 || child1check == 0 || child2check == 0) {
+                return;
+            }
+        }
+        else if (nop == 5) {
+            if (($("#mem1gen").val() == "Male" && $("#mem2gen").val() == "Female") || ($("#mem1gen").val() == "Female" && $("#mem2gen").val() == "Male")) {
+                checkcouple = 1;
+            }
+            else {
+                alert("Either of the gender should be Male/Female");
+            }
+
+            //Check for child-1 age below 18
+            var child1date = $("#mem3dob").datepicker('getDate'), day1 = child1date.getDate(), month1 = child1date.getMonth(), year1 = child1date.getFullYear();
+            todayDate1 = new Date();
+            todayYear1 = todayDate1.getFullYear();
+            todayMonth1 = todayDate1.getMonth();
+            todayDay1 = todayDate1.getDate();
+            age1 = todayYear1 - year1;
+            //alert(age);
+            if (age1 <= 18) {
+                child1check = 1;
+            }
+            else {
+                alert("Child-1 age should be <=18");
+            }
+            //Check for child-2 age below 18
+            var child2date = $("#mem4dob").datepicker('getDate'), day2 = child2date.getDate(), month2 = child2date.getMonth(), year2 = child2date.getFullYear();
+            todayDate2 = new Date();
+            todayYear2 = todayDate2.getFullYear();
+            todayMonth2 = todayDate2.getMonth();
+            todayDay2 = todayDate2.getDate();
+            age2 = todayYear2 - year2;
+            //alert(age);
+            if (age2 <= 18) {
+                child2check = 1;
+            }
+            else {
+                alert("Child-2 age should be <=18");
+            }
+
+            //Check parent  info
+            if ($("#mem5firstname").val() == "" && $("#mem6firstname").val() == "") {
+                alert("Please enter details of both the parent");
+            }
+            else {
+                checkparent = 1;
+            }
+
+
+            if (checkcouple == 0 || child1check == 0 || child2check == 0 || checkparent == 0) {
+                return;
+            }
+        }
+
+    }
+    function getplanid() {
+        var pid = $("#MembershipPlanId").select2("val"); //get the value
+        var cmpid = '@Convert.ToInt32(SunCity.Core.Enum.MembershipPlan.Corporate_Plan)';
+        if (pid == cmpid) {
+            $("#corporateaccordion2").css("display", "block");
+            $("#accordion2").css("display", "none");
+            $("#divselectperson").css("display", "none");
+            $("#select-person").css("visible", "hidden");
+            return;
+        }
+        else {
+            $("#corporateaccordion2").css("display", "none");
+            $("#accordion2").css("display", "block");
+            $("#divselectperson").css("display", "block");
+            $("#select-person").css("visible", "visible");
+        }
+    }
+
+    function getaccordions() {
+        var nop = $("#select-person").select2("val"); //get the value
+        $("#Noppl").val(nop);
+        //alert(pid);
+        if (nop == 1) {
+            $("#Member1").css("display", "block");
+            $("#Member2").css("display", "none");
+            $("#Member3").css("display", "none");
+            $("#Member4").css("display", "none");
+            $("#Member5").css("display", "none");
+            $("#Member6").css("display", "none");
+        }
+        else if (nop == 2) {
+            $("#Member1").css("display", "block");
+            $("#Member2").css("display", "block");
+            $("#Member3").css("display", "none");
+            $("#Member4").css("display", "none");
+            $("#Member5").css("display", "none");
+            $("#Member6").css("display", "none");
+        }
+        else if (nop == 3) {
+            $("#Member1").css("display", "block");
+            $("#Member2").css("display", "block");
+            $("#Member3").css("display", "block");
+            $("#Member4").css("display", "none");
+            $("#Member5").css("display", "none");
+            $("#Member6").css("display", "none");
+        }
+        else if (nop == 4) {
+            $("#Member1").css("display", "block");
+            $("#Member2").css("display", "block");
+            $("#Member3").css("display", "block");
+            $("#Member4").css("display", "block");
+            $("#Member5").css("display", "none");
+            $("#Member6").css("display", "none");
+        }
+        else if (nop == 5) {
+            $("#Member1").css("display", "block");
+            $("#Member2").css("display", "block");
+            $("#Member3").css("display", "block");
+            $("#Member4").css("display", "block");
+            $("#Member5").css("display", "block");
+            $("#Member6").css("display", "block");
+        }
+
+
+    }
+
+
+    function getgendermember1() {
+        var gen1 = $("#Member1-gender").select2("val"); //get the value
+        $("#mem1gen").val(gen1);
+
+    }
+
+    function getgendermember2() {
+        var gen2 = $("#Member2-gender").select2("val"); //get the value
+        $("#mem2gen").val(gen2);
+
+    }
+    function getgendermember3() {
+        var gen3 = $("#Member3-gender").select2("val"); //get the value
+        $("#mem3gen").val(gen3);
+
+    }
+    function getgendermember4() {
+        var gen4 = $("#Member4-gender").select2("val"); //get the value
+        $("#mem4gen").val(gen4);
+
+    }
+    function getgendermember5() {
+        var gen5 = $("#Member5-gender").select2("val"); //get the value
+        $("#mem5gen").val(gen5);
+
+    }
+    function getgendermember6() {
+        var gen6 = $("#Member6-gender").select2("val"); //get the value
+        $("#mem6gen").val(gen6);
+
+    }
+
+    //Corporate genders
+    function corpgetgendermember1() {
+        var gen1 = $("#CorpMember1-gender").select2("val"); //get the value
+        $("#corpmem1gen").val(gen1);
+
+    }
+
+    function corpgetgendermember2() {
+        var gen2 = $("#CorpMember2-gender").select2("val"); //get the value
+        $("#corpmem2gen").val(gen2);
+
+    }
+    function corpgetgendermember3() {
+        var gen3 = $("#CorpMember3-gender").select2("val"); //get the value
+        $("#corpmem3gen").val(gen3);
+
+    }
+    function corpgetgendermember4() {
+        var gen4 = $("#CorpMember4-gender").select2("val"); //get the value
+        $("#corpmem4gen").val(gen4);
+
+    }
+    function corpgetgendermember5() {
+        var gen5 = $("#CorpMember5-gender").select2("val"); //get the value
+        $("#corpmem5gen").val(gen5);
+
+    }
+    function corpgetgendermember6() {
+        var gen6 = $("#CorpMember6-gender").select2("val"); //get the value
+        $("#corpmem6gen").val(gen6);
+
+    }
+    function corpgetgendermember7() {
+        var gen7 = $("#CorpMember7-gender").select2("val"); //get the value
+        $("#corpmem7gen").val(gen7);
+
+    }
+    function corpgetgendermember8() {
+        var gen8 = $("#CorpMember8-gender").select2("val"); //get the value
+        $("#corpmem8gen").val(gen8);
+
+    }
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function isDecimalNumberKey(evt) {
+        var cd = (evt.which) ? evt.which : evt.keyCode;
+        if (cd != 46 && cd > 31 && (cd < 48 || cd > 57))
+            return false;
+        return true;
+    }
+
+ 
+
+        </script>
+
+<!-- end id-form  -->

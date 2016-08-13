@@ -1,0 +1,109 @@
+﻿@model SunCity.Models.NotifyModel
+@if(Model.listbirthday.Count >0)
+{
+<div class="col-md-6">
+    <div class="panel panel-primary-head">
+        <div class="panel-heading">
+            <h4 class="panel-title">Birthday List</h4>
+            @*<p>Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example.</p>*@
+        </div>
+        <!-- panel-heading -->
+
+        <table id="birthTable" class="table table-striped table-bordered responsive">
+            <thead class="">
+                <tr>
+                    @*<th style="display: none">Activity#</th>*@
+                    <th>Person Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var p in Model.listbirthday)
+                {
+
+                    <tr>
+                        @* <td style="display: none;">@p.ActivityId</td>*@
+                        <td>@p.Membername</td>
+                        <td><a onclick="CallSend(@p.MemberId,1);" style="cursor:pointer;" @*href="@Url.Action("SendEmailNotification", "Dashboard", new { MemberId=p.MemberId, greetingtype=1 })"*@> Send </a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+}
+@if(Model.listmarriage.Count >0)
+{
+<div class="col-md-6">
+    <div class="panel panel-primary-head">
+        <div class="panel-heading">
+            <h4 class="panel-title">Marriage Anniversary List</h4>
+            @*<p>Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example.</p>*@
+        </div>
+        <!-- panel-heading -->
+
+        <table id="MarriageTable" class="table table-striped table-bordered responsive">
+            <thead class="">
+                <tr>
+                    @*<th style="display: none">Activity#</th>*@
+                    <th>Person Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var p in Model.listmarriage)
+                {
+
+                    <tr>
+                        @* <td style="display: none;">@p.ActivityId</td>*@
+                        <td>@p.Membername</td>
+                        <td><a onclick="CallSend(@p.MemberId,2);" style="cursor:pointer;" @*href="@Url.Action("SendEmailNotification", "Dashboard", new { MemberId=p.MemberId, greetingtype=2 })"*@> Send </a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+}
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+
+<script>
+    jQuery(document).ready(function () {
+        jQuery('#birthTable').DataTable({
+            responsive: true
+        });
+        var birthTable = $('#birthTable').dataTable();
+
+        jQuery('#MarriageTable').DataTable({
+            responsive: true
+        });
+
+        var MarriageTable = $('#MarriageTable').dataTable();
+
+        
+        
+    });
+
+    function CallSend(mid, gtype)
+    {
+        $.ajax({
+            url: '@Url.Action("SendEmailNotification", "Dashboard")',
+            type: 'GET',
+            data: {
+                MemberId: mid,
+                greetingtype:gtype
+            }
+            }).done(function (data) {
+                if (data == "true") {
+                    alert("Mail sent");
+                }
+                else {
+                    alert("Please try again!!");
+                }
+            });
+
+    }
+   
+</script>

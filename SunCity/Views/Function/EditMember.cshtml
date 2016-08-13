@@ -1,0 +1,401 @@
+﻿@model SunCity.Models.Member
+@{
+    ViewBag.Title = "Edit Member";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<link href="~/Content/MyUploadify/uploadify.css" rel="stylesheet" />
+
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Member</strong> updated successfully.
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                <a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">View Member</h4>
+            <p>This form is used to view member detail and update it.</p>
+        </div>
+        @using (Html.BeginForm("EditMember", "Function", FormMethod.Post, new { id = "FrmViewMember" }))
+        {  
+            @Html.HiddenFor(x => x.MemberId)
+            <div class="panel-body">
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div >
+                            @if (Model.ProfilePictreName != "")
+                            {
+                                <img src="~/UserProfile/@Model.ProfilePictreName" class="img-circle img-offline img-responsive img-profile" alt="" />
+                            }
+                            else if (Model.ProfilePictreName == "")
+                            {
+                                <img src="~/UserProfile/no-profile-image.jpg" class="img-circle img-offline img-responsive img-profile" alt="" />
+                            }
+                            else
+                            {
+                                <img src="~/UserProfile/no-profile-image.jpg" class="img-circle img-offline img-responsive img-profile" alt="" />
+                            }
+
+                            <div class="btn-group">
+                                <input type="hidden" name="hiddeneditphoto" id="hiddeneditphoto" />
+                                <input type="file" name="editphoto" id="editphoto" class="form-control"  title="Memeber#1 Photo is required!" />
+                                <button class="btn btn-primary btn-bordered" id="btneditprofilepic">Update Profile Photo</button>
+                            </div>
+                        </div>
+
+                        <!-- text-center -->
+                    </div>
+                </div>
+                <div class="row"> &nbsp;&nbsp;</div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">First Name</label>
+                                @Html.TextBoxFor(x => x.MemberFirstName, new { @class = "form-control", @title = "First name is required!", @required = "required", @maxlength = "25" })
+                                @*<input type="text" name="mem1firstname" id="mem1firstname" class="form-control" required="required" title="Memeber#1 First name is required!" maxlength="25" />*@
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                        <!-- col-sm-6 -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Middle Name</label>
+                                @Html.TextBoxFor(x => x.MemberMiddleName, new { @class = "form-control", @title = "Middle name is required!", @required = "required", @maxlength = "25" })
+                                @*<input type="text" name="mem1middlename" id="mem1middlename" class="form-control" required="required" title="Memeber#1 Middle name is required!" maxlength="25" />*@
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Last Name</label>
+                                @Html.TextBoxFor(x => x.MemberLastName, new { @class = "form-control", @title = "Last name is required!", @required = "required", @maxlength = "25" })
+                                @*<input type="text" name="mem1lastname" id="mem1lastname" class="form-control" required="required" title="Memeber#1 Last name is required!" maxlength="25" />*@
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">DOB</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.MemberDOB,"{0:dd-MM-yyyy}", new { @class = "form-control", @title = "DOB is required!", @required = "required", @id = "mem1dob" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    @*<input type="text" name="mem1dob" id="mem1dob" class="form-control" required="required" placeholder="yyyy-mm-dd" title="Member#1 dob is required!" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>*@
+                                </div>
+
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                        <!-- col-sm-6 -->
+                        <div class="col-sm-4">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Gender</label>
+                                    <input type="hidden" name="mem1gen" id="mem1gen" />
+                                    @Html.DropDownListFor(x => x.Gender, new SelectList(Model.listgender, "gendername", "gendervalue"), "Select Gender", new { @id = "Member1-gender", @class = "width225", @required = "required", @title = "Select Gender!",@disabled="disabled" })
+                                    <input type="hidden" name="Gender" value="@Model.Gender" />
+                                    @*<select id="Member1-gender" data-placeholder="Choose One" class="width225" onclick="getgendermember1();" required="required" title="Select Member#1 Gender!">
+                                    <option value="">Choose One</option>
+
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>*@
+                                </div>
+                                <!-- form-group -->
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Email</label>
+                                @Html.TextBoxFor(x => x.EmailId, new { @class = "form-control", @title = "Email is required!", @required = "required" })
+                                @*<input type="text" name="mem1email" id="mem1email" class="form-control" required="required" title="Memeber#1 email is required!" />*@
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Address</label>
+                                @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @title = "Address is required!", @required = "required", @maxlength = "25" })
+                                @*<input type="text" name="mem1address" id="mem1address" class="form-control" required="required" title="Memeber#1 Address is required!" />*@
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                        <!-- col-sm-6 -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Phone</label>
+                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @title = "Phone is required!", @required = "required", @maxlength = "10", @onkeypress = "return isNumberKey(event,this.id)" })
+                                @*<input type="text" name="mem1phone" id="mem1phone" class="form-control" required="required" title="Memeber#1 Phone is required!" />*@
+                            </div>
+                            <!-- form-group -->
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">City</label>
+                                @Html.TextBoxFor(x => x.City, new { @class = "form-control", @title = "City is required!", @required = "required", @maxlength = "25" })
+                                @*<input type="text" name="mem1city" id="mem1city" class="form-control" required="required" title="Memeber#1 City is required!" />*@
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                        <!-- col-sm-6 -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">State</label>
+                                @Html.TextBoxFor(x => x.State, new { @class = "form-control", @title = "State is required!", @required = "required", @maxlength = "25" })
+                                @*<input type="text" name="mem1state" id="mem1state" class="form-control" required="required" title="Memeber#1 State is required!" />*@
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Country</label>
+                                @Html.TextBoxFor(x => x.Country, new { @class = "form-control", @title = "Country is required!", @required = "required", @maxlength = "20" })
+                                @*<input type="text" name="mem1country" id="mem1country" class="form-control" required="required" title="Memeber#1 Country is required!" />*@
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Is Deleted</label>
+                                <div class="checkbox block">
+                                    @if (Model.IsDeleted == false)
+                                    {
+                                
+                                        <label>
+                                            <input type="checkbox" name="IsDeleted" /></label>
+                                
+                                    }
+                                    else
+                                    {
+                                
+                                        <label>
+                                            <input type="checkbox" name="IsDeleted" checked="checked" /></label>
+                                    }
+                                </div>
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                        <!-- col-sm-6 -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Is Blocked</label>
+                                <div class="checkbox block">
+                                    @if (Model.IsBlocked == false)
+                                    {
+                                
+                                        <label>
+                                            <input type="checkbox" name="IsBlocked" /></label>
+                                
+                                    }
+                                    else
+                                    {
+                                
+                                        <label>
+                                            <input type="checkbox" name="IsBlocked" checked="checked" /></label>
+                                    }
+                                </div>
+                            </div>
+                            <!-- form-group -->
+                        </div>
+
+                    </div>
+                </div>*@
+            </div>
+            <!-- panel-body -->
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <input type="hidden" id="hiddencorporateflag" name="hiddencorporateflag" value="0" />
+                @if (Model.MembershipPlanId == Convert.ToInt32(SunCity.Core.Enum.MembershipPlan.Corporate_Plan))
+                {
+                    <button class="btn btn-dark btn-md" type="submit" onclick="setCorporateFlag();">Update Member</button>
+                }
+                <input type="hidden" id="hiddendeleteflag" name="hiddendeleteflag" value="0" />
+                @*<button class="btn btn-warning" type="submit" onclick="setDeleteFlag();">Delete</button>*@
+                <input type="hidden" id="hiddenblockflag" name="hiddenblockflag" value="0" />
+                @*<button class="btn btn-warning" type="submit" onclick="setBlockFlag();">Block</button>*@
+                <input type="hidden" id="hiddencancelflag" name="hiddencancelflag" value="0" />
+                <button class="btn btn-default" type="submit" onclick="setCancelFlag();">Cancel</button>
+            </div>
+            <!-- panel-footer -->
+        }
+    </div>
+    <!-- panel -->
+</div>
+
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(function () {
+        $('#editphoto').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.jpg; *.png,*.jpeg',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddeneditphoto").val(data);
+                //alert($("#hiddeneditphoto").val());
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+    });
+    
+    function setBlockFlag() {
+        var r = confirm("Are you sure you want to block this member?");
+        if (r == true) {
+            $("#hiddenblockflag").val("1");
+        } else {
+            $("#hiddenblockflag").val("0");
+            return false;
+        }
+    }
+    function setDeleteFlag() {
+        var r = confirm("Are you sure you want to delete this member?");
+        if (r == true) {
+            $("#hiddendeleteflag").val("1");
+        } else {
+            $("#hiddendeleteflag").val("0");
+            return false;
+        }
+    }
+    function setCancelFlag() {
+        $("#hiddencancelflag").val("1");
+    }
+    function setCorporateFlag() {
+        $("#hiddencorporateflag").val("1");
+    }
+    $(document).ready(function () {
+
+        //alert('@SunCity.Core.Session.Current.flgrt');
+        function setCorporateFlag() {
+            $("#hiddencorporateflag").val("1");
+        }
+        
+        $("#btneditprofilepic").click(function () {
+
+            $.ajax({
+                url: '@Url.Action("UpdateProfilePic", "Function")',
+                data: {
+                    memberid: '@Model.MemberId',
+                    picname: $("#hiddeneditphoto").val()
+                },
+                type: 'POST',
+                success: function (data) {
+
+                    if (data != "false") {
+                        if ('@SunCity.Core.Session.Current.flgrt' == "0") {
+                            var g = '@Model.MemberId';
+                            var link = '@Url.Action("EditMember", "Function", new { MemberId = "replace" })';
+                            link = link.replace("replace", g);
+                            window.location.href = link;
+                        }
+                        else {
+                            var g = '@Model.MemberId';
+                            var link = '@Url.Action("EditMember", "Function", new { MemberId = "replace", rtflag = "newtr" })';
+                            link = link.replace("replace", g);
+                            link = link.replace("newtr", '@SunCity.Core.Session.Current.flgrt');
+                            window.location.href = link;
+                        }
+                    }
+                    else {
+                        if (SunCity.Core.Session.Current.flgrt == 0) {
+                            var g = '@Model.MemberId';
+                            var link = '@Url.Action("EditMember", "Function", new { MemberId = "replace" })';
+                            link = link.replace("replace", g);
+                            window.location.href = link;
+                        }
+                        else {
+                            var g = '@Model.MemberId';
+                            var link = '@Url.Action("EditMember", "Function", new { MemberId = "replace", rtflag = "newtr" })';
+                            link = link.replace("replace", g);
+                            link = link.replace("newtr", '@SunCity.Core.Session.Current.flgrt');
+                             window.location.href = link;
+                         }
+                     }
+
+                }
+            }).complete(function () {
+
+
+            });
+
+        });
+        // Error Message In One Container
+        $("#FrmViewMember").validate({
+            rules: {
+                EmailId: {
+                    email: true
+                },
+            },
+            messages: {
+
+                EmailId: {
+                    email: "Invalid Email"
+                }
+            },
+            errorLabelContainer: $("#FrmViewMember div.errorForm")
+        });
+
+        jQuery("#Member1-gender").select2({ minimumResultsForSearch: -1 });
+        jQuery('#mem1dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+     function isNumberKey(evt) {
+         var charCode = (evt.which) ? evt.which : event.keyCode;
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+             return false;
+         return true;
+     }
+
+        </script>
+
+<!-- end id-form  -->

@@ -1,0 +1,1080 @@
+﻿@model SunCity.Models.TempViewRegModel.DeserializeMemberObj
+@{
+    ViewBag.Title = "Edit Member";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<link href="~/Content/MyUploadify/uploadify.css" rel="stylesheet" />
+
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Member</strong> updated successfully.
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                <a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">View Member</h4>
+            <p>This form is used to view member detail and update it.</p>
+        </div>
+        @using (Html.BeginForm("NewEditMember", "Dashboard", FormMethod.Post, new { id = "FrmViewMember" }))
+        {  
+            @Html.HiddenFor(x => x.MemberId)
+            @Html.HiddenFor(x => x.UserTypeId)
+            @Html.HiddenFor(x => x.TempregistrationId)
+            <div class="panel-body">
+                <div class="errorForm"></div>
+                <div class="alert alert-danger" id="divchildage" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Child age cannot be less then 18.
+                </div>
+                <div class="alert alert-danger" id="divmsage" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Member age should be greater then 18.
+                </div>
+                <div class="alert alert-danger" id="divseniorage" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Member age should be greater then or equal to 60.
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+                            @if (Model.ProfilePictreName != "")
+                            {
+                                <img src="~/UserProfile/@Model.ProfilePictreName" class="img-circle img-offline img-responsive img-profile" alt="" />
+                            }
+                            else if (Model.ProfilePictreName == "")
+                            {
+                                <img src="~/UserProfile/no-profile-image.jpg" class="img-circle img-offline img-responsive img-profile" alt="" />
+                            }
+                            else
+                            {
+                                <img src="~/UserProfile/no-profile-image.jpg" class="img-circle img-offline img-responsive img-profile" alt="" />
+                            }
+
+                            <div class="btn-group">
+                                <input type="hidden" name="hiddeneditphoto" id="hiddeneditphoto" />
+                                <input type="file" name="editphoto" id="editphoto" class="form-control" title="Memeber Photo is required!" />
+                                <button class="btn btn-primary btn-bordered" id="btneditprofilepic">Update Profile Photo</button>
+                            </div>
+                        </div>
+                        <div class="col-md-7" style="text-align:right;">
+                            @if ( Model.BarcodeImage == null)
+                            {
+                                <img src="~/Content/images/no_barcodes.gif" class="img-rectangle img-offline img-responsive img-profile" alt="" />
+                            }
+                            else if (Model.BarcodeImage != "")
+                            {
+                                <img src="~/BarCodeMember/@Model.BarcodeImage" class="img-rectangle img-offline img-responsive img-profile" alt="" />
+                            }
+                            else if (Model.ProfilePictreName == "")
+                            {
+                                <img src="~/Content/images/no_barcodes.gif" class="img-rectangle img-offline img-responsive img-profile" alt="" />
+                            }
+                            else
+                            {
+                                <img src="~/Content/images/no_barcodes.gif" class="img-rectangle img-offline img-responsive img-profile" alt="" />
+                            }
+                            <br /><br />
+                             <div class="btn-group">
+                            <a href="#" onclick="PrintBarcode('../BarCodeMember/@Model.BarcodeImage'); return false;" class="btn btn-default">
+                Print</a>
+                                 </div>
+                        </div>
+                        <!-- text-center -->
+                    </div>
+                </div>
+                <div class="row">&nbsp;&nbsp;</div>
+                @if (Model.UserTypeId == 1)
+                {
+                    <!--//First row-->
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-4'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Surname<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='@Model.debobj[0].key' id='@Model.debobj[0].key' value="@Model.debobj[0].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[0].value, new { @class = "form-control", @title = "Surname is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-4'>
+                                <div class='form-group'>
+                                    <label class='control-label'>First Name<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_firstname' id='mem_firstname' value="@Model.debobj[1].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[1].value, new { @class = "form-control", @title = "First Name is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-4'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Middle Name<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_lastname' id='mem_lastname' value="@Model.debobj[2].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[2].value, new { @class = "form-control", @title = "Middle Name is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--//Closing of first row-->
+
+                    <!-- Second Row-->
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                
+                                    <div class='form-group'>
+                                        <label class='control-label'>Sex</label>
+                                        @*<select id='mem_gender' name='mem_gender' onclick='getgendermember(mem_" + i + "_" + data.Mapfielduser[3].FieldName +",mem_" + i + "_gen);'  data-placeholder='Choose One' class='width200'  required='required' title='Select Member#2 Gender!'>
+                                            <option value=''>Choose One</option>
+                                            @if (@Model.debobj[3].value == "Male")
+                                            {
+                                                <option value='Male' selected="selected">Male</option> <option value='Female'>Female</option> 
+                                            }
+                                            else
+                                            {
+                                                <option value='Male'>Male</option> <option value='Female' selected="selected">Female</option> 
+                                            }
+                                        </select>*@
+                                        @*@Html.DropDownListFor(x => x.debobj[3].value, new SelectList(Model.listgender, "gendername", "gendervalue"), "Select Gender", new { @id = "Membergender", @class = "width225", @required = "required", @title = "Select Gender!",@disabled="disabled" })*@
+                                        @Html.TextBoxFor(x => x.debobj[3].value, new { @class = "form-control", @title = "Gender is required!", @maxlength = "25", @readonly = "readonly" })
+                                   @*<input type="hidden" name="@Model.debobj[3].key" value="@Model.debobj[3].value" />*@
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Father's/Husband name<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_husname' id='mem_husname' value="@Model.debobj[4].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[4].value, new { @class = "form-control", @title = "Father's/Husband name is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End second row-->
+
+                    <!--Start Third row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Address<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_address' id='mem_" + @Model.MemberId + "_address' value="@Model.debobj[5].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[5].value, new { @class = "form-control", @title = "Address is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Phone(Res)</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_phoneR' id='mem_" + @Model.MemberId + "_phoneR' value="@Model.debobj[6].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[6].value, new { @class = "form-control", @title = "Phone(Res) is required!", @maxlength = "13", @onkeypress = "return isNumberKey(event,this.id)" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd third row-->
+
+                    <!--Start Fourth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Phone(M)<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_phoneM' id='mem_" + @Model.MemberId + "_phoneM' value="@Model.debobj[7].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[7].value, new { @class = "form-control", @title = "Phone(M) is required!", @required = "required", @maxlength = "13", @onkeypress = "return isNumberKey(event,this.id)" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Nationality<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_nationality' id='mem_" + @Model.MemberId + "_nationality' value="@Model.debobj[8].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[8].value, new { @class = "form-control", @title = "Nationality is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd fourth row-->
+
+                    <!--Start fifth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Email<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_email' id='mem_" + @Model.MemberId + "_email' value="@Model.debobj[9].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[9].value, new { @class = "form-control", @title = "Email is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>PAN No.</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_Panno' id='mem_" + @Model.MemberId + "_Panno' value="@Model.debobj[10].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[10].value, new { @class = "form-control", @title = "Address is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd fifth row-->
+
+                    <!--Start sixth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Date of Birth<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_dob' id='mem_" + @Model.MemberId + "_dob' value="@Model.debobj[11].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[11].value, new { @class = "form-control", @title = "Dob is required!", @required = "required", @maxlength = "25", @id = "Memberdob", @onchange = "getdob(Memberdob);" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Maritial Status</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_maratial' id='mem_" + @Model.MemberId + "_maratial' value="@Model.debobj[12].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[12].value, new { @class = "form-control", @title = "Maritial Status is required!", @maxlength = "25", @readonly = "readonly" })
+                                     @*<input type="hidden" name="@Model.debobj[12].key" value="@Model.debobj[12].value" />*@
+                                    @*@Html.DropDownListFor(x => x.debobj[12].value, new SelectList(Model.listmarriage, "mrgname", "mrgvalue"), "Select Status", new { @id = "Membermaritial", @class = "width225", @required = "required", @title = "Select Status!",@disabled="disabled" })*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd sixth row-->
+
+                    <!--Start seventh row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Educational Qualification</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_educatiom' id='mem_" + @Model.MemberId + "_educatiom' value="@Model.debobj[13].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[13].value, new { @class = "form-control", @title = "Educational Qualification is required!" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Blood Group</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_blood' id='mem_" + @Model.MemberId + "_blood' value="@Model.debobj[14].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[14].value, new { @class = "form-control", @title = "Blood Group is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd seventh row-->
+
+                    <!--Start eigth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Marriage Date</label>
+                                    @Html.TextBoxFor(x => x.debobj[15].value, new { @class = "form-control", @title = "Maritial Status is required!", @maxlength = "25", @id = "MemberMrgdate" })
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_mrgdate' id='mem_" + @Model.MemberId + "_mrgdate' value="@Model.debobj[15].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Religion</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_religion' id='mem_" + @Model.MemberId + "_religion' value="@Model.debobj[16].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[16].value, new { @class = "form-control", @title = "Religion is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd eigth row-->
+
+                    <!--Start nineth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Physical Disability(if any)</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_disability' id='mem_" + @Model.MemberId + "_disability' value="@Model.debobj[17].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[17].value, new { @class = "form-control", @title = "Physical Disability is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Interests/Hobbies/Extra Curriculum</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_curriculum' id='mem_" + @Model.MemberId + "_curriculum' value="@Model.debobj[18].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[18].value, new { @class = "form-control", @title = "Interest/Hobbies/Extra Curriculum is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd nineth row-->
+                    
+                      <!--Start tenth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Pin#</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_disability' id='mem_" + @Model.MemberId + "_disability' value="@Model.debobj[17].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.PinNo, new { @class = "form-control", @title = "Pin No. is required!", @maxlength = "5" })
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+                    <!--ENd tenth row-->
+
+                    <h4>Business / Professional / Service Details</h4>
+
+                    <!--Start tenth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Name of firm/ Profession/Institution</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_firm' id='mem_" + @Model.MemberId + "_firm' value="@Model.debobj[19].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[19].value, new { @class = "form-control", @title = "Name of firm is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Business Address</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_bussaddress' id='mem_" + @Model.MemberId + "_bussaddress' value="@Model.debobj[20].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[20].value, new { @class = "form-control", @title = "Business Address is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd tenth row-->
+
+                    <!--Start eleventh row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Address of Registered Head Office</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_regofficeadd' id='mem_" + @Model.MemberId + "_regofficeadd' value="@Model.debobj[21].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[21].value, new { @class = "form-control", @title = "Address of registered head office is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Email</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_officeemail' id='mem_" + @Model.MemberId + "_officeemail' value="@Model.debobj[22].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[22].value, new { @class = "form-control", @title = "Email is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd eleventh row-->
+
+                    <!--Start twelveth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Office Ph. no.</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_officephn' id='mem_" + @Model.MemberId + "_officephn' value="@Model.debobj[23].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[23].value, new { @class = "form-control", @title = "Office Phone No. is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Nature of Business carried</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_bussnature' id='mem_" + @Model.MemberId + "_bussnature' value="@Model.debobj[24].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[24].value, new { @class = "form-control", @title = "Nature of Business carried is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd twelveth row-->
+
+                    <!--Start thirteenth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Designation of the applicant</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_desg' id='mem_" + @Model.MemberId + "_desg' value="@Model.debobj[25].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[25].value, new { @class = "form-control", @title = "Designation of the applicant is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Approx. Annual Income</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_income' id='mem_" + @Model.MemberId + "_income' value="@Model.debobj[26].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[26].value, new { @class = "form-control", @title = "Approx. Annual Income is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd thirteenth row-->
+
+                }
+
+                else if (Model.UserTypeId == 2)
+                {
+                      <!--//First row-->
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-4'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Surname<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='@Model.debobj[0].key' id='@Model.debobj[0].key' value="@Model.debobj[0].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[0].value, new { @class = "form-control", @title = "Surname is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-4'>
+                                <div class='form-group'>
+                                    <label class='control-label'>First Name<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_firstname' id='mem_firstname' value="@Model.debobj[1].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[1].value, new { @class = "form-control", @title = "First Name is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-4'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Middle Name<span style="color:red;">*</span></label>
+                                    @*<input type='text' name='mem_lastname' id='mem_lastname' value="@Model.debobj[2].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[2].value, new { @class = "form-control", @title = "Middle Name is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--//Closing of first row-->
+                     <!-- Second Row-->
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                    <div class='form-group'>
+                                        <label class='control-label'>Blood Group</label>
+                                        @Html.TextBoxFor(x => x.debobj[3].value, new { @class = "form-control", @title = "Blood group is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Date of Birth<span style="color:red;">*</span></label>
+                                    @Html.TextBoxFor(x => x.debobj[4].value, new { @class = "form-control", @onchange = "getdob(spousedob);", @title = "DOB is required!", @required = "required", @maxlength = "25", @id = "spousedob" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End second row-->
+
+                    <!--Start Third row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Nationality<span style="color:red;">*</span></label>
+                                    @Html.TextBoxFor(x => x.debobj[5].value, new { @class = "form-control", @title = "Nationality is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Email</label>
+                                    @Html.TextBoxFor(x => x.debobj[6].value, new { @class = "form-control", @title = "Email is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd third row-->
+
+                    <!--Start Fourth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>PAN No.</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_phoneM' id='mem_" + @Model.MemberId + "_phoneM' value="@Model.debobj[7].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[7].value, new { @class = "form-control", @title = "Phone is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Educational Qualification</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_nationality' id='mem_" + @Model.MemberId + "_nationality' value="@Model.debobj[8].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[8].value, new { @class = "form-control", @title = "PAN No. is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd fourth row-->
+
+                    <!--Start fifth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Occupation</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_email' id='mem_" + @Model.MemberId + "_email' value="@Model.debobj[9].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[9].value, new { @class = "form-control", @title = "Educational Qualification is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Designation</label>
+                                    @*<input type='text' name='mem_" + @Model.MemberId + "_Panno' id='mem_" + @Model.MemberId + "_Panno' value="@Model.debobj[10].value" class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />*@
+                                    @Html.TextBoxFor(x => x.debobj[10].value, new { @class = "form-control", @title = "Occupation is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd fifth row-->
+
+                    <!--Start sixth row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Approx Annual Income</label>
+                                    @Html.TextBoxFor(x => x.debobj[11].value, new { @class = "form-control", @title = "Designation is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Interests/Hobbies/Extra Curriculum</label>
+                                    @Html.TextBoxFor(x => x.debobj[12].value, new { @class = "form-control", @title = "Approx Annual Income is required!", @maxlength = "25" })
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd sixth row-->
+                    <!--Start seventh row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Phone</label>
+                                    @Html.TextBoxFor(x => x.debobj[13].value, new { @class = "form-control", @title = "Phone is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+                    <!--ENd seventh row-->
+                     
+                     
+                }
+
+                else if (Model.UserTypeId == 3)
+                {
+                    <!--//First row-->
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-4'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Name<span style="color:red;">*</span></label>
+                                    @Html.TextBoxFor(x => x.debobj[0].value, new { @class = "form-control", @title = "Name is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-4'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Blood Group</label>
+                                    @Html.TextBoxFor(x => x.debobj[1].value, new { @class = "form-control", @title = "Blood group is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-4'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Gender</label>
+                                    @Html.TextBoxFor(x => x.debobj[2].value, new { @class = "form-control", @title = "Middle Name is required!", @required = "required", @maxlength = "25", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--//Closing of first row-->
+                     <!-- Second Row-->
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                    <div class='form-group'>
+                                        <label class='control-label'>Date of Birth<span style="color:red;">*</span></label>
+                                        @Html.TextBoxFor(x => x.debobj[3].value, new { @class = "form-control", @title = "Date of Birth is required!", @onchange = "getchilddob(childdob);", @required = "required", @maxlength = "25", @id = "childdob" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Name of the school/college</label>
+                                    @Html.TextBoxFor(x => x.debobj[4].value, new { @class = "form-control", @title = "Name of the school/college is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End second row-->
+
+                    <!--Start Third row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Interests/Hobbies/Extra Curriculum</label>
+                                    @Html.TextBoxFor(x => x.debobj[5].value, new { @class = "form-control", @title = "Interests/Hobbies/Extra Curriculum is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Specific Allergy(if any)</label>
+                                    @Html.TextBoxFor(x => x.debobj[6].value, new { @class = "form-control", @title = "Specific Allergy(if any) is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd third row-->
+                }
+
+                else if (Model.UserTypeId == 4)
+                {
+                   
+                     <!-- Second Row-->
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                    <div class='form-group'>
+                                        <label class='control-label'>Name<span style="color:red;">*</span></label>
+                                        @Html.TextBoxFor(x => x.debobj[0].value, new { @class = "form-control", @title = "Name is required!", @required = "required", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Address</label>
+                                    @Html.TextBoxFor(x => x.debobj[1].value, new { @class = "form-control", @title = "Address is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End second row-->
+
+                    <!--Start Third row-->
+
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Phone No.</label>
+                                    @Html.TextBoxFor(x => x.debobj[2].value, new { @class = "form-control", @title = "Phone No. is required!", @maxlength = "25" })
+                                </div>
+                            </div>
+                            <div class='col-sm-6'>
+                                <div class='form-group'>
+                                    <label class='control-label'>Birth Date<span style="color:red;">*</span></label>
+                                    @Html.TextBoxFor(x => x.debobj[3].value, new { @class = "form-control", @title = "Birth date is required!", @onchange = "getseniordob(seniordob);", @maxlength = "25", @id = "seniordob", @required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--ENd third row-->
+                }
+
+            </div>
+            <!-- panel-body -->
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit" onclick="setTrueFlag();">Save</button>
+                <input type="hidden" id="hiddencorporateflag" name="hiddencorporateflag" value="0" />
+                @*@if (Model.MembershipPlanId == Convert.ToInt32(SunCity.Core.Enum.MembershipPlan.Corporate_Plan))
+                {
+                    <button class="btn btn-dark btn-md" type="submit" onclick="setCorporateFlag();">Update Member</button>
+                }*@
+                
+                <input type="hidden" id="hiddencancelflag" name="hiddencancelflag" value="0" />
+                <button class="btn btn-default" type="submit" onclick="setCancelFlag();">Cancel</button>
+            </div>
+            <!-- panel-footer -->
+        }
+    </div>
+    <!-- panel -->
+</div>
+
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(function () {
+        $('#editphoto').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            'fileTypeExts': '*.jpg; *.png;*.jpeg',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, data, response) {
+                $("#hiddeneditphoto").val(data);
+                //alert($("#hiddeneditphoto").val());
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+    });
+
+    function SourcetoPrintBarcode(source) {
+        return "<html><head><script>function step1(){\n" +
+                "setTimeout('step2()', 10);}\n" +
+                "function step2(){window.print();window.close()}\n" +
+                "</scri" + "pt></head><body onload='step1()'>\n" +
+                "<img src='" + source + "' /></body></html>";
+    }
+    function PrintBarcode(source) {
+        Pagelink = "about:blank";
+        var pwa = window.open(Pagelink, "_new");
+        pwa.document.open();
+        pwa.document.write(SourcetoPrintBarcode(source));
+        pwa.document.close();
+    }
+
+    function setBlockFlag() {
+        var r = confirm("Are you sure you want to block this member?");
+        if (r == true) {
+            $("#hiddenblockflag").val("1");
+        } else {
+            $("#hiddenblockflag").val("0");
+            return false;
+        }
+    }
+    function setDeleteFlag() {
+        var r = confirm("Are you sure you want to delete this member?");
+        if (r == true) {
+            $("#hiddendeleteflag").val("1");
+        } else {
+            $("#hiddendeleteflag").val("0");
+            return false;
+        }
+    }
+    function setTrueFlag() {
+        $("#hiddencancelflag").val("0");
+    }
+    function setCancelFlag() {
+        $("#hiddencancelflag").val("1");
+    }
+    function setCorporateFlag() {
+        $("#hiddencorporateflag").val("1");
+    }
+    $(document).ready(function () {
+
+        //alert('@SunCity.Core.Session.Current.flgrt');
+        function setCorporateFlag() {
+            $("#hiddencorporateflag").val("1");
+        }
+
+        $("#btneditprofilepic").click(function () {
+
+            $.ajax({
+                url: '@Url.Action("UpdateProfilePic", "Function")',
+                data: {
+                    memberid: '@Model.MemberId',
+                    picname: $("#hiddeneditphoto").val()
+                },
+                type: 'POST',
+                success: function (data) {
+
+                    if (data != "false") {
+                        if ('@SunCity.Core.Session.Current.flgrt' == "0") {
+                            var g = '@Model.MemberId';
+                            var link = '@Url.Action("NewEditMember", "Dashboard", new { MemberId = "replace" })';
+                            link = link.replace("replace", g);
+                            window.location.href = link;
+                        }
+                        else {
+                            var g = '@Model.MemberId';
+                            var link = '@Url.Action("NewEditMember", "Dashboard", new { MemberId = "replace", rtflag = "newtr" })';
+                            link = link.replace("replace", g);
+                            link = link.replace("newtr", '@SunCity.Core.Session.Current.flgrt');
+                            window.location.href = link;
+                        }
+                    }
+                    else {
+                        if (SunCity.Core.Session.Current.flgrt == 0) {
+                            var g = '@Model.MemberId';
+                            var link = '@Url.Action("NewEditMember", "Dashboard", new { MemberId = "replace" })';
+                            link = link.replace("replace", g);
+                            window.location.href = link;
+                        }
+                        else {
+                            var g = '@Model.MemberId';
+                            var link = '@Url.Action("NewEditMember", "Dashboard", new { MemberId = "replace", rtflag = "newtr" })';
+                            link = link.replace("replace", g);
+                            link = link.replace("newtr", '@SunCity.Core.Session.Current.flgrt');
+                            window.location.href = link;
+                        }
+                    }
+
+                }
+            }).complete(function () {
+
+
+            });
+
+        });
+        // Error Message In One Container
+        $("#FrmViewMember").validate({
+            submitHandler: function (form) {
+                
+                var child1check = 0;
+                if ('@Model.UserTypeId' == 3)
+                {
+                    //Check for child age below 18
+                    var child1date = $("#childdob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+                    todayDate = new Date();
+                    todayYear = todayDate.getFullYear();
+                    todayMonth = todayDate.getMonth();
+                    todayDay = todayDate.getDate();
+                    age = todayYear - year;
+                    //alert(age);
+                    if (age <= 18) {
+                        child1check = 1;
+                        //$("#divchildage").css("display", "none");
+                        $("#divchildage").hide();
+                    }
+                    else {
+                        //alert("Child age should be <=18");
+                        //$("#divchildage").css("display", "block");
+                        $("#divchildage").show();
+                    }
+                    if (child1check == 1)
+                    {
+                        form.submit();
+                    }
+                    else
+                    { return false;}
+                }
+
+                if ('@Model.UserTypeId' == 2) {
+                    //Check for child age below 18
+                    var child1date = $("#spousedob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+                    todayDate = new Date();
+                    todayYear = todayDate.getFullYear();
+                    todayMonth = todayDate.getMonth();
+                    todayDay = todayDate.getDate();
+                    age = todayYear - year;
+                    if (age >= 18) {
+                        child1check = 1;
+                        $("#divmsage").hide();
+                    }
+                    else {
+                        $("#divmsage").show();
+                    }
+                    if (child1check == 1) {
+                        form.submit();
+                    }
+                    else { return false; }
+                }
+                if ('@Model.UserTypeId' == 1) {
+                    //Check for child age below 18
+                    var child1date = $("#Memberdob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+                    todayDate = new Date();
+                    todayYear = todayDate.getFullYear();
+                    todayMonth = todayDate.getMonth();
+                    todayDay = todayDate.getDate();
+                    age = todayYear - year;
+                    if (age >= 18) {
+                        child1check = 1;
+                        $("#divmsage").hide();
+                    }
+                    else {
+                        $("#divmsage").show();
+                    }
+                    if (child1check == 1) {
+                        form.submit();
+                    }
+                    else { return false; }
+                }
+                if ('@Model.UserTypeId' == 4)
+                {
+                    //Check for child age below 18
+                    var child1date = $("#seniordob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+                    todayDate = new Date();
+                    todayYear = todayDate.getFullYear();
+                    todayMonth = todayDate.getMonth();
+                    todayDay = todayDate.getDate();
+                    age = todayYear - year;
+                    if (age >= 60) {
+                        child1check = 1;
+                        $("#divseniorage").hide();
+                    }
+                    else {
+                        $("#divseniorage").show();
+                    }
+                    if (child1check == 1) {
+                        form.submit();
+                    }
+                    else { return false; }
+                }
+            },
+            rules: {
+                EmailId: {
+                    email: true
+                },
+            },
+            messages: {
+
+                EmailId: {
+                    email: "Invalid Email"
+                }
+            },
+            errorLabelContainer: $("#FrmViewMember div.errorForm")
+        });
+
+        jQuery("#Membergender,#Membermaritial").select2({ minimumResultsForSearch: -1 });
+        jQuery('#MemberMrgdate').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#Memberdob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#spousedob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#childdob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery('#seniordob').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+        
+    });
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function getchilddob(dtdob) {
+        var child1date = $("#" + dtdob['id']).datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+        todayDate = new Date();
+        todayYear = todayDate.getFullYear();
+        todayMonth = todayDate.getMonth();
+        todayDay = todayDate.getDate();
+        age = todayYear - year;
+        //alert(age);
+        if (age <= 18) {
+            $("#divchildage").hide();
+        }
+        else {
+            //alert("Member age should be <=18");
+            $("#divchildage").show();
+            return false;
+        }
+    }
+
+    function getseniordob(dtdob) {
+        var child1date = $("#" + dtdob['id']).datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+        todayDate = new Date();
+        todayYear = todayDate.getFullYear();
+        todayMonth = todayDate.getMonth();
+        todayDay = todayDate.getDate();
+        age = todayYear - year;
+        //alert(age);
+        if (age >= 60) {
+            $("#divseniorage").hide();
+        }
+        else {
+            //alert("Member age should be <=18");
+            $("#divseniorage").show();
+            return false;
+        }
+    }
+
+    function getdob(dtdob) {
+        //var selected = $("#" + dtdob).val();
+        //Check for  above 18
+        var child1date = $("#" + dtdob['id']).datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+        todayDate = new Date();
+        todayYear = todayDate.getFullYear();
+        todayMonth = todayDate.getMonth();
+        todayDay = todayDate.getDate();
+        age = todayYear - year;
+        //alert(age);
+        if (age >= 18) {
+            $("#divmsage").hide();
+        }
+        else {
+            $("#divmsage").show();
+            return false;
+        }
+    }
+
+        </script>
+
+

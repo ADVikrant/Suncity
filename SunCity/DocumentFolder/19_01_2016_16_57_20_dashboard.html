@@ -1,0 +1,3490 @@
+<div class="popup modal fade" id="pass-alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content text-center" role="tabpanel">
+      <div class="modal-body tab-content ">
+        <div class="pop-title popup-text" ></div>
+        <button class="btn btn-primary btn-capsule ladda-button" data-style="zoom-out" name="alert-ok" id="alert-ok">Yes</button>
+        <button class="btn btn-primary btn-capsule ladda-button" data-style="zoom-out" name="alert-no" id="alert-no">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup modal fade" id="confirm-alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content text-center" role="tabpanel">
+      <div class="modal-body tab-content ">
+        <div class="pop-title popup-text"></div>
+          <button class="btn btn-primary btn-capsule ladda-button" data-style="zoom-out" name="alert-ok" id="conf-alert-ok">Yes</button>
+           <button class="btn btn-primary btn-capsule ladda-button" data-style="zoom-out" name="alert-no" id="conf-alert-no">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup modal fade" id="alert-only" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content text-center" role="tabpanel">
+      <div class="modal-body tab-content ">
+        <div class="pop-title popup-text" ></div>
+        <button class="btn btn-primary btn-capsule ladda-button" data-style="zoom-out" name="alert-ok" id="alert-ok">Ok</button>
+        
+      </div>
+    </div>
+    </div>
+</div>
+
+    <div class="content-area">
+      <div class="subheading">
+    <div class="container">
+        <div class="row">
+            <div id="brudcrumb" class="col-xs-12 col-sm-4">
+                <a href="/" class="bc-level-0" title="Home">Home</a>
+                <span class="sep next-arr">&rsaquo;</span>
+                <a class="bc-level-1" href="/my-account">My Account</a>
+                <span class="sep next-arr">&rsaquo;</span>
+        <strong class="c-tab">My Requests</strong>
+
+                <!-- <span class="sep next-arr">&rsaquo;</span><strong>{{title}}</strong> -->
+            </div>
+            <!-- brudcrumb close -->
+            <div class="col-xs-11 col-sm-5 text-right">
+                <form action="/listings/search" method="get" id="search_form">
+                    {{#categories}}
+                    <input type="hidden" name="categoryIds" id="categoryIds" value="{{id}}"> {{/categories}}
+                    <div class="input-group searcbox">
+                        <input id="listings-search" type="text" name="query" class="form-control search_box" placeholder="Type Your Search" />
+                        <span class="input-group-btn">
+              <button type="submit" id="searchBtn" value="Search" class="btn btn-primary btn-search">Search</button>
+            </span>
+                    </div>
+                </form>
+                <!-- search_field close -->
+            </div>
+            <div class="col-xs-12 col-sm-3 text-right">
+                <div class="radio clearfix">
+                    <input type='radio' name='searchRadio' checked value="want" id="want" />
+                    <label for="want">I Want It</label>
+                    <input type='radio' name='searchRadio' value="give" id="give">
+                    <label for="give">I'll Give It</label>
+                    <!--   <input type="radio" name="radio1" id="top-r" value="used" >
+          <label for="top-r">I Want It</label>
+          <input type="radio" name="radio1" id="top-r-1" value="new" checked="checked" >
+          <label for="top-r-1">i'll Give It</label> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- subheading_box close -->
+</div>
+    </div>
+
+      
+
+      <div class="container">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 dashboard" role="tabpanel">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs dashboard-main-tabs text-center" role="tablist">
+        <li role="presentation" class="active"><a href="#activityFeed" aria-controls="activityFeed" breadcrumb="Activity Feed" role="tab" data-toggle="tab">Activity Feed</a>
+        </li>
+        <li role="presentation"><a href="#myProfile" class="my-profile-link" aria-controls="myProfile" breadcrumb="My Profile" role="tab" data-toggle="tab">My Profile</a>
+        </li>
+        <li role="presentation"><a href="#leaderBoard" aria-controls="leaderBoard" breadcrumb="Leaderboard" role="tab" data-toggle="tab">Leaderboard</a>
+        </li>
+        <li role="presentation"><a href="#myListing" aria-controls="myListing" breadcrumb="My Listing" role="tab" data-toggle="tab">My Listings</a>
+        </li>
+        <li role="presentation"><a href="#myRequest" aria-controls="myRequest" breadcrumb="My Request" role="tab" data-toggle="tab">My Requests</a>
+        </li>
+        <!-- <li role="presentation"><a href="#pointsRewards" aria-controls="pointsRewards" breadcrumb="Points &amp; Rewards" role="tab" data-toggle="tab">Points &amp; Rewards</a>
+        </li> -->
+        <li role="presentation"><a href="#myConnections" aria-controls="myConnections" breadcrumb="My Connections" role="tab" data-toggle="tab">My Connections</a>
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        
+        <div role="tabpanel" class="tab-pane active row" id="activityFeed">
+          <div class="col-sm-4 col-sm-push-8 user-info-tab">
+            {{#profile}}
+
+            <div class="user">
+              <div class="pull-left">
+                <a href="/dashboard/{{UserId}}">
+                  {{#profilePic}}
+                  <img src="/uploads/{{profilePic}}" class="img-circle" />
+                  {{/profilePic}}
+                  {{^profilePic}}
+                  <img src="/images/profilepic.jpg" class="img-circle" />
+                  {{/profilePic}}
+                </a>
+                <div class="pull-right">
+                {{name}}
+                </div>
+                <br/>
+                {{#locality}}{{locality}}, {{/locality}}{{#userCityName}}{{userCityName}}<br/>{{/userCityName}}
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="profile_progess">
+              <div class="profile_head">
+                <span class="text-left">Profile Completed :</span>
+                <span class="text-right">{{profileCompelete}}%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                aria-valuemin="0" aria-valuemax="100" style="width:{{profileCompelete}}%">
+                  <span class="sr-only">{{profileCompelete}}% Complete</span>
+                </div>
+              </div>
+              {{^CompeletePro}}
+              <a href="#tab-myProfile" class="blue-text">Complete</a> your profile to earn more points.
+              {{/CompeletePro}}
+              <ul class="bg-grey">
+                <li>{{totalReq}} Exchange Request Placed</li>
+                <li>{{totalBarterDone}} Successfull Exchange Done!</li>
+              </ul>
+            </div>
+            {{/profile}}
+          </div>
+            <!-- 
+            <div class="profile-complition">
+              <h2>Profile Completed</h2>
+              <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 68%;">
+                    <span class="progress-value">68%</span>
+                  </div>
+              </div>
+              <div class="note"><a href="#" title="Complete your profile" >Complete</a> your profile to earn more points!</div>
+            </div>
+            <div class="more-records">
+              78 Exchange Request Placed
+              <br/>24 Successful Exchange done!
+              <br/>current badges points
+              <br/>next badge
+            </div>
+              </div>
+            </div> -->
+          <div class="col-sm-8 col-sm-pull-4 main-cont">
+            <div class="activity-feed">
+              <ul>
+              </ul>
+              <div class="row text-center">
+                <div class="col-sm-12">
+                  <img src="images/bx_loader.gif" alt="Loading..." class="loading-feed hide">
+                </div>
+              </div>
+            </div>
+            <p class=" no-feed-msg hide">No activity feed to show.</p>
+          </div>  
+        </div>
+
+        <div role="tabpanel" class="tab-pane public-dashboard" id="myProfile">
+          <div class="left-pane col-sm-3 text-center margin-left">
+            {{#profile}}
+              <form name="update-profile-form" class="gray-bg" method="post" action="/user/updateProfile" enctype="multipart/form-data" onsubmit="return validateForm();">
+                <div class="user-img-main">
+                  <a href="#" title="Change Image">
+                    {{#profilePic}}
+                    <img src="/uploads/{{profilePic}}" class="img-circle user-pic" />
+                    {{/profilePic}}
+                    {{^profilePic}}
+                    <img src="/images/profilepic.jpg" class="img-circle" />
+                    {{/profilePic}}
+                  </a>
+                  <input type="file" name="profilePic" class="change-profile-pic" />
+                </div>
+                <div class="user-info">
+                  {{name}}<br/>
+                  {{#age}}{{age}} Years<br/>{{/age}}
+                  {{#gender}}{{gender}}<br/>{{/gender}}
+                  {{#locality}}{{locality}}, {{/locality}}{{#userCityName}}{{userCityName}}<br/>{{/userCityName}}
+                  {{#user}}
+                    {{#email}}
+                      <span class="user-email">{{email}}</span> <br/>
+                    {{/email}}
+
+                    {{#contact}}
+                      {{contact}} <br/>
+                    {{/contact}}
+                  {{/user}}
+
+                  {{#userRes}}
+                    <div class="user-info-section gray-bg">
+                    {{#UserProfile}}
+                      <div class="user-info">
+                        {{#userRes.avg_rate}}
+                          <div>Avg User Rating: <span class= "avg-rate">{{userRes.avg_rate}}</span></div>
+                        {{/userRes.avg_rate}}
+
+                        {{^userRes.avg_rate}}
+                          <div>Avg User Rating: <span class= "avg-rate">No-Rate</span></div>
+                        {{/userRes.avg_rate}}
+
+                        {{^ownDashboard}}
+                          {{^loggedInUser}}
+                            <div>Your Rating: <span class="rating-star not-logIn"><span ></span><span ></span><span ></span><span ></span><span ></span></span></div>
+                          {{/loggedInUser}}
+
+                          {{#loggedInUser}}
+                            {{#userRes.allow_rate}}
+                              <div>Your Rating: <span class="rating-star allow"><span ></span><span ></span><span ></span><span ></span><span ></span></span></div>
+                            {{/userRes.allow_rate}}
+                            {{^userRes.allow_rate}}
+                              <div>Your Rating: <span class="rating-star not-allowed"><span ></span><span ></span><span ></span><span ></span><span ></span></span></div>
+                            {{/userRes.allow_rate}}
+                          {{/loggedInUser}}
+                        {{/ownDashboard}}
+                      {{/UserProfile}}
+                      </div>
+
+                      {{^ownDashboard}}
+                        {{#isFollow}}
+                        <input type="button" class="btn btn-sm btn-primary btn-capsule wanna-unfollow" value="Unfollow" follow-me="{{id}}" />
+                        {{/isFollow}}
+                        
+                        {{^isFollow}}
+                        <input type="button" class="btn btn-sm btn-primary btn-capsule wanna-follow" value="Follow" follow-me="{{id}}" />
+                        {{/isFollow}} 
+                      {{/ownDashboard}}
+                    </div>
+                  {{/userRes}}
+
+                  <a href="#" title="Edit" class="pure-link edit-user-info-btn"> 
+                    <svg class="icon icon-edit">
+                      <use xlink:href="#icon-edit"></use>
+                    </svg> Edit
+                  </a>
+                  <br>
+                  <a href="#changePassword" id="changePass" breadcrumb="Change Password" aria-controls="changePassword" role="tab" data-toggle="tab" class="pure-link">
+                    Change Password
+                  </a> 
+
+                </div>
+
+                <div class="user-edit-info" style="display: none;">
+                  <div class="text-center">
+                    <div class="error-wrap update-profile-error">
+                        <div class="alert alert-warning my-error" role="alert"></div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="profile[name]" value="{{profile.name}}" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                      <!-- <label class="control-label" for="inputSuccess1">Select Gender</label> -->
+                      <select name="profile[gender]" class="form-control">
+                        {{^profile.gender}}<option value="">Select gender</option>{{/profile.gender}}
+                        <option value="Male" {{#profile.gender}}{{#isMale}}selected{{/isMale}}{{/profile.gender}}>Male</option>
+                        <option value="Female" {{#profile.gender}}{{^isMale}}selected{{/isMale}}{{/profile.gender}}>Female</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="profile[age]" value="{{profile.age}}" placeholder="Enter your age">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="contact" value="{{user.contact}}" placeholder = "Enter your contact no.">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="email" value="{{user.email}}" placeholder="Email" disabled="disabled">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="hidden" class="form-control" name="profile[CityId]" value="{{userCityId}}">
+                      <input type="text" class="form-control" name="profile[City]" id="profile-city" placeholder="Enter Your City" value="{{userCityName}}">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="profile-locality" name="profile[locality]" value="{{profile.locality}}" placeholder = "Enter your locality" >
+                    </div>
+
+                    <input type="submit" class="btn btn-primary btn-capsule" value='Update' >
+                    <input type="button" class="btn btn-grey cancel-edit-info-btn btn-capsule" value="Cancel">
+                  </div>
+                </div>
+              </form>
+            {{/profile}}
+             {{#real_friends.length}}
+            <div class="friends-list gray-bg text-left">
+              <p class="text-left"><strong>My Friends:</strong></p>
+              <ul>
+                {{#real_friends}}
+                <li>
+                  {{#asConnection.UserProfile}}
+                  <a href="/dashboard/{{UserId}}">
+                  {{#profilePic}}
+                  <img src="/uploads/{{profilePic}}" title="{{name}}" />
+                  {{/profilePic}}
+                  {{^profilePic}}
+                  <img src="/images/profilepic.jpg" title="{{name}}" />
+                  {{/profilePic}}
+                  </a>
+                  {{/asConnection.UserProfile}}
+                </li>
+                {{/real_friends}}
+              </ul>
+            </div>
+            {{/real_friends.length}}
+            {{#UserAllHobbies.length}}
+              <div class="user-hobbies gray-bg text-left">
+                <p class="text-left">
+                  <strong> My Hobbies </strong>
+                  </p>
+                  <ul>
+                    {{^owner}}
+                      {{#UserAllHobbies}}
+                         {{#Hobby}}
+                        <li>{{name}}</li>
+                         {{/Hobby}}
+                      {{/UserAllHobbies}}
+                    {{/owner}}
+                    {{#owner}}
+                      {{#UserAllHobbies}}
+                        {{#Hobby}}
+                          <li>
+                            {{name}} 
+                            <span class="remove-hobby" Id="{{id}}" title="Remove this Hobby">
+                              <svg class="icon-cancel-circle">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-cancel-circle"></use>
+                              </svg>
+                            </span>
+                          </li>
+                        {{/Hobby}}
+                      {{/UserAllHobbies}}
+                    {{/owner}}
+                  </ul>
+              </div>
+            {{/UserAllHobbies.length}}  
+            {{#userDesires.length}}
+              <div class="user-hobbies gray-bg text-left">
+                <p class="text-left">
+                  <strong>
+                    {{#userRes}}
+                    {{#UserProfile}}
+                      {{name}} 
+                    {{/UserProfile}}
+                    {{/userRes}}
+                  wants </strong>
+                  </p>
+                  <ul>
+                  {{#userDesires}}
+                    <li>{{name}}</li>
+                  {{/userDesires}}
+                  </ul>
+              </div>
+            {{/userDesires.length}}
+          </div>
+            
+          <div class="main-pane col-sm-9 db-right-section">
+            <input type="hidden" id="product-userid" value="{{dashboardUserId}}">
+            <input type="hidden" id="own-userid" value="{{loggedinUserId}}">
+            <input type="hidden" id="own-rate" value="{{userRes.own_rate}}">
+            <div class="row gray-bg points-progress">
+              <div class="col-sm-4">
+               {{^owner}}
+                    <span class="points-count">Points: {{earnPoints}}</span>
+                {{/owner}}
+                {{#owner}}
+                    <span class="points-count"><a href="/my-points"> Points: {{earnPoints}} </a> </span>
+                  {{/owner}}
+                <ul>
+                  {{#wonBadges}}
+                    <li>
+                      <img src="/badges/{{badgeImage}}" title="{{achievementMsg}}" height="42" width="42" />
+                    </li>
+                  {{/wonBadges}}
+                </ul>
+              </div>
+              <div class="col-sm-8">
+                <div class="row text-center">
+                  <div class="col-sm-12">
+                    <img src="/images/bx_loader.gif" alt="Loading..." class="loading-chart" />
+                  </div>
+                </div>
+                <div class="row charts-container">
+                  <div class="col-sm-6">
+                    <div class="progress-charts">
+                      <div class="skill-bar request-chart" data-percent="{{totalReq}}"></div>
+                      <div class="skill-semi blue-text">
+                        <span class="rewards-count">{{totalReq}}</span>
+                        <br>
+                        <span class="reward-name">Exchange Request Placed</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="progress-charts">
+                      <div class="skill-bar success-chart" data-percent="{{totalBarterDone}}">
+                      </div>
+                      <div class="skill-semi light-blue">
+                        <span class="rewards-count">{{totalBarterDone}}</span>
+                        <br>
+                        <span class="reward-name">Successful Exchange Done</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>  <!--  /.points-progress -->
+            {{#enableListings.length}}
+              <div class="row">
+                <div class="prod-slider">
+                  <div>
+                    <p class="users-name">
+                      <b>
+                       My Items:
+                      </b>
+                    </p>
+                    <div class="slider-wrapper">
+                      <div class="featured-item-in">
+                        <ul id="userItemSlider" class="bxslider">
+                          {{#enableListings}}
+                            <li class="item">
+                              <a href="/listing/{{id}}/{{slug}}" title="{{title}}">
+                                {{#ListingImages.0}}
+                                  <img alt="{{title}}" src="{{host}}{{imageName}}" />
+                                {{/ListingImages.0}}
+                                {{^ListingImages.length}}
+                                  <img alt="{{title}}" src="/images/default.jpg" />
+                                {{/ListingImages.length}}
+                              </a>
+                              <div class="desc">
+                                
+                                <h2>
+                                  <a href="/listing/{{id}}/{{slug}}" title="">{{title}}</a>
+                                </h2>
+                                {{#currentValue}}<h5 class="rupees">Rs.{{currentValue}}</h5>{{/currentValue}}
+                                <div class="loc">{{City.name}}</div>
+                                {{^owner}}
+                                <a href="/listing/wishlist/{{id}}" class="like-ikon wishlist-listing">
+                                  <svg class="icon-heart">
+                                    <use xlink:href="#icon-heart"></use>
+                                  </svg>
+                                </a>
+                                {{/owner}}
+                              </div>
+                               {{#inBarterProcess}}
+
+                              <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+
+                                <span class="featured-txt">
+                                  {{#bartered}}
+                                    Gone
+                                  {{/bartered}}
+
+                                  {{^bartered}}
+                                    {{#enabled}}
+                                      May Go Soon
+                                    {{/enabled}}
+                                    {{^enabled}}
+                                      {{#disabledByAdmin}}
+                                        Disabled By Admin
+                                      {{/disabledByAdmin}}
+                                      {{^disabledByAdmin}}
+                                        Disabled By User
+                                      {{/disabledByAdmin}}
+                                    {{/enabled}}
+                                    
+                                  {{/bartered}}
+                                </span>
+                              </div>
+
+                            {{/inBarterProcess}}
+
+                            </li>
+                          {{/enableListings}}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{/enableListings.length}}
+                  
+            {{#wishlists.length}}
+              <div class="row">
+                <div class="prod-slider">
+                  <div class="container">
+                    <p class="users-name">
+                      <b>
+                        My Wishlist:
+                      </b>
+                    </p>
+                    <div class="slider-wrapper">
+                      <div class="featured-item-in">
+                        <ul id="userWishlistSlider" class="bxslider">
+                          {{#wishlists}}
+                            {{#Listing}}
+                              <li class="item">
+                                <a href="/listing/{{id}}/{{slug}}" title="{{title}}">
+                                  {{#ListingImages.0}}
+                                    <img alt="{{title}}" src="{{host}}{{imageName}}" />
+                                  {{/ListingImages.0}}
+                                  {{^ListingImages.length}}
+                                    <img alt="{{title}}" src="/images/default.jpg" />
+                                  {{/ListingImages.length}}
+                                </a>
+                                <div class="desc">
+                                  <h2>
+                                    <a href="/listing/{{id}}/{{slug}}" title="">{{Listing.title}}
+                                    </a>
+                                  </h2>
+                                  {{#currentValue}}<h5 class="rupees">Rs.{{currentValue}}</h5>{{/currentValue}}
+                                  <div class="loc">{{Listing.City.name}}</div>
+                                  <a href="/listing/wishlist/{{id}}" class="like-ikon wishlist-listing filled">
+                                    <svg class="icon-heart">
+                                      <use xlink:href="#icon-heart"></use>
+                                    </svg>
+                                  </a>
+                                </div>
+                                 {{#inBarterProcess}}
+
+                                  <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+
+                                    <span class="featured-txt">
+                                      {{#bartered}}
+                                        Gone
+                                      {{/bartered}}
+
+                                      {{^bartered}}
+                                        {{#enabled}}
+                                          May Go Soon
+                                        {{/enabled}}
+                                        {{^enabled}}
+                                          {{#disabledByAdmin}}
+                                            Disabled By Admin
+                                          {{/disabledByAdmin}}
+                                          {{^disabledByAdmin}}
+                                            Disabled By User
+                                          {{/disabledByAdmin}}
+                                        {{/enabled}}
+                                        
+                                      {{/bartered}}
+                                    </span>
+                                  </div>
+
+                                {{/inBarterProcess}}
+
+                              </li>
+                            {{/Listing}} 
+                          {{/wishlists}}   
+                        </ul> <!-- /#userWishlistSlider -->
+                      </div>
+                    </div> <!-- /.slider-wrapper -->
+                  </div>
+                </div> <!-- /.prod-slider -->
+              </div> <!-- /.row -->
+            {{/wishlists.length}}
+          </div> <!-- /.db-right-section -->
+        </div> <!-- /#myProfile -->
+
+        <div role="tabpanel" class="tab-pane leaderBoard-content" id="leaderBoard">
+          <div class="row">
+            <div class="col-sm-12 select-city">
+                <select name="cityDropDown" class="cityDropDown">
+                <option>Select City</option>
+                {{#cities}}
+                <option value="{{id}}" {{#selectedTown}} selected="selected" {{/selectedTown}} >{{name}}</option>
+                {{/cities}}
+              </select>            
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <h4>Point Wise</h4>
+              <table class="table leaderboard-table">
+                {{#UserPoints}} 
+                  <tr>
+                    <td>#{{serialNum}}</td>
+                    <td>
+                      <a href="/dashboard/{{UserId}}" target="_blank">
+                        {{User.UserProfile.name}}
+                      </a>
+                    </td>
+                    <td class="text-right">{{totalPoints}}</td>
+                  </tr>
+                {{/UserPoints}}
+              </table>
+            </div>
+            <div class="col-sm-4">
+              <h4>Connection Wise</h4>
+              <table class="table leaderboard-table">
+                {{#userAllConnections}} 
+                  <tr>
+                    <td>#{{serialNum}}</td>
+                    <td>
+                      <a href="/dashboard/{{UserId}}" target="_blank">
+                        {{User.UserProfile.name}}
+                      </a>
+                    </td>
+                    <td class="text-right">{{totalConnections}}</td>
+                  </tr>
+                {{/userAllConnections}}
+              </table>
+            </div>
+            <div class="col-sm-4">
+              <h4>Listing Views Wise</h4>
+              <table class="table leaderboard-table">
+              {{#Userlist}} 
+                <tr>
+                  <td>
+                    #{{serialNum}}
+                  </td>
+                  <td>
+                    <a href="/dashboard/{{UserId}}" target="_blank">
+                      {{User.UserProfile.name}}
+                    </a>
+                  </td>
+                  <td class="text-right">
+                    {{totalListings}}
+                  </td>
+                </tr>
+              {{/Userlist}}
+              </table> 
+            </div>
+          </div>
+        </div> <!-- /#leaderBoard -->
+        <div role="tabpanel" class="tab-pane" id="myListing">
+          <div class="main-pane" >
+            <ul class="nav nav-tabs text-center" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#myListing-enabledListings" aria-controls="enabledListings" breadcrumb="My Listings" role="tab" data-toggle="tab">My Listings</a>
+              </li>
+              <li role="presentation">
+                <a href="#myListing-disabledListings" aria-controls="disabledListings" breadcrumb="Not Available Items" role="tab" data-toggle="tab">Not Available Items</a>
+              </li>
+            </ul>
+            <!--<div class="clearfix">
+              <div class="sub-title my-listing-title" id="enabledListingsBtn" style="color: white;background: #e38c51">
+                <input type="hidden" name="hddn_enable" id="hddn_enable" value="{{enabledListings.length}}">
+                <a href="#" title="View All" id="view_all" style="display:none;" class="more2 pull-right">View All</a>My Listings
+              </div>
+              <div class="sub-title my-listing-title" id="disabledListingsBtn"><a href="#" title="View All" style="display:none;" class="more2 pull-right">View All</a>Not Available Items </div>
+            -->
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="myListing-enabledListings">
+
+                <div class="blank text-center" id="blank_error" style="display:none; margin-top: 40px;">
+                  No Item(s) available.<br />
+                  <a href="/listing/add" target="_blank" class="pure-link">Click Here to Add Listing</a>
+                </div>
+                <form name="disable_listing" id="disable_listing" method="post">
+                 <!-- <input type="hidden" name="listingIds" id="listingIds" value="">  -->
+                  <div class="prod-list mylisting">
+                  
+                    <ul class="clearfix">
+ 
+                      {{#enabledListings}}
+                        <li class="item">
+                          <div class="relative list-checkbox">
+                            <div class="absolute   check-prd">
+                              <input type="checkbox" class="check_box" name="enable_list[]" value="{{id}}">
+                            </div>
+                          </div>
+                          <a href="/listing/{{id}}/{{slug}}" title="{{title}}">
+                            {{#ListingImages.0}}
+                            <img alt="{{title}}" src="{{host}}{{imageName}}" />
+                            {{/ListingImages.0}}
+                            {{^ListingImages.length}}
+                            <img alt="{{title}}" src="/images/default.jpg" />
+                            {{/ListingImages.length}}
+                          </a>
+                          <div class="desc">
+                            <span id="edit_desclisting"><a class="desceditlisting" href="/listing/{{id}}/edit-listing">Edit</a></span>
+                            <h3><a href="/listing/{{id}}/{{slug}}" title="{{title}}">{{title}}</a></h3>
+                            {{#currentValue}}<h5 class="rupees">Rs.{{currentValue}}</h5>{{/currentValue}}
+                            <div class="loc">{{#locality}}{{locality}}, {{/locality}}{{City.name}}</div>
+                            <!-- <a onclick="return disableListing({{id}})"><span class="link">Disable</span></a> -->
+                            <!-- <div class="like-ikon">
+                              <svg class="icon-heart">
+                                <use xlink:href="#icon-heart"></use>
+                              </svg>
+                            </div> -->
+                          </div>
+
+                          {{#inBarterProcess}}
+
+                              <div class="featured {{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+
+                                <span class="featured-txt">
+                                  {{#bartered}}
+                                    Gone
+                                  {{/bartered}}
+
+                                  {{^bartered}}
+                                    {{#enabled}}
+                                      May Go Soon
+                                    {{/enabled}}
+                                    {{^enabled}}
+                                      {{#disabledByAdmin}}
+                                        Disabled By Admin
+                                      {{/disabledByAdmin}}
+                                      {{^disabledByAdmin}}
+                                        Disabled By User
+                                      {{/disabledByAdmin}}
+                                    {{/enabled}}
+                                    
+                                  {{/bartered}}
+                                </span>
+                              </div>
+
+                            {{/inBarterProcess}}
+                            {{^inBarterProcess}}
+                               
+                              {{^enabled}}
+                                <div class="featured {{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+                                  <span class="featured-txt">
+                                      {{#disabledByAdmin}}
+                                        Disabled By Admin
+                                      {{/disabledByAdmin}}
+                                      {{^disabledByAdmin}}
+                                        Disabled By User
+                                      {{/disabledByAdmin}}
+                                  </span>
+                                </div>      
+                              {{/enabled}}
+                              
+                            {{/inBarterProcess}}
+
+
+                        </li>
+                      {{/enabledListings}}
+                      {{^enabledListings}}
+                      <div class="empty_msg">
+                        <span>Not Available Items<br />
+                        <a href="/listing/add"  class="pure-link">Click Here to Add Listing</a></span>
+                      </div>
+                      {{/enabledListings}}
+                    </ul>
+                  </div>
+                  {{#enabledListings.length}}
+                  <div class="col-sm-5 add-disable"style="float: right;">
+                  <a href="/listing/add?returnTo=/barter/offerListing" class="btn-add-items btn btn-primary btn-lg col-sm-3 btn-capsule add-disables" style="float: left;" id="additem-listing" type="button" data-toggle="tooltip" data-placement="top" title="add items first to exchange">Add Items</a>
+                  <input type="button" id="disable_product" class="btn btn-sm btn-primary btn-capsule col-sm-4" style="float: right;" onclick="checkBoxStatus();" value="Disable Items!" data-toggle="tooltip" data-html="true" data-placement="top" title="At least one Check box must be selected." /> 
+                  </div>
+                  {{/enabledListings.length}}
+                </form>
+              </div>
+              
+              <div role="tabpanel" class="tab-pane" id="myListing-disabledListings">
+
+                {{#disabledListings.length}}
+                <!-- <form name="enable_listing" id="enable_listing" method="post" action="/user/enableListings">
+                <input type="hidden" name="hddnlistingId" id="hddnlistingId" value="">  -->
+                <div class="prod-list mylisting">
+                  <ul class="clearfix">
+                  
+
+                    {{#disabledListings}}
+
+                      <li class="item">
+                        <a href="/listing/{{id}}/{{slug}}" title="{{title}}">
+                          {{#ListingImages.0}}
+                          <img alt="{{title}}" src="{{host}}{{imageName}}" />
+                          {{/ListingImages.0}}
+                          {{^ListingImages.length}}
+                          <img alt="{{title}}" src="/images/default.jpg" />
+                          {{/ListingImages.length}}
+                        </a>
+                        <div class="desc">
+                          <h3><a href="/listing/{{id}}/{{slug}}" title="{{title}}">{{title}}</a></h3>
+                          {{#currentValue}}<h5 class="rupees">Rs.{{currentValue}}</h5>{{/currentValue}}
+                          <div class="loc">{{#locality}}{{locality}}, {{/locality}}{{City.name}}</div>
+                           <!-- <a onclick="return enableListing({{id}})"><span class="link">Enable</span></a>  -->
+                          <!-- <div class="like-ikon">
+                            <svg class="icon-heart">
+                            <use xlink:href="#icon-heart"></use>
+                            </svg>
+                          </div> -->
+                        </div>
+                            
+
+                        {{#inBarterProcess}}
+
+
+                          <div class="featured {{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+                            <span class="featured-txt">
+                              {{#bartered}}
+                                Gone
+                              {{/bartered}}
+
+                              {{^bartered}}
+                                {{#enabled}}
+                                  May Go Soon
+                                {{/enabled}}
+                                {{^enabled}}
+                                  {{#disabledByAdmin}}
+                                    Disabled By Admin
+                                  {{/disabledByAdmin}}
+                                  {{^disabledByAdmin}}
+                                    Disabled By User
+                                  {{/disabledByAdmin}}
+                                {{/enabled}}
+                                
+                              {{/bartered}}
+                            </span>
+                          </div>
+
+                        {{/inBarterProcess}}
+                        {{^inBarterProcess}}
+
+                          {{^enabled}}
+                            <div class="featured {{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+                              <span class="featured-txt">
+                                  {{#disabledByAdmin}}
+                                    Disabled By Admin
+                                  {{/disabledByAdmin}}
+                                  {{^disabledByAdmin}}
+                                    Disabled By User
+                                  {{/disabledByAdmin}}
+                              </span>
+                            </div>      
+                          {{/enabled}}
+
+                        {{/inBarterProcess}}
+
+                      </li>
+                    {{/disabledListings}}
+                    
+                    
+                  </ul>
+                </div>
+                <!-- </form> --> 
+              {{/disabledListings.length}}
+              {{^disabledListings.length}}
+                <div class="empty_msg">
+                   <span>Not Available Items</span>
+                  </div>
+              {{/disabledListings.length}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="myRequest">
+          <div class="main-pane">
+            <ul class="nav nav-tabs text-center" role="tablist">
+              <li role="presentation" class="dropdown active myrequest-mble-tabs">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Request Received<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li class="active">
+                    <a href="#myRequest-requestReceivedTab" tabindex="-1" aria-controls="requestReceivedTab" breadcrumb="Requests Received" role="tab" data-toggle="tab">Requests Received
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#myRequest-requestMadeTab" aria-controls="requestMadeTab" breadcrumb="Requests Made" role="tab" data-toggle="tab" tabindex="-1">Requests Made
+                    </a>
+                  </li>
+                  <li role="presentation">
+                    <a href="#myRequest-requestExchangedTab" aria-controls="requestExchangedTab" breadcrumb="Exchanged" role="tab" data-toggle="tab" tabindex="-1">Exchanged
+                    </a>
+                  </li>
+                  <li role="presentation">
+                    <a href="#myRequest-requestThrashedTab" aria-controls="requestThrashedTab" breadcrumb="Trashed" role="tab" data-toggle="tab" tabindex="-1">Trashed
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li role="presentation" class="active myrequest-tabs">
+                <a href="#myRequest-requestReceivedTab" aria-controls="requestReceivedTab" breadcrumb="Requests Received" role="tab" data-toggle="tab">Requests Received</a>
+              </li>
+              <li role="presentation" class="myrequest-tabs">
+                <a href="#myRequest-requestMadeTab" aria-controls="requestMadeTab" breadcrumb="Requests Made" role="tab" data-toggle="tab">Requests Made</a>
+              </li>
+              <li role="presentation" class="myrequest-tabs">
+                <a href="#myRequest-requestsuggestTab" aria-controls="requestsuggestTab" breadcrumb="Suggest" role="tab" data-toggle="tab">Suggested Match</a>
+              </li>
+              <li role="presentation" class="myrequest-tabs">
+                <a href="#myRequest-requestExchangedTab" aria-controls="requestExchangedTab" breadcrumb="Exchanged" role="tab" data-toggle="tab">Exchanged</a>
+              </li>
+              <li role="presentation" class="myrequest-tabs">
+                <a href="#myRequest-requestThrashedTab" aria-controls="requestThrashedTab" breadcrumb="Trashed" role="tab" data-toggle="tab">Trashed</a>
+              </li>
+              
+            </ul>
+              
+            <div class="tab-content">
+
+              <ul id="myRequest-requestReceivedTab" role="tabpanel" class="requestReceivedTab tab-pane active">
+                {{^barterReceived}}
+               
+                  <div class="empty_msg">
+                        <span>No New Request</span>
+                  </div>
+                  {{/barterReceived}}     
+              {{#barterReceived.length}}
+
+                {{#barterReceived}}
+                <li id="barter-request-{{id}}">
+                  <div class="clearfix thead">
+                    <div class="col-sm-5 col-md-4">
+                      <a href="/dashboard/{{User.UserProfile.UserId}}">{{User.UserProfile.name}}'s</a> Listing <svg class="icon icon-phone"><use xlink:href="#icon-phone"></use></svg>  {{offerCombo.Listings.0.contact}}
+                    </div>
+                    <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1">My Listing</div>
+                    <div class="hidden-sm hidden-xs col-md-3 text-center">Status</div>
+                  </div>
+                  {{#message}}
+                  <div class="col-sm-12 tooltip-details">
+                    <div class="tooltip-arrow"></div>
+                    {{message}}
+                  </div>
+                  {{/message}}
+                  <div class="clearfix tbody">
+                    <div class="barter-ikon-lg hidden-xs">
+                      <svg class="icon icon-barter2"><use xlink:href="#icon-barter2"></use></svg>
+                    </div>
+                    <div class="col-sm-5 col-md-4 desc user-listing">
+                      {{#offerCombo.Listings}}
+
+                        {{#disabledByAdmin}}
+                          <div class="clearfix prod disabled">
+                        {{/disabledByAdmin}}
+                        {{^disabledByAdmin}}
+                          <div class="clearfix prod">
+                        {{/disabledByAdmin}}
+                          <div class="item">
+
+                            {{^disabledByAdmin}}
+                              {{#inBarterProcess}}
+                                <div class="featured {{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+                                  {{^disabledByAdmin}}
+                                  {{/disabledByAdmin}}
+                                  <span class="featured-txt">
+                                    {{#bartered}}
+                                      Gone
+                                    {{/bartered}}
+
+                                    {{^bartered}}
+                                      {{#enabled}}
+                                        May Go Soon
+                                      {{/enabled}}
+                                      {{^enabled}}
+                                        {{#disabledByAdmin}}
+                                          Disabled By Admin
+                                        {{/disabledByAdmin}}
+                                        {{^disabledByAdmin}}
+                                          Disabled By User
+                                        {{/disabledByAdmin}}
+                                      {{/enabled}}
+                                    {{/bartered}}
+                                  </span>
+                                </div>
+                              {{/inBarterProcess}}
+                              {{^inBarterProcess}}
+
+                                 {{^enabled}}
+                                      <div class="featured {{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+                                        <span class="featured-txt">
+                                            {{#disabledByAdmin}}
+                                              Disabled By Admin
+                                            {{/disabledByAdmin}}
+                                            {{^disabledByAdmin}}
+                                              Disabled By User
+                                            {{/disabledByAdmin}}
+                                        </span>
+                                      </div>      
+                                  {{/enabled}}
+
+                              {{/inBarterProcess}}
+                            {{/disabledByAdmin}}
+
+
+                          </div>
+
+                          <div class="pull-left img-cont">
+                            {{#ListingImages.0}}
+                              <img src="{{host}}{{imageName}}" class="img-rounded"/>
+                            {{/ListingImages.0}}
+                            {{^ListingImages.length}}
+                              <img src="/images/default.jpg" class="img-rounded"/>
+                            {{/ListingImages.length}}
+                          </div>
+                          <h3>
+                            <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+                          </h3>
+                          <a href="#"><img src="/images/map-icon1.png"> {{#locality}}{{locality}}, {{/locality}}{{City.name}}</a>
+                        </div>
+                      {{/offerCombo.Listings}}
+
+                      {{#hasCash}}
+                      <span class="offer-price">
+                        <i class="fa fa-plus fa-1"></i>
+                        <span>Rs: {{ offerPrice }}</span>
+                      </span>
+                      {{/hasCash}}
+                      <div class="req-barter-icon visible-xs-block">
+                        <svg class="icon icon-barter2"><use xlink:href="#icon-barter2"></use></svg>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1 desc">
+                      {{#listingCombo.Listings}}
+                        {{#disabledByAdmin}}
+                          <div class="clearfix prod disabled">
+                        {{/disabledByAdmin}}
+                        {{^disabledByAdmin}}
+                          <div class="clearfix prod">
+                        {{/disabledByAdmin}}
+                          <div class="item">
+
+
+                            {{^disabledByAdmin}}
+                              {{#inBarterProcess}}
+                                <div class="featured {{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+                                  <span class="featured-txt">
+                                    {{#bartered}}
+                                      Gone
+                                    {{/bartered}}
+                                    {{^bartered}}
+                                      {{#enabled}}
+                                        May Go Soon
+                                      {{/enabled}}
+                                      {{^enabled}}
+                                        {{#disabledByAdmin}}
+                                          Disabled By Admin
+                                        {{/disabledByAdmin}}
+                                        {{^disabledByAdmin}}
+                                          Disabled By User
+                                        {{/disabledByAdmin}}
+                                      {{/enabled}}
+                                    {{/bartered}}
+                                  </span>
+                                </div>
+                              {{/inBarterProcess}}
+                              {{^inBarterProcess}}
+                                {{^enabled}}
+                                    <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                      <span class="featured-txt">
+                                        {{#disabledByAdmin}}
+                                          Disabled By Admin
+                                        {{/disabledByAdmin}}
+                                        {{^disabledByAdmin}}
+                                          Disabled By User
+                                        {{/disabledByAdmin}}
+                                      </span>
+                                    </div>      
+                                {{/enabled}}
+                              {{/inBarterProcess}}
+                            {{/disabledByAdmin}}
+
+                          </div>
+
+                          <div class="pull-left img-cont">
+                            {{#ListingImages.0}}
+                              <img src="{{host}}{{imageName}}" class="img-rounded"/>
+                            {{/ListingImages.0}}
+                            {{^ListingImages.length}}
+                              <img src="/images/default.jpg" class="img-rounded"/>
+                            {{/ListingImages.length}}
+                          </div>
+                          <h3>
+                            <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+                          </h3>
+                        </div>
+                      {{/listingCombo.Listings}}
+                    </div>
+                    <div class="col-sm-12 visible-sm-block visible-xs-block text-center status-bar">
+                      Status
+                    </div>
+                    <div class="col-sm-12 col-md-3 text-center">
+
+                      <!-- data for analytics -->
+                          {{#offerCombo.Listings}}
+                          <div class="offer listing-data hidden" data-listing-id="{{id}}">
+                          <ul class="categories-data">
+                            {{#Categories}}
+                            <li data-category-id="{{id}}" data-category-name="{{name}}" > </li>
+                            {{/Categories}}
+                          </ul>
+                          <span class="city-data" data-city="{{City.name}}"></span>
+                          <span class="locality-data" data-locality="{{locality}}"></span>
+                          </div>
+                          {{/offerCombo.Listings}}
+                      <!-- data for analytics -->
+
+
+                      <!-- data for analytics -->
+                          {{#listingCombo.Listings}}
+                          <div class="listing listing-data hidden" data-listing-id="{{id}}">
+                          <ul class="categories-data">
+                            {{#Categories}}
+                            <li data-category-id="{{id}}" data-category-name="{{name}}" > </li>
+                            {{/Categories}}
+                          </ul>
+                          <span class="city-data" data-city="{{City.name}}"></span>
+                          <span class="locality-data" data-locality="{{locality}}"></span>
+                          </div>
+                          {{/listingCombo.Listings}}
+                      <!-- data for analytics -->
+
+
+                      {{^accepted}}
+                        {{^rejected}}
+
+                          {{^listingCombo.active}}
+                            It seems you have exchanged all your items with some other offer
+                          {{/listingCombo.active}}
+
+                          {{^offerCombo.active}}
+                            It seems <a href="/dashboard/{{User.UserProfile.UserId}}">{{User.UserProfile.name}}</a> has Exchanged this item with some other user.
+                          {{/offerCombo.active}}
+
+                          {{#listingCombo.active}}
+                            {{#offerCombo.active}}
+
+                              <form name="accept-offer-form" method="post" action="/barter/acceptOffer">
+                                <input type="hidden" name="feedOffer" value="1">
+                                <input type="hidden" name="offerId" value="{{id}}">
+                                <button type="submit" class="btn-accept-offer ladda-button btn-primary  btn btn-capsule" data-style="zoom-out">Accept</button>
+                              </form>
+                              <form name="reject-offer-form" method="post" action="/barter/rejectOffer">
+                                <input type="hidden" name="feedOffer" value="1">
+                                <input type="hidden" name="offerId" value="{{id}}">
+                                <button type="submit" class="btn-reject-offer ladda-button btn-primary  btn btn-capsule" data-style="zoom-out">Reject</button>
+                              </form>
+
+                            {{/offerCombo.active}}
+                          {{/listingCombo.active}}
+
+
+                        {{/rejected}}
+                      {{/accepted}}
+
+                      {{#accepted}}
+
+                        {{^listingCombo.bartered}}
+                          
+                          {{#listingCombo.active}}
+                            {{#offerCombo.active}}
+                            Offer Accepted
+                             <!--  <h3>Is the Deal done?</h3>
+                              <form name="barter-offer-form" id="yes-barter-form{{id}}" method="post" action="/barter/barterOffer">
+                                <input type="hidden" name="offerId" value="{{id}}">
+                                <button type="button" onclick="return barter({{id}});" class="btn-ys-xchnged btn btn-capsule ladda-button" data-style="zoom-out">Yes! Exchanged.</button>
+                              </form>
+                              <form name="barter-offer-form" id="no-barter-form{{id}}" method="post" action="/barter/notBarterOffer">
+                                <input type="hidden" name="offerId" value="{{id}}">
+                                <button type="button" onclick="return notBarter({{id}});" class="btn-no-xchnged btn btn-capsule ladda-button" data-style="zoom-out">No! Didn't work out.</button>
+                              </form> -->
+                            {{/offerCombo.active}}
+
+                            {{^offerCombo.active}}
+                              {{#offerCombo.bartered}}
+                              Offer Accepted
+                                <!-- <h3>Is the Deal done?</h3>
+                                <form name="barter-offer-form" method="post" id="yes-barter-form{{id}}" action="/barter/barterOffer">
+                                  <input type="hidden" name="offerId" value="{{id}}">
+                                  <button type="button" onclick="return barter({{id}});" class="btn-ys-xchnged btn btn-capsule ladda-button" data-style="zoom-out">Yes! Exchanged</button>
+                                </form>
+                                <form name="barter-offer-form" method="post" id="no-barter-form{{id}}" action="/barter/notBarterOffer">
+                                  <input type="hidden" name="offerId" value="{{id}}">
+                                  <button type="button" onclick="return notBarter({{id}});" class="btn-no-xchnged btn btn-capsule ladda-button" data-style="zoom-out">No! Didn't work out.</button>
+                                </form> -->
+                              {{/offerCombo.bartered}}
+
+                              {{^offerCombo.bartered}}
+                                It seems <a href="/dashboard/{{User.UserProfile.UserId}}">{{User.UserProfile.name}}</a> has Exchanged this item with some other user.
+                              {{/offerCombo.bartered}}
+                            {{/offerCombo.active}}
+
+                          {{/listingCombo.active}}
+
+
+                          {{^listingCombo.active}}
+                            It seems you have exchanged all your items with some other offer
+                          {{/listingCombo.active}}
+
+                        {{/listingCombo.bartered}}
+
+                      {{/accepted}}
+
+
+                      {{#rejected}}
+                        <div class="status awaiting-response">Rejected!</div>
+                      {{/rejected}}
+                    </div>
+
+                    <div class="request-time">
+                      Request Received on {{time}}
+                    </div>
+
+                  </div>
+                </li>
+                {{/barterReceived}}
+              {{/barterReceived.length}}
+
+              <li>
+              {{# invitaionsReceived.length }}
+              <h3> Demand List Invitations Received </h3>
+              <table class="table" >
+                <thead>
+                  <tr>
+                    <th>From User</th>
+                    <th>Offers(s)</th>
+                    <th>Message </th>
+                    <th> Date </th>
+                  </tr>
+                </thead>
+                <tbody>
+              {{# invitaionsReceived }}
+              <tr>
+              <td>
+              <a href="/dashboard/{{senderId}}"> <h4>{{ sender.UserProfile.name }}</h4> </a>
+              </td>
+              <td>
+                <ul>
+                  {{# offeredListings }}
+                  <li>
+                    <a href="/listing/{{id}}/{{slug}}">{{ title }}</a>
+                  </li>
+                  {{/ offeredListings }}
+                </ul>
+              </td>
+              <td><p>{{ message }}</p></td>
+              <td>
+                {{ createdAt }}
+              </td>
+              </tr>
+              {{/ invitaionsReceived }}
+                </tbody>
+              </table>
+
+              {{/ invitaionsReceived.length }}
+              </li>
+              </ul>
+
+              <ul id="myRequest-requestMadeTab" role="tabpanel" class="requestMadeTab tab-pane">
+                  {{^barterSent}}
+               
+                    <div class="empty_msg">
+                        <span>No New Request</span>
+                    </div>
+                  {{/barterSent}}   
+                
+              {{#barterSent.length}}
+                <!-- barterSent  will give the data of the /profile/sendRequests Api -->
+                {{#barterSent}}
+                <li id="barter-request-{{id}}">
+                  <div class="clearfix thead">
+                    <div class="col-sm-5 col-md-4"><a href="/dashboard/{{listingCombo.Listings.0.User.UserProfile.UserId}}"> {{listingCombo.Listings.0.User.UserProfile.name}}'s </a> Listing <svg class="icon icon-phone"><use xlink:href="#icon-phone"></use></svg>  {{listingCombo.Listings.0.User.contact}}</div>
+                    <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1">My Listing</div>
+                    <div class="hidden-sm hidden-xs col-sm-12 col-md-3 text-center">Status</div>
+                  </div>
+                  {{#message}}
+                  <div class="col-sm-12 tooltip-details">
+                    <div class="tooltip-arrow request-sent-tip"></div>
+                    {{message}}
+                  </div>
+                  {{/message}}
+                  <div class="clearfix tbody">
+                    <div class="barter-ikon-lg hidden-xs">
+                      <svg class="icon icon-barter2"><use xlink:href="#icon-barter2"></use></svg>
+                    </div>
+                    <div class="col-sm-5 col-md-4 desc user-listing">
+                    <!-- this is the listingCombo of /profile/sendRequests Api -->
+                      {{#listingCombo.Listings}}
+                        
+                        {{#disabledByAdmin}}
+                          <div class="clearfix prod disabled">
+                        {{/disabledByAdmin}}
+                        {{^disabledByAdmin}}
+                          <div class="clearfix prod">
+                        {{/disabledByAdmin}}
+                          <div class="item">
+
+                      
+                            {{^disabledByAdmin}}
+                              {{#inBarterProcess}}
+                                <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                  <span class="featured-txt">
+                                    {{#bartered}}
+                                      Gone
+                                    {{/bartered}}
+
+
+                                      {{^bartered}}
+                                        {{#enabled}}
+                                          May Go Soon
+                                        {{/enabled}}
+                                        {{^enabled}}
+                                          {{#disabledByAdmin}}
+                                            Disabled By Admin
+                                          {{/disabledByAdmin}}
+                                          {{^disabledByAdmin}}
+                                            Disabled By User
+                                          {{/disabledByAdmin}}
+                                        {{/enabled}}
+                                        
+                                      {{/bartered}}
+                                    </span>
+                                </div>
+
+                              {{/inBarterProcess}}
+                              {{^inBarterProcess}}
+
+                                {{^enabled}}
+                                  <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                    <span class="featured-txt">
+                                        {{#disabledByAdmin}}
+                                          Disabled By Admin
+                                        {{/disabledByAdmin}}
+                                        {{^disabledByAdmin}}
+                                          Disabled By User
+                                        {{/disabledByAdmin}}
+                                    </span>
+                                  </div>
+                                {{/enabled}}
+
+                              {{/inBarterProcess}}
+                            {{/disabledByAdmin}}
+
+                          </div>
+
+                          <div class="pull-left img-cont">
+                          <!-- this are listingCombo images -->
+                            {{#ListingImages.0}}
+                              <img src="{{host}}{{imageName}}" class="img-rounded"/>
+                            {{/ListingImages.0}}
+                            {{^ListingImages.length}}
+                              <img src="/images/default.jpg" class="img-rounded"/>
+                            {{/ListingImages.length}}
+                          </div>
+                          <h3>
+                            <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+                          </h3>
+                          <a href="#"><img src="/images/map-icon1.png"> {{#locality}}{{locality}}, {{/locality}}{{City.name}}</a>
+                        </div>
+                      {{/listingCombo.Listings}}
+                      <div class="req-barter-icon visible-xs-block">
+                        <svg class="icon icon-barter2"><use xlink:href="#icon-barter2"></use></svg>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1 desc">
+                    <!-- this will give OfferCombo of /profile/sendRequests API -->
+                      {{#offerCombo.Listings}}
+                        {{#disabledByAdmin}}
+                          <div class="clearfix prod disabled">
+                        {{/disabledByAdmin}}
+                        {{^disabledByAdmin}}
+                          <div class="clearfix prod">
+                        {{/disabledByAdmin}}
+                          <div class="item">
+                          
+                          {{^disabledByAdmin}}
+                            {{#inBarterProcess}}
+
+                              <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                {{^disabledByAdmin}}
+                                {{/disabledByAdmin}}
+                                
+
+                                <span class="featured-txt">
+                                  {{#bartered}}
+                                    Gone
+                                  {{/bartered}}
+
+                                  {{^bartered}}
+                                    {{#enabled}}
+                                      May Go Soon
+                                    {{/enabled}}
+                                    {{^enabled}}
+                                      {{#disabledByAdmin}}
+                                        Disabled By Admin
+                                      {{/disabledByAdmin}}
+                                      {{^disabledByAdmin}}
+                                        Disabled By User
+                                      {{/disabledByAdmin}}
+                                    {{/enabled}}
+                                    
+                                  {{/bartered}}
+                                </span>
+                              </div>
+
+                            {{/inBarterProcess}}
+                            {{^inBarterProcess}}
+
+                              {{^enabled}}
+                                <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                  <span class="featured-txt">
+                                    {{#disabledByAdmin}}
+                                      Disabled By Admin
+                                    {{/disabledByAdmin}}
+                                    {{^disabledByAdmin}}
+                                      Disabled By User
+                                    {{/disabledByAdmin}}
+                                  </span>
+                                </div>      
+                              {{/enabled}}
+
+                            {{/inBarterProcess}}
+                          {{/disabledByAdmin}}
+                          </div>
+
+                          <div class="pull-left img-cont">
+                            {{#ListingImages.0}}
+                              <img src="{{host}}{{imageName}}" class="img-rounded"/>
+                            {{/ListingImages.0}}
+                            {{^ListingImages.length}}
+                              <img src="/images/default.jpg" class="img-rounded"/>
+                            {{/ListingImages.length}}
+                          </div>
+                          <h3>
+                            <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+                          </h3>
+                        </div>
+                      {{/offerCombo.Listings}}
+                      
+                    {{#hasCash}}
+                      <span class="offer-price">
+                        <i class="fa fa-plus fa-1"></i>
+                        <span>Rs: {{ offerPrice }}</span>
+                      </span>
+                      {{/hasCash}}
+                    </div>
+
+                    <div class="col-sm-12 visible-sm-block visible-xs-block text-center status-bar">
+                      Status
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-3 text-center">
+                    
+                      <!-- data for analytics -->
+                          {{#offerCombo.Listings}}
+                          <div class="offer listing-data hidden" data-listing-id="{{id}}">
+                          <ul class="categories-data">
+                            {{#Categories}}
+                            <li data-category-id="{{id}}" data-category-name="{{name}}" > </li>
+                            {{/Categories}}
+                          </ul>
+                          <span class="city-data" data-city="{{City.name}}"></span>
+                          <span class="locality-data" data-locality="{{locality}}"></span>
+                          </div>
+                          {{/offerCombo.Listings}}
+                      <!-- data for analytics -->
+
+
+                      <!-- data for analytics -->
+                          {{#listingCombo.Listings}}
+                          <div class="listing listing-data hidden" data-listing-id="{{id}}">
+                          <ul class="categories-data">
+                            {{#Categories}}
+                            <li data-category-id="{{id}}" data-category-name="{{name}}" > </li>
+                            {{/Categories}}
+                          </ul>
+                          <span class="city-data" data-city="{{City.name}}"></span>
+                          <span class="locality-data" data-locality="{{locality}}"></span>
+                          </div>
+                          {{/listingCombo.Listings}}
+                      <!-- data for analytics -->
+
+
+                      {{^accepted}}
+                        {{^rejected}}
+                        <!-- this will give the data the active field of listingCombo and OfferCombo -->
+                          {{#listingCombo.active}}
+                            {{#offerCombo.active}}
+                              <div class="status awaiting-response">Waiting for <a href="/dashboard/{{listingCombo.Listings.0.User.UserProfile.UserId}}">{{listingCombo.Listings.0.User.UserProfile.name}}'s</a> response!</div>
+                            {{/offerCombo.active}}
+
+                            {{^offerCombo.active}}
+                              It seems you have exchanged all your items with some other offer
+                            {{/offerCombo.active}}
+
+                          {{/listingCombo.active}}
+
+                          {{^listingCombo.active}}
+                            It seems <a href="/dashboard/{{listingCombo.Listings.0.User.UserProfile.UserId}}">{{listingCombo.Listings.0.User.UserProfile.name}}</a> has Exchanged this item with some other user.
+                          {{/listingCombo.active}}
+
+                        {{/rejected}}
+                      {{/accepted}}
+
+                      {{#accepted}}
+
+                        {{^offerCombo.bartered}}
+                          
+                          {{#offerCombo.active}}
+                            {{#listingCombo.active}}
+                            Offer Accepted
+                              <!-- <h3>Is the Deal done?</h3>
+                              <form name="barter-offer-form" id="yes-barter-form{{id}}" method="post" action="/barter/barterOffer">
+                                <input type="hidden" name="offerId" value="{{id}}">
+                                <button type="button" onclick="return barter({{id}});" class="btn-ys-xchnged btn btn-capsule ladda-button" data-style="zoom-out">Yes! Exchanged</button>
+                              </form>
+                              <form name="barter-offer-form" method="post" id="no-barter-form{{id}}" action="/barter/notBarterOffer">
+                                <input type="hidden" name="offerId" value="{{id}}">
+                                <button type="button" onclick="return notBarter({{id}});" class="btn-no-xchnged btn btn-capsule ladda-button" data-style="zoom-out">No! Didn't work out.</button>
+                              </form> -->
+                            {{/listingCombo.active}}
+
+                            {{^listingCombo.active}}
+                              {{#listingCombo.bartered}}
+                              Offer Accepted
+                               <!--  <h3>Is the Deal done?</h3>
+                                <form name="barter-offer-form" id="yes-barter-form{{id}}" method="post" action="/barter/barterOffer">
+                                  <input type="hidden" name="offerId" value="{{id}}">
+                                  <button type="button" onclick="return barter({{id}});" class="btn-ys-xchnged btn btn-capsule ladda-button" data-style="zoom-out">Yes! Exchanged</button>
+                                </form>
+                                <form name="barter-offer-form" id="no-barter-form{{id}}" method="post" action="/barter/notBarterOffer">
+                                  <input type="hidden" name="offerId" value="{{id}}">
+                                  <button type="button" onclick="return notBarter({{id}});" class="btn-no-xchnged btn btn-capsule ladda-button" data-style="zoom-out">No! Didn't work out.</button>
+                                </form> -->
+                              {{/listingCombo.bartered}}
+
+                              {{^listingCombo.bartered}}
+                                It seems <a href="/dashboard/{{listingCombo.Listings.0.User.UserProfile.UserId}}"> {{listingCombo.Listings.0.User.UserProfile.name}} </a> has Exchanged this item with some other user.
+                              {{/listingCombo.bartered}}
+                            {{/listingCombo.active}}
+
+                          {{/offerCombo.active}}
+
+
+                          {{^offerCombo.active}}
+                            It seems you have exchanged all your items with some other offer
+                          {{/offerCombo.active}}
+
+                        {{/offerCombo.bartered}}
+
+                      {{/accepted}}
+
+                      {{#rejected}}
+                        <div class="status awaiting-response">Rejected!</div>
+                      {{/rejected}}
+
+                    </div>
+
+                    <div class="request-time">
+                      Request Sent on {{time}}
+                    </div>
+
+                  </div>
+                </li>
+                {{/barterSent}}
+                
+              {{/barterSent.length}}
+
+              <li>
+              {{# InterestedItems.length }}
+              <h3> Demand List Invitations Sent </h3>
+              <table class="table" >
+                <thead>
+                  <tr>
+                    <th>To User</th>
+                    <th>My Offers(s)</th>
+                    <th>My Message </th>
+                    <th> Date </th>
+                  </tr>
+                </thead>
+                <tbody>
+              {{# InterestedItems }}
+              <tr>
+              <td>
+              <a href="/dashboard/{{receiverId}}"> <h4>{{ receiver.UserProfile.name }}</h4> </a>
+              </td>
+              <td>
+                <ul>
+                  {{# offeredListings }}
+                  <li>
+                    <a href="/listing/{{id}}/{{slug}}">{{ title }}</a>
+                  </li>
+                  {{/ offeredListings }}
+                </ul>
+              </td>
+              <td><p>{{ message }}</p></td>
+              <td>
+                {{ createdAt }}
+              </td>
+              </tr>
+              {{/ InterestedItems }}
+                </tbody>
+              </table>
+
+              {{/ InterestedItems.length }}
+              </li>
+
+
+              </ul>
+               <ul id="myRequest-requestsuggestTab" role="tabpanel" class="requestMadeTab tab-pane">
+                 <div id="main-pane" class="col-sm-9">
+                  <div class="content listing row">
+                    <div class="row list" id="grid-list">
+                        {{#systemMatches}}
+                        <article class="col-lg-12">
+                            <div id="{{id}}" list-id="{{id}}" class=" panel panel-default" list-title="{{title}}" list-img="{{#ListingImages.0}}{{smallUrl}}{{/ListingImages.0}}"
+                            {{#City}} list-city="{{name}}" {{/City}}>
+                                <div class="row">
+                                    <div class="col-sm-3 col-xs-4 slide-whith">
+                                        <div id="carousel-id" class="carousel slide main-slider" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                                {{#ListingImages}} {{#imageName}}
+                                                <div class="item ">
+                                                    {{#inBarterProcess}}
+                                                    <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                                        <span class="featured-txt">
+                                                        {{#bartered}}
+                                                        Gone
+                                                        {{/bartered}}
+                                                        {{^bartered}}
+                                                        {{^enabled}}
+                                                        {{#disabledByAdmin}}
+                                                        Disabled By Admin
+                                                        {{/disabledByAdmin}}
+                                                        {{^disabledByAdmin}}
+                                                        Disabled By User
+                                                        {{/disabledByAdmin}}
+                                                        {{/enabled}}
+                                                        {{/bartered}}
+                                                        </span>
+                                                    </div>
+                                                    {{/inBarterProcess}} {{^bartered}} {{#isMayGoSoon}}
+                                                    <div class="featured pink-back" id="may-go-featured">
+                                                        <span class="featured-txt" id="may-go-featuredtxt">
+                                                        May Go Soon
+                                                        </span>
+                                                    </div>
+                                                    {{/isMayGoSoon}} {{/bartered}}
+                                                    <!-- int baar procss  -->
+                                                    <!-- secondery item adds -->
+                                                    {{^inBarterProcess}} {{^enabled}}
+                                                    <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                                        <span class="featured-txt">
+                                                            {{#disabledByAdmin}}
+                                                            Disabled By Admin
+                                                            {{/disabledByAdmin}}
+                                                            {{^disabledByAdmin}}
+                                                            Disabled By User
+                                                            {{/disabledByAdmin}}
+                                                        </span>
+                                                    </div>
+                                                    {{/enabled}} {{/inBarterProcess}}
+                                                    <a href="/listing/{{id}}/{{slug}}" class="thumbnail" title="{{title}}">
+                                                        <img alt="{{title}}" src="{{smallUrl}}" height="150">
+                                                    </a>
+                                                </div>
+                                                {{/imageName}} {{/ListingImages}} {{^ListingImages.length}}
+                                                <div class="item">
+                                                    <a href="/listing/{{id}}/{{slug}}" class="thumbnail" title="{{title}}">
+                        {{^bartered}} {{#isMayGoSoon}}
+                        <div class="featured pink-back">
+                          <span class="featured-txt">
+                            May Go Soon
+                          </span>
+                        </div>
+                        {{/isMayGoSoon}} {{/bartered}}
+                        <img alt="{{title}}" src="/images/default.jpg" height="150">
+                      </a>
+                                                </div>
+                                                {{/ListingImages.length}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <section class="list-view">
+                                        <div class="col-xs-8 col-sm-9 col-md-9 col-lg-9" style="min-height:205px;">
+                                            <!-- secondery item ends -->
+                                            <div class="clearfix">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-5 col-sm-6 col-md-6 col-lg-6">
+                                                    {{#isPsudo}}
+                                                    <h2><a href="/listings?query={{title}}" title="{{title}}">{{title}}</a></h2> {{/isPsudo}} {{^isPsudo}}
+                                                    <h2><a href="/listing/{{id}}/{{slug}}" title="{{title}}">{{title}}</a></h2> {{/isPsudo}}
+                                                    <p class="desp">{{descSummary}}</p>
+                                                    {{#User.UserDesires.length}} Want in return: {{#User.UserDesires}}
+                                                    <span class="catbuttonBlack" name="category" type="cycle">{{name}}</span>                                                    {{/User.UserDesires}} {{/User.UserDesires.length}}
+                                                </div>
+                                                <div class="col-xs-7 col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="clearfix">
+                                                        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+                                                            {{#currentValue}}
+                                                            <h2 class="rupees">Rs.{{currentValue}}</h2>
+                                                            {{/currentValue}}
+                                                         </div>
+                                                        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                                                              
+                                                            <div id="circles">
+                                                                <table width="100%" class="table-combos">
+                                                                    <tr>
+                                                                        {{#numOfCombos}}
+                                                                        <td align="center">
+                                                                            <a href="/listing/{{id}}/{{slug}}#user-combos">
+                                                                                <b>{{numOfCombos}}</b> Combo
+                                                                            </a>
+                                                                        </td>
+                                                                        {{/numOfCombos}} {{#numOfListings}}
+                                                                        <td align="center">
+                                                                            <a href="/listing/{{id}}/{{slug}}#user-listings" data-toggle="tooltip" data-placement="top" title="" data-original-title="number of items listed by this user">
+                                                                                <b>{{numOfListings}}</b> Items
+                                                                            </a>
+                                                                        </td>
+                                                                        {{/numOfListings}}
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-8 col-sm-7 col-md-12 col-lg-12">
+                                                            <div>
+                                                              
+                                                            <p>
+                                                                <form name="barter-form" method="post" action="/barter/barterListing">
+                                                                    <input type="hidden" name="hddn-title" id="hddn-title" value="{{listing.title}}">
+                                                                    <input type="hidden" name="hddn-des" id="hddn-des" value="{{listing.description}}">
+                                                                    <input type="hidden" name="hddn-image" id="hddn-image" value="{{#listing.ListingImages.0}}{{host}}{{imageName}}{{/listing.ListingImages.0}}">
+                                                                    <button type="submit" data-style="zoom-out" class=" btn-i-want btn btn-primary btn-lg btn-flat btn-promo ladda-button " id="i-want-it" data-toggle="tooltip"
+                                                                    data-placement="top" title="" data-original-title="Click here to send exchange request">
+                                                                        I Want It
+                                                                        <small>(Click to see contact details)</small>
+                                                                    </button>
+                                                                    <input type="hidden" id="listing-id" value="{{listing.id}}">
+                                                                    <input type="hidden" id="product-userid" value="{{listing.UserId}}">
+                                                                    <input type="hidden" id="own-userid" value="{{#user}}{{id}}{{/user}}">
+                                                                    <input type="hidden" id="own-rate" value="{{#listing}}{{#User.own_rate}}{{User.own_rate}}{{/User.own_rate}}{{/listing}}">
+                                                                    <input type="hidden" name="listingIds" value="{{id}}">
+                                                                </form>
+                                                            </p>
+                                                            <div data-item-id="{{id}}" class="pull-left">
+                                                                    <a class="btn-chat-now " onclick="onListingClick({{id}})">
+                                                                        <img src="{{#isOnline}}/images/chat-now-blue.jpg{{/isOnline}}{{^isOnline}}/images/chat-now-offline.jpg{{/isOnline}} " alt="chat Now">
+                                                                    </a>
+                                                                </div>
+                                                                {{#User.missedcallVerified}}
+                                                                <div class="pull-left verifiedbtnBlock">
+                                                                    <i class="fa fa-check-circle fa-3"></i>
+                                                                    <span class="verifiedText">
+                                                                        Verified 
+                                                                   </span>
+                                                                </div>
+                                                                <div class="verifiction">
+                                                               <i class="fa fa-check-circle"></i><span>Verified</span>
+                                                            </div>
+                                                           
+                                                                {{/User.missedcallVerified}}
+                                                            </div>
+                                                           
+                                                            
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <p class="visible-xs visible-sm"></p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row row-down ">
+                                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                                    <small width="150px">{{listingTime}}</small> {{#Categories}}
+                                                    <a href="/listings?categoryIds={{id}}" title="{{name}}">
+                                                        <button class="catbutton" name="category" type="cycle">{{name}}</button>
+                                                    </a>
+                                                    {{/Categories}}
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <ul class="navlist pull-right relative">
+                                                        <li>
+                                                            <a href="#"><img src="/images/map-icon1.png"> {{#locality}}{{locality}},
+                                                                {{/locality}}{{City.name}}</a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="tooltip" data-placement="buttom" class="like-ikon wishlist-listing {{#isWishlisted}}selected{{/isWishlisted}}"
+                                                            href="/listing/wishlist/{{id}}">
+                                                                <svg class="icon-heart" style="margin-buttom:-10px;">
+                                                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-heart"></use>
+                                                                </svg>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:;" data-toggle="shareMail" data-placement="buttom" title="" data-original-title="Email this product to your multiple friends"
+                                                            onclick="setListIdValue({{id}});"><img src="/images/mail-icon.png"></a>
+                                                        </li>
+                                                        <li>
+                                                            <div class="dropdown">
+                                                                <a data-target="#" href="http://example.com" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                                    <img src="/images/share-icon.png">
+                                                                </a>
+                                                                <ul class="dropdown-menu social-share" aria-labelledby="dLabel">
+                                                                    <li><a class="facebook_link" href="#" data-listing-id="{{id}}"
+                                                                        data-title="{{title}}"><span class="fa fa-facebook "></span> Facebook</a></li>
+                                                                    <li><a class="twiter_link" href="#" data-listing-id="{{id}}"
+                                                                        data-title="{{title}}"><span class="fa fa-twitter "></span> Twitter</a></li>
+                                                                    <li><a class="google_link" href="#" data-listing-id="{{id}}"
+                                                                        data-title="{{title}}"><span class="fa fa-google-plus"></span> Google Plus</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                </section>
+                                <section class="grid-view">
+                                    <div class="clearfix">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <h2><a href="/listing/{{id}}/{{slug}}" title="{{title}}">{{title}}</a></h2>
+                                            <p class="desp">{{descSummary}}</p>
+                                            <!--                   <p> Listed By: <a href="/dashboard/{{UserId}}" class="listing-author">{{name}}</a></p>
+ -->
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <a href="#"><img src="/images/map-icon1.png"> {{#locality}}{{locality}}, {{/locality}}{{#City}}{{name}}{{/City}}</a>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <div data-item-id="{{id}}">
+                                                <a class="btn-chat-now " onclick="onListingClick({{id}})">
+                                                    <img src="{{#isOnline}}/images/chat-now-blue.jpg{{/isOnline}}{{^isOnline}}/images/chat-now-offline.jpg{{/isOnline}} " alt="chat Now">
+                                                </a>
+                                            </div>
+
+                                            {{#User.missedcallVerified}}
+                                            <div class="pull-left verifiedbtnBlock">
+                                              <i class="fa fa-check-circle fa-3"></i>
+                                              <span class="verifiedText">
+                                                Verified 
+                                              </span>
+                                            </div>
+                                            {{/User.missedcallVerified}}
+                                            <div class="clearfix">&nbsp;</div>
+                                        </div>
+                                    </div>
+                                    <div class="tags-cate">
+                                        <table width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        {{#Categories}}
+                                                        <a href="/listings?categoryIds={{id}}" title="{{name}}">
+                                                            <button class="catbutton" name="category" type="cycle">{{name}}</button>
+                                                        </a>
+                                                        {{/Categories}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="clearfix">
+                                    </div>
+                                    &nbsp;
+                                    <div class="text-center">
+                                        <form name="barter-form" method="post" action="/barter/barterListing">
+                                            <input type="hidden" name="hddn-title" id="hddn-title" value="{{listing.title}}">
+                                            <input type="hidden" name="hddn-des" id="hddn-des" value="{{listing.description}}">
+                                            <input type="hidden" name="hddn-image" id="hddn-image" value="{{#listing.ListingImages.0}}{{host}}{{imageName}}{{/listing.ListingImages.0}}">
+                                            <button type="submit" data-style="zoom-out" class=" btn-i-want btn btn-primary btn-lg btn-flat btn-promo " data-toggle="tooltip"
+                                            data-placement="top" title="" data-original-title="Click here to send exchange request">
+                                                I Want It
+                                                <small>(Click to see contact details)</small>
+                                            </button>
+                                            <input type="hidden" id="listing-id" value="{{listing.id}}">
+                                            <input type="hidden" id="product-userid" value="{{listing.UserId}}">
+                                            <input type="hidden" id="own-userid" value="{{#user}}{{id}}{{/user}}">
+                                            <input type="hidden" id="own-rate" value="{{#listing}}{{#User.own_rate}}{{User.own_rate}}{{/User.own_rate}}{{/listing}}">
+                                            <input type="hidden" name="listingIds" value="{{id}}">
+                                        </form>
+                                    </div>
+                                    &nbsp;
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <small>{{listingTime}}</small>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <ul class="navlist">
+                                                <li>
+                                                    <a href="listing/wishlist/{{id}}" class="like-ikon wishlist-listing {{#isWishlisted}}selected{{/isWishlisted}}">
+                                                        <svg class="icon-heart">
+                                                            <use xlink:href="#icon-heart"></use>
+                                                        </svg>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" data-toggle="shareMail" data-placement="buttom" title="" data-original-title="Email this product to your multiple friends"><img src="/images/mail-icon.png"></a>
+                                                </li>
+                                                <li>
+                                                    <div class="dropdown">
+                                                        <a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                            <img src="/images/share-icon.png">
+                                                        </a>
+                                                        <ul class="dropdown-menu social-share" aria-labelledby="dLabel">
+                                                            <div class="arrow"></div>
+                                                            <li>
+                                                                <a class="facebook_link" href="#" data-listing-id="{{id}}" data-title="{{title}}"><span class="fa fa-facebook "></span> Facebook</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="twiter_link" href="#" data-listing-id="{{id}}" data-title="{{title}}"><span class="fa fa-twitter "></span> Twitter</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="google_link" href="#" data-listing-id="{{id}}" data-title="{{title}}"><span class="fa fa-google-plus"></span> Google Plus</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <input type="hidden" name="hddn-title{{id}}" id="hddn-title{{id}}" value="{{title}}">
+                            <input type="hidden" name="hddn-des{{id}}" id="hddn-des{{id}}" value="{{descSummary}}">
+                            <input type="hidden" name="hddn-image{{id}}" id="hddn-image{{id}}" value="{{#ListingImages.0}}{{host}}{{imageName}}{{/ListingImages.0}}"> {{#prodView2}} {{/prodView2}}
+                        </article>
+                        {{/systemMatches}}
+                    </div>
+                </div>
+              </div> 
+               </ul>
+              <ul id="myRequest-requestExchangedTab" role="tabpanel" class="requestExchangedTab tab-pane">
+              {{#barterHistory.length}}
+                {{#barterHistory}}
+                <li id="barter-request-{{id}}">
+                  <div class="clearfix thead">
+                    <div class="col-sm-5 col-md-4">
+                     <a href="/dashboard/{{user.UserProfile.UserId}}"> {{user.UserProfile.name}}'s </a> Listing 
+                      <svg class="icon icon-phone">
+                        <use xlink:href="#icon-phone"></use>
+                      </svg> {{listingCombo.Listings.0.User.contact}}</div>
+                    <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1">My Listing</div>
+                    <div class="hidden-xs hidden-sm col-sm-12 col-md-3 text-center">Status</div>
+                  </div>
+                  {{#message}}
+                    <div class="col-sm-12 tooltip-details">
+                    <div class="tooltip-arrow request-sent-tip"></div>
+                    {{message}}
+                  </div>
+                  {{/message}}
+                  <div class="clearfix tbody">
+                    <div class="barter-ikon-lg hidden-xs">
+                      <svg class="icon icon-barter2"><use xlink:href="#icon-barter2"></use></svg>
+                    </div>
+                    <div class="col-sm-5 col-md-4 desc user-listing">
+                      {{#otherCombo.Listings}}
+                        {{#disabledByAdmin}}
+                          <div class="clearfix prod disabled">
+                        {{/disabledByAdmin}}
+                        {{^disabledByAdmin}}
+                          <div class="clearfix prod">
+                        {{/disabledByAdmin}}
+                          <div class="item">
+
+                           {{^disabledByAdmin}}
+                            {{#inBarterProcess}}
+                              <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+
+                                <span class="featured-txt">
+                                  {{#bartered}}
+                                    Gone
+                                  {{/bartered}}
+
+                                  {{^bartered}}
+                                    {{#enabled}}
+                                      May Go Soon
+                                    {{/enabled}}
+                                    {{^enabled}}
+                                      {{#disabledByAdmin}}
+                                        Disabled By Admin
+                                      {{/disabledByAdmin}}
+                                      {{^disabledByAdmin}}
+                                        Disabled By User
+                                      {{/disabledByAdmin}}
+                                    {{/enabled}}
+                                    
+                                  {{/bartered}}
+                                </span>
+                              </div>
+
+                            {{/inBarterProcess}}
+                            {{^inBarterProcess}}
+                              {{^enabled}}
+                               <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                <span class="featured-txt">
+                                  {{#disabledByAdmin}}
+                                    Disabled By Admin
+                                  {{/disabledByAdmin}}
+                                  {{^disabledByAdmin}}
+                                    Disabled By User
+                                  {{/disabledByAdmin}}
+                                </span>
+                              </div>
+                              {{/enabled}}
+                            {{/inBarterProcess}}
+                          {{/disabledByAdmin}}
+                          </div>
+
+                          <div class="pull-left img-cont">
+                            {{#ListingImages.0}}
+                              <img src="{{host}}{{imageName}}" class="img-rounded"/>
+                            {{/ListingImages.0}}
+                            {{^ListingImages.length}}
+                              <img src="/images/default.jpg" class="img-rounded"/>
+                            {{/ListingImages.length}}
+                          </div>
+                          <h3>
+                            {{#bartered}}
+                                  <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="grey-text">{{title}}</a>
+                              {{/bartered}}
+
+                              {{^bartered}}
+                                  <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+                              {{/bartered}}
+                          </h3>
+                        </div>
+                      {{/otherCombo.Listings}}
+                      
+                      {{#hasCash}}
+                      <span class="offer-price">
+                        <i class="fa fa-plus fa-1"></i>
+                        <span>Rs: {{ offerPrice }}</span>
+                      </span>
+                      {{/hasCash}}
+                      <div class="req-barter-icon visible-xs-block">
+                        <svg class="icon icon-barter2"><use xlink:href="#icon-barter2"></use></svg>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1 desc">
+                      {{#myCombo.Listings}}
+                        {{#disabledByAdmin}}
+                          <div class="clearfix prod disabled">
+                        {{/disabledByAdmin}}
+                        {{^disabledByAdmin}}
+                          <div class="clearfix prod">
+                        {{/disabledByAdmin}}
+                          <div class="item">
+                        {{^disabledByAdmin}}
+                          {{#inBarterProcess}}
+                            <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                              <span class="featured-txt">
+                                {{#bartered}}
+                                  Gone
+                                {{/bartered}}
+
+                                {{^bartered}}
+                                  {{#enabled}}
+                                    May Go Soon
+                                  {{/enabled}}
+                                  {{^enabled}}
+                                    {{#disabledByAdmin}}
+                                      Disabled By Admin
+                                    {{/disabledByAdmin}}
+                                    {{^disabledByAdmin}}
+                                      Disabled By User
+                                    {{/disabledByAdmin}}
+                                  {{/enabled}}
+                                  
+                                {{/bartered}}
+                              </span>
+                            </div>
+
+                            {{/inBarterProcess}}
+                            {{^inBarterProcess}}
+                              {{^enabled}}
+                              <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                  <span class="featured-txt">
+                                        {{#disabledByAdmin}}
+                                          Disabled By Admin
+                                        {{/disabledByAdmin}}
+                                        {{^disabledByAdmin}}
+                                          Disabled By User
+                                        {{/disabledByAdmin}}
+                                  </span>
+                              </div>
+                              {{/enabled}}
+                            {{/inBarterProcess}}
+                          {{/disabledByAdmin}}  
+                          </div>
+
+                          <div class="pull-left img-cont">
+                            {{#ListingImages.0}}
+                              <img src="{{host}}{{imageName}}" class="img-rounded"/>
+                            {{/ListingImages.0}}
+                            {{^ListingImages.length}}
+                              <img src="/images/default.jpg" class="img-rounded"/>
+                            {{/ListingImages.length}}
+                          </div>
+                          <h3>
+                            {{#bartered}}
+                                <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="grey-text">{{title}}</a>
+                            {{/bartered}}
+
+                            {{^bartered}}
+                                <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+                            {{/bartered}}
+                          </h3>
+                        </div>
+                      {{/myCombo.Listings}}
+                    </div>
+
+                    <div class="col-sm-12 visible-sm-block visible-xs-block text-center status-bar">
+                      Status
+                    </div>
+
+                    <div class="col-sm-12 col-md-3 text-center">
+                
+                      Successfully Exchanged
+                
+                    </div>
+
+                    <div class="request-time">
+                      Items Exchanged on {{time}}
+                    </div>
+                    
+                  </div>
+                </li>
+                {{/barterHistory}}
+                
+              {{/barterHistory.length}}
+              {{^barterHistory}}
+                <div class="empty_msg">
+                  <span>No New Request</span>
+                </div>
+              {{/barterHistory}}
+              </ul>
+                <!-- Thrash Deals START -->
+
+              <ul id="myRequest-requestThrashedTab" role="tabpanel" class="requestThrashedTab tab-pane">
+               {{^thrashHistory}}
+                  <div class="empty_msg">
+                    <span>No New Request</span>
+                  </div>
+                {{/thrashHistory}}
+              {{#thrashHistory.length}}
+
+                {{#thrashHistory}}
+                <li id="barter-request-{{id}}">
+                  <div class="clearfix thead">
+                    <div class="col-sm-5 col-md-4"><a href="/dashboard/{{user.UserProfile.UserId}}"> {{user.UserProfile.name}}'s</a> Listing <svg class="icon icon-phone"><use xlink:href="#icon-phone"></use></svg>  {{listingCombo.Listings.0.User.contact}}</div>
+                    <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1">My Listing</div>
+                    <div class="hidden-xs hidden-sm col-sm-12 col-md-3 text-center">Status</div>
+                  </div>
+                  {{#message}}
+                  <div class="col-sm-12 tooltip-details">
+                    <div class="tooltip-arrow request-sent-tip"></div>
+                    {{message}}
+                  </div>
+                  {{/message}}
+                  <div class="clearfix tbody">
+                    <div class="barter-ikon-lg hidden-xs thrash">
+                      <svg class="icon icon-barter2">
+                        <use xlink:href="#icon-barter2"></use>
+                      </svg>
+                    </div>
+                    <div class="col-sm-5 col-md-4 desc user-listing">
+                      {{#otherCombo.Listings}}
+                        {{#disabledByAdmin}}
+                          <div class="clearfix prod disabled">
+                        {{/disabledByAdmin}}
+                        {{^disabledByAdmin}}
+                          <div class="clearfix prod">
+                        {{/disabledByAdmin}}
+                          <div class="item">
+                          {{^disabledByAdmin}}
+                            {{#inBarterProcess}}
+                              <div class="featured {{#bartered}}red-back{{/bartered}} {{^bartered}}pink-back{{/bartered}}">
+                                <span class="featured-txt">
+                                  {{#bartered}}
+                                    Gone
+                                  {{/bartered}}
+                                  {{^bartered}}
+                                    {{#enabled}}
+                                      May Go Soon
+                                    {{/enabled}}
+                                    {{^enabled}}
+                                      {{#disabledByAdmin}}
+                                        Disabled By Admin
+                                      {{/disabledByAdmin}}
+                                      {{^disabledByAdmin}}
+                                        Disabled By User
+                                      {{/disabledByAdmin}}
+                                    {{/enabled}}
+                                  {{/bartered}}
+                                </span>
+                              </div>
+                            {{/inBarterProcess}}
+                            {{^inBarterProcess}}
+                              {{^enabled}}
+                              <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                  <span class="featured-txt">
+                                    {{^enabled}}
+                                      {{#disabledByAdmin}}
+                                        Disabled By Admin
+                                      {{/disabledByAdmin}}
+                                      {{^disabledByAdmin}}
+                                        Disabled By User
+                                      {{/disabledByAdmin}}
+                                    {{/enabled}}
+                                  </span>
+                              </div>
+                              {{/enabled}}
+                            {{/inBarterProcess}}
+                          {{/disabledByAdmin}}
+                          </div>
+
+                          <div class="pull-left img-cont">
+                            {{#ListingImages.0}}
+                              <img src="{{host}}{{imageName}}" class="img-rounded"/>
+                            {{/ListingImages.0}}
+                            {{^ListingImages.length}}
+                              <img src="/images/default.jpg" class="img-rounded"/>
+                            {{/ListingImages.length}}
+                          </div>
+
+                          <h3>
+                            {{#bartered}}
+                              <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="grey-text">{{title}}</a>
+                            {{/bartered}}
+                            {{^bartered}}
+                              <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+                            {{/bartered}}
+                          </h3>
+                        </div>
+                      {{/otherCombo.Listings}}
+                      
+                      {{#hasCash}}
+                      <span class="offer-price">
+                        <i class="fa fa-plus fa-1"></i>
+                        <span>Rs: {{ offerPrice }}</span>
+                      </span>
+                      {{/hasCash}}
+                      <div class="req-barter-icon visible-xs-block">
+                        <svg class="icon icon-barter2"><use xlink:href="#icon-barter2"></use></svg>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1 desc">
+                      {{#myCombo.Listings}}
+                        {{#disabledByAdmin}}
+                          <div class="clearfix prod disabled">
+                        {{/disabledByAdmin}}
+                        {{^disabledByAdmin}}
+                          <div class="clearfix prod">
+                        {{/disabledByAdmin}}
+                          <div class="item">
+                         
+                          {{^disabledByAdmin}}
+                            {{#inBarterProcess}}
+                              <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                <span class="featured-txt">
+                                  {{#bartered}}
+                                    Gone
+                                  {{/bartered}}
+                                  {{^bartered}}
+                                    {{#enabled}}
+                                      May Go Soon
+                                    {{/enabled}}
+                                    {{^enabled}}
+                                      {{#disabledByAdmin}}
+                                        Disabled By Admin
+                                      {{/disabledByAdmin}}
+                                      {{^disabledByAdmin}}
+                                        Disabled By User
+                                      {{/disabledByAdmin}}
+                                    {{/enabled}}
+                                  {{/bartered}}
+                                </span>
+                              </div>
+                            {{/inBarterProcess}}
+                            {{^inBarterProcess}}
+                              {{^enabled}}
+                                <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                                  <span class="featured-txt">
+                                    {{#disabledByAdmin}}
+                                      Disabled By Admin
+                                    {{/disabledByAdmin}}
+                                    {{^disabledByAdmin}}
+                                      Disabled By User
+                                    {{/disabledByAdmin}}
+                                  </span>
+                                </div>
+                              {{/enabled}}
+                            {{/inBarterProcess}}
+                          {{/disabledByAdmin}}
+                          </div>
+
+                          <div class="pull-left img-cont">
+                            {{#ListingImages.0}}
+                              <img src="{{host}}{{imageName}}" class="img-rounded"/>
+                            {{/ListingImages.0}}
+                            {{^ListingImages.length}}
+                              <img src="/images/default.jpg" class="img-rounded"/>
+                            {{/ListingImages.length}}
+                          </div>
+                          <h3>
+                            {{#bartered}}
+                              <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="grey-text">{{title}}</a>
+                            {{/bartered}}
+                            {{^bartered}}
+                              <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+                            {{/bartered}}
+                          </h3>
+                        </div>
+                      {{/myCombo.Listings}}
+                    </div>
+
+                    <div class="col-sm-12 visible-sm-block visible-xs-block text-center status-bar">
+                      Status
+                    </div>
+
+                    <div class="col-sm-12 col-md-3 text-center">
+                      
+                      {{#myCombo}}
+
+                        {{#thrashed}}
+                          Exchange Unsuccessful
+                        {{/thrashed}}
+
+                        {{^thrashed}}
+
+                          {{#rejected}}
+                            Rejected
+                          {{/rejected}}
+
+                          {{^rejected}}
+
+                            {{#disabledByAdmin}}
+                              Item(s) disabled by Admin
+                            {{/disabledByAdmin}}
+
+                            {{^disabledByAdmin}}
+
+                              {{#disabled}}
+                                Item(s) disabled
+                              {{/disabled}}
+
+                              {{^disabled}}
+
+                                <!-- {{#active}}
+
+                                  {{^otherCombo.active}}
+
+                                    It seems {{otherCombo.Listings.0.User.UserProfile.name}} has disabled or exchanged all the items with some other user.
+                                  {{/otherCombo.active}}
+                                
+                                {{/active}}
+
+                                {{^active}}
+                                  It seems you have disabled or exchanged all your items with some other user.
+                                {{/active}} -->
+                                {{#partial}}
+                                  One or more Item(s) has been disabled
+                                {{/partial}}
+
+                                {{^partial}}
+                                  Item(s) Exchanged with some other user
+                                {{/partial}}
+                                
+                              {{/disabled}}
+
+                            {{/disabledByAdmin}}
+
+
+                          {{/rejected}}
+
+                        {{/thrashed}}
+
+                      {{/myCombo}}
+
+                    </div>
+
+                    <div class="request-time">
+                      Request Trashed on {{time}}
+                    </div>
+
+                  </div>
+                </li>
+                {{/thrashHistory}}
+               
+              {{/thrashHistory.length}}
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      
+
+        <div role="tabpanel" class="tab-pane" id="myConnections">
+          <div class="row">
+            <div class="col-sm-12">
+              <ul class="nav nav-tabs text-center" role="tablist">
+                <li role="presentation" class="dropdown active myconnection-mble-tabs">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Friends<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li class="active">
+                      <a href="#myConnections-friends" aria-controls="friends" role="tab" data-toggle="tab">Friends</a>
+                    </li>
+                    <li>
+                      <a href="#myConnections-acquaintances" aria-controls="acquaintances" role="tab" data-toggle="tab">Acquaintances
+                      </a>
+                    </li>
+                    <li role="presentation">
+                      <a href="#follow-request" aria-controls="follow-request" role="tab" data-toggle="tab">Follow pending request
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li role="presentation" class="active myconnection-tabs">
+                  <a href="#myConnections-friends" aria-controls="friends" role="tab" data-toggle="tab">Friends</a>
+                </li>
+                <li role="presentation" class="myconnection-tabs">
+                  <a href="#myConnections-acquaintances" aria-controls="acquaintances" role="tab" data-toggle="tab">Acquaintances
+                  </a>
+                </li>
+                <li role="presentation" class="myconnection-tabs">
+                  <a href="#follow-request" aria-controls="follow-request" role="tab" data-toggle="tab">Follow pending request
+                  </a>
+                </li>
+                
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="myConnections-friends">
+                  <ul class="friends-list">
+                  {{#connectionFilter.0}}
+                    <li class="friend-detail">
+                      <a href="/dashboard/{{asConnection.UserProfile.UserId}}"> 
+                        {{^asConnection.UserProfile.profilePic}}
+                          <img src="/images/profilepic.jpg" alt="Profile Image" />
+                        {{/asConnection.UserProfile.profilePic}}
+                        {{#asConnection.UserProfile.profilePic}}
+                          <img src="/uploads/{{asConnection.UserProfile.profilePic}}" alt="Profile Image" />
+                        {{/asConnection.UserProfile.profilePic}} 
+                      </a>
+                      <p>
+                        <a href="/dashboard/{{asConnection.UserProfile.UserId}}" title="{{asConnection.UserProfile.name}}"> {{asConnection.UserProfile.trimName}} </a>
+                      </p>
+                    </li>
+                  {{/connectionFilter.0}}  
+                  
+                  {{^connectionFilter.0}}
+                  <div class="empty_msg">
+        <span>Friends are not found</span>
+        </div>
+                  {{/connectionFilter.0}} 
+                  </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="myConnections-acquaintances">
+                  <ul class="friends-list">
+                    {{#connectionFilter.1}}
+                      <li class="friend-detail">
+                      <a href="/dashboard/{{asConnection.UserProfile.UserId}}"> 
+                      {{^asConnection.UserProfile.profilePic}}
+                      <img src="/images/profilepic.jpg" alt="Profile Image" />
+                      {{/asConnection.UserProfile.profilePic}}
+                      {{#asConnection.UserProfile.profilePic}}
+                        <img src="/uploads/{{asConnection.UserProfile.profilePic}}" alt="Profile Image" />
+                      {{/asConnection.UserProfile.profilePic}} 
+                      </a>
+                        <p><a href="/dashboard/{{asConnection.UserProfile.UserId}}" title="{{asConnection.UserProfile.name}}"> {{asConnection.UserProfile.trimName}} </a> </p>
+                      </li>
+                    {{/connectionFilter.1}}  
+                    {{^connectionFilter.1}}
+                    <div class="empty_msg">
+  <span>Friend acquaintances not found.</span>
+  </div>
+                    {{/connectionFilter.1}}
+                  </ul>
+                </div>
+                <div id="follow-request" role="tabpanel" class="tab-pane">
+                  <ul class="friend-list">
+                  {{#pendingReq}}
+                    {{#fromUser}}
+                    <li>
+                      <div class="display-block">
+                        {{#UserProfile}}
+                        <a href="/dashboard/{{UserId}}">
+                          {{#profilePic}}
+                          <img src="/uploads/{{profilePic}}" alt="Name" />
+                          {{/profilePic}}
+                          {{^profilePic}}
+                          <img src="/images/profilepic.jpg" alt="Name" />
+                          {{/profilePic}}
+                        </a>  
+                        {{/UserProfile}}
+                      </div>
+                      <div class="display-block">
+                        <span><a href="/dashboard/{{id}}"> {{#UserProfile}} {{name}} {{/UserProfile}}</a></span>
+                      </div>
+                      <input type="button" class="btn-accept-offer btn btn-primary" value="Accept" onclick="followAction(this,'accept',{{id}})">
+                      <input type="button" class="btn-reject-offer btn btn-grey cancel-edit-info-btn" value="Reject" onclick="followAction(this,'reject',{{id}})">
+                    </li>
+                    
+                    {{/fromUser}}
+                   {{/pendingReq}}
+                    {{^pendingReq}}
+                      <div class="empty_msg">
+                        <span>Pending request are not found.</span>
+                      </div>
+                    {{/pendingReq}}
+
+
+                  </ul>
+                </div>
+              </div> 
+            </div>
+          </div>
+        </div> <!-- /#myConnections -->
+
+        <div  role="tabpanel" class="tab-pane" id="changePassword">
+          <form action="/user/changePassword" name="changepwd" id="changePasswordForm" method="post" class="form-horizontal">
+            <input type="hidden" name='selectedProfile' value='changepwd' >
+            <div class="clearfix">
+              <div class="col-sm-6">
+                <div class="error-wrap change-password-error">
+                    <div class="alert alert-warning my-error" role="alert"></div>
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Enter Old Password" name="oldPassword" id="OldPwd">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Enter New Password" name="newPassword1" id="NewPwd">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Re-Enter New Password" name="newPassword2" id="RenewPwd">
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary btn-capsule" type="submit">Update</button>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+        
+      </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- wrong password pop -up -->
+<div class="popup modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/vendor/easypiechart.js"></script>
+<script src="/js/public-dashboard.js?v=10032015"></script>
+
+<script type="text/javascript">
+
+
+  $(document).ready(function(){
+      /* For Analytics */
+      var getDataForAnalytics = function(evnt){
+      var container = evnt.target.parentElement.parentElement;
+      var dataDivElem = $(container).find('.offer.listing-data');
+      window.ga_offerCities = getCityForAnalytics( dataDivElem );
+      window.ga_offerCategories = getCategoriesForAnalytics( dataDivElem );
+      };
+      $('.btn-accept-offer').click( getDataForAnalytics );
+      $('.btn-reject-offer').click( getDataForAnalytics );
+      $('.btn-ys-xchnged').click( getDataForAnalytics );
+      $('.btn-no-xchnged').click( getDataForAnalytics );
+      /* For Analytics */
+
+    $('.not-allowed').on('click',function() {
+      $.each($(".not-logIn span"), function( index, value ) {
+        $(this).removeClass("filled");
+        $(this).removeClass("permanent-filled");
+      });
+      $('.alert-popup-text').text('You must be connected with that user to rate.');
+      $('#alert-container-popup').modal('show');
+      //alert('You must be connected with that user to rate.');
+    });
+
+    $('.not-logIn').on('click',function() {
+      $.each($(".not-logIn span"), function( index, value ) {
+        $(this).removeClass("filled");
+        $(this).removeClass("permanent-filled");
+      });
+      $('#popupSignIn').modal('show');
+    });
+
+    $( ".rating-star span" ).mouseenter(function() {
+      var star_index = $(".rating-star span").index(this);
+      $.each($(".rating-star span"), function( index, value ) {
+        star_index >= index ? $(this).addClass("filled") : $(this).removeClass("filled");
+      });
+    }).mouseleave(function() {
+      $.each($(".rating-star span"), function( index, value ) {
+        $(this).removeClass("filled");
+      });
+    });
+
+    $( ".rating-star.allow span" ).on('click',function() {
+      var star_index = $(".rating-star span").index(this);
+      $.each($(".rating-star span"), function( index, value ) {
+        if(star_index >= index)
+          $(this).addClass("permanent-filled");
+        else
+          $(this).removeClass("permanent-filled");
+      });
+      var userId = $('#product-userid').val();
+      var authId = $('#own-userid').val();
+      var rate = star_index+1;
+      //Save Rating using Ajax
+      $.ajax({
+        type: 'POST',
+        url: '/user/saveRating',
+        data: { userId:userId, authId:authId, rate:rate },
+        dataType: "json",
+        success: function(data) {
+           $('.avg-rate').text(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          $('.alert-popup-text').text('error ' + textStatus + " " + errorThrown);
+          $('#alert-container-popup').modal('show');
+            //alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    }); 
+    $('#confirm-alert #conf-alert-no').on('click',function(){
+      $('#confirm-alert').modal('hide');
+    })
+    $('.remove-hobby').click(function() {
+      $('#confirm-alert .popup-text').text("Are You sure you want to remove");
+      $('#confirm-alert').modal('show');
+      //var confirm = confirm("Are You sure you want to delete");
+
+   //   if(confirm("Are You sure you want to delete")){
+        var Obj = $(this);
+        var removeId =  Obj.attr('id');
+        var url = '/removeHobby';
+        var send_pack ="hobbyID="+removeId;
+        $('#confirm-alert #conf-alert-ok').off('click').on('click',function(){
+          $.post(url, send_pack,function(response){
+              if(response.success){
+                $('#confirm-alert').modal('hide');
+                Obj.closest('li').hide('slow').remove();
+              }
+            })
+
+      })
+      // }
+    });
+
+    var own_rate = $('#own-rate').val();
+    $.each($(".rating-star span"), function(index, value) {
+      own_rate > index ? $(this).addClass("permanent-filled") : $(this).removeClass("permanent-filled");
+    });
+
+  });
+
+
+  function followAction(cObj, stream,actionAgaist){
+    var cObj = $(cObj);
+    if (stream == 'accept'){
+      var url = '/followReqAccept';
+    } else if (stream == 'reject'){
+      var url = '/followReqReject';
+    } else {
+      $('.alert-popup-text').text('Something wrong.');
+      $('#alert-container-popup').modal('show');
+      //alert('something wrong');
+      return false;
+    }
+
+    if(actionAgaist){
+      var send_pack ="acceptedReq="+ actionAgaist;
+       $.post(url, send_pack,function(response){
+          if(response.success){
+            cObj.closest('li').hide('slow');
+          }else{
+            
+          }
+      })
+    }
+  }
+  
+  function notBarter(id) {
+    /*if (!confirm("Your listing will be active for all other users after this.\n\nAre you sure you want to active these Item(s).")){
+        return false;
+      }
+      return true;*/
+    $('.popup-text').text("Are you sure your exchange didn't work out.");
+    $('#pass-alert').modal('show');
+
+    $('#alert-ok').on('click', function() {
+      // $('#yes-barter-form').attr('action','/user/disableListings');
+      $('#no-barter-form' + id).submit();
+
+    });
+    $('#alert-no').on('click', function() {
+      $('#pass-alert').modal('hide');
+    });
+
+    return false;
+  }
+
+  function barter(id) {
+    /* if (!confirm("Other users will not be able to see your listing after this.\n\nAre you sure you have Exchanged the Item(s).")){
+      return false;
+    }
+    // $(document["barter-offer-form"]).attr('action','/barter/barterOffer');
+    return true;
+  */
+    $('.popup-text').text('Other users will not be able to see your listing after this.\n\nAre you sure you have Exchanged the Item(s).');
+    $('#pass-alert').modal('show');
+
+    $('#alert-ok').on('click', function() {
+      // $('#yes-barter-form').attr('action','/user/disableListings');
+      $('#yes-barter-form' + id).submit();
+
+    });
+    $('#alert-no').on('click', function() {
+      $('#pass-alert').modal('hide');
+    });
+
+    return false;
+  }
+
+    var A;
+    if (self.innerWidth != undefined)
+      A = self.innerWidth;
+    else {
+      var D = document.documentElement;
+      if (D) A = D.clientWidth;
+    }
+
+    $('.dashboard-main-tabs.nav-tabs > li').click(function() {
+      if (A <= 767) {
+
+        $('.dashboard-main-tabs.nav-tabs > li ').not('.dashboard-main-tabs.nav-tabs > li.active').slideToggle();
+      }
+    });
+    if ($('#hddn_enable').val() == "0" || $('#hddn_enable').val() == 'undefined') {
+      $('#blank_error').css('display', 'block');
+      $('#disable_product').css('display', 'none');
+      // $('#view_all').css('display','none');
+    } else {
+      $('#blank_error').css('display', 'none');
+    }
+//$('#disable_product').attr('disabled', 'disabled');
+//$('#disable_product').tooltip('show');
+/*$('.check_box').click(function(){
+  var flag =0;
+  $('.check_box').each(function () {
+           if (this.checked) {
+               flag=1;
+           }
+  });
+  if(flag != 0){
+    $('#pass-alert').modal('show');
+       
+    $('#alert-ok').on('click',function(){
+       $('#disable_listing').attr('action','/user/disableListings');
+       $('#disable_listing').submit();
+    
+    });
+    $('#alert-no').on('click',function(){
+      $('#pass-alert').modal('hide');
+    });
+   /// $('#disable_product').attr('type','submit');
+  }else{
+    $('#disable_product').attr('type','button');
+  }
+});*/
+
+function checkBoxStatus() {
+  var flag = 0;
+  $('.check_box').each(function() {
+    if (this.checked) {
+      flag = 1;
+    }
+  });
+  if (flag != 0) {
+    $('.popup-text').text('Are you sure you want to disable?');
+    $('#pass-alert').modal('show');
+
+    $('#alert-ok').on('click', function() {
+      $('#disable_listing').attr('action', '/user/disableListings');
+      $('#disable_listing').submit();
+
+    });
+    $('#alert-no').on('click', function() {
+      $('#pass-alert').modal('hide');
+    });
+  } else {
+    $('#alert-only .popup-text').text('At least one check box has been selected.');
+    $('#alert-only').modal('show');
+  }
+}
+
+$('#alert-only #alert-ok').click(function(){
+  $('#alert-only').modal("hide");
+})
+  /*function confSubmit() {
+       //var r = confirm('Are you sure you want to disable??');
+       $('#pass-alert').modal('show');
+       $('#alert-ok').on('click',function(){
+         //return true;
+         action="/user/disableListings"
+       });
+       $('#alert-no').on('click',function(){
+         //return false;
+       });
+      // return r;
+  }
+*/
+  
+  /*if($('#hddn_enable').val() > 5){
+   // $('#view_all').css('display','inline');
+    $('.blank').css('display','none');
+  }
+  else{
+   // $('#view_all').css('display','none');
+    $('.blank').css('display','none');
+  }*/
+
+
+ /* function disableListing(id){
+    $('#listingIds').val(id);
+    //alert(id);
+    $('#disable_listing').submit();
+    return false;
+  }
+
+  function enableListing(id){
+    $('#hddnlistingId').val(id);
+    //alert(id);
+    $('#enable_listing').submit();
+    return false;
+  }
+*/
+  $(function(){
+
+    if(isMobile.any() === null){
+      var hashType = window.location.hash.substr(1);
+      if(hashType == 'tab-myConnections' || hashType =='tab-acquaintances' || hashType== 'tab-follow-request'){
+        $('a[href="#myConnections"]').click();
+      }
+    }
+
+    $('.dashboard li a').click(function(){
+       // alert($(this).attr('id'));
+        window.location.hash = "tab-" + $(this).attr('href').substr(1);
+    });
+    // For bookmarks
+
+    function updateTab(){
+
+      var hash = window.location.hash;
+
+      if (!hash.match(/^#tab/)) {
+        
+        if (hash.match(/^#barter-request-/)){
+         //alert("here");
+          $(window).off("hashchange");
+          window.location.hash = "#tab-myRequest-requestReceivedTab-" + hash.replace("#barter-request-", "");
+          window.location.reload();
+        }
+        return;
+      }
+      var tabs = hash.replace("#tab-", "").split("-");
+      var currentTab = tabs[0];
+
+      if (tabs[3] && tabs[3] == "reload") {
+        $(window).off("hashchange");
+        window.location.hash = hash.replace("-reload", "");
+        return window.location.reload();
+      }
+
+      var breadcrumb = $('a[href="#' + currentTab + '"]').attr('breadcrumb');
+      $('.c-tab').text(breadcrumb);
+      $('a[href="#' + currentTab + '"]').tab("show");
+
+      var innerTab = tabs[1];
+
+      if (innerTab){
+        $('a[href="#' + currentTab + "-" + innerTab + '"]').tab("show");
+      }
+
+      if (tabs[2]){
+
+        var $barterRequestElem = $("#barter-request-" + tabs[2]);
+        if (!$barterRequestElem || !$barterRequestElem.length) return;
+        var tabId = $barterRequestElem.parent().attr("id");
+
+        $("a[href='#" + tabId + "']").trigger("click");
+        $(window).off("hashchange");
+        window.location.hash = "#barter-request-" + tabs[2];
+      }
+    }
+
+    $(window).on("hashchange", updateTab);
+    updateTab();
+
+    var citiesRepo = new Bloodhound({
+
+      datumTokenizer: function(d) { return d.tokens; },
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      remote: {
+        url: "/location/cities?query=%QUERY"
+      }
+    });
+
+    citiesRepo.initialize();
+
+    $("#profile-city").typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+      },
+      {
+        name: "citiesRepo",
+        displayKey: "name",
+        source: citiesRepo.ttAdapter(),
+        templates: {
+          suggestion: function(data){
+            return data.name + ", " + data.State.name;
+          }
+        }
+    }).on("typeahead:selected typeahead:autocompleted", function(e, selectedProduct){
+      $("[name='profile[CityId]']").val(selectedProduct.id);
+    });
+
+
+    var localitiesRepo = new Bloodhound({
+
+      datumTokenizer: function(d) { return d.tokens; },
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      remote: {
+        url: "/location/localities?cityId=%CITY&query=%QUERY",
+        replace: function(url, query){
+          var cityId = $("[name='profile[CityId]']").val();
+          return url.replace("%QUERY", query).replace("%CITY", cityId);
+        }
+      }
+    });
+
+    localitiesRepo.initialize();
+
+    $("#profile-locality").typeahead(
+      {
+        hint: true,
+        highlight: true,
+        minLength: 1
+      },
+      {
+        name: "localitiesRepo",
+        displayKey: "name",
+        source: localitiesRepo.ttAdapter()
+      }
+    );
+
+    $(document["accept-offer-form"]).on("submit", function(){
+
+      var ladda = Ladda.create($(this).find(".ladda-button").get(0));
+      ladda.start();
+
+      $.post($(this).attr("action"), $(this).serialize(), function(data){
+
+        if (data.success) {
+          window.location.reload();
+        } else {
+          ladda.stop();
+        }
+
+      }, "json")
+
+      return false;
+    });
+
+    $(document["reject-offer-form"]).on("submit", function(){
+
+      var ladda = Ladda.create($(this).find(".ladda-button").get(0));
+      ladda.start();
+
+      $.post($(this).attr("action"), $(this).serialize(), function(data){
+
+        if (data.success) {
+          window.location.reload();
+        } else {
+          ladda.stop();
+        }
+
+      }, "json")
+
+      return false;
+    });
+
+
+    $(document["barter-offer-form"]).on("submit", function(){
+
+      /*if (!confirm("Other users will not be able to see your listing after this.\n\nAre you sure you have Exchanged the Item(s).")){
+        return false;
+      }*/
+      
+      var ladda = Ladda.create($(this).find(".ladda-button").get(0));
+      ladda.start();
+
+      $.post($(this).attr("action"), $(this).serialize(), function(data){
+
+        if (data.success) {
+          window.location.reload();
+        } else {
+          ladda.stop();
+          $('.alert-popup-text').text(data.message);
+          $('#alert-container-popup').modal('show');
+          //alert(data.message);
+          window.location.reload();
+        }
+
+      }, "json")
+
+      return false;
+    });
+
+    $(".change-profile-pic").hide();
+    $(".edit-user-info-btn").on("click", function(){
+      $(".user-edit-info").show();
+      $(".user-info").hide();
+      $(".change-profile-pic").show();
+    });
+
+    $(".cancel-edit-info-btn").on("click", function(){
+      $(".user-edit-info").hide();
+      $(".user-info").show();
+      $(".change-profile-pic").hide();
+    });
+
+    $(".change-profile-pic").on("change", function(){
+      readURL(this);
+    });
+
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          
+          reader.onload = function (e) {
+              $('.user-img-main .user-pic').attr('src', e.target.result);
+          }
+          
+          reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+  });
+
+$("#deletebtn").click(function(e){
+    var idClicked = e.target.text();
+    $('.alert-popup-text').text(idClicked);
+    $('#alert-container-popup').modal('show');
+    //alert(idClicked);
+});
+
+
+/*vishnu code start*/
+function validateForm() {
+              $('.update-profile-error .my-error').hide('slow');
+    var profilePic  = document.forms["update-profile-form"]["profilePic"];
+    var username    = document.forms["update-profile-form"]["profile[name]"].value;
+    var email       = document.forms["update-profile-form"]["email"].value;
+    var contact     = document.forms["update-profile-form"]["contact"].value;
+    var number = /^[0-9]+$/;
+
+    //allowed file type
+    var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+    var fileName = profilePic.value; 
+
+    if (fileName.length > 0) {
+        var validImage = false;
+
+        //set validImage true if extension is in the _validFileExtensions array
+        for (var j = 0; j < _validFileExtensions.length; j++) {
+            var extension = _validFileExtensions[j];
+            if (fileName.substr(fileName.length - extension.length, extension.length).toLowerCase() == extension.toLowerCase()) {
+                validImage = true;
+                break;
+            }
+        }
+
+        // if validImgae is false
+        if (!validImage) {
+          $('.update-profile-error .my-error').show('slow').text('Please upload a valid image.');
+          return false;
+        }
+    }
+
+    if (username == null || username == "") {
+          $('.update-profile-error .my-error').show('slow').text('Please Enter Your Name');
+          return false;
+    }
+
+    if (email == null || email == "") {
+
+      if(contact == null || contact == ""){
+      
+        $('.update-profile-error .my-error').show('slow').text('Please Enter Your Mobile no.');
+        return false;
+      
+      } else if (number.test(contact) == false) {
+      
+        $('.update-profile-error .my-error').show('slow').text('Please Enter valid Mobile no.');
+        return false;
+      
+      } else if (contact.length != 10) {
+      
+        $('.update-profile-error .my-error').show('slow').text('Please Enter 10 digit Mobile no.');
+        return false;
+      
+      }
+    }
+
+    return true;
+}
+
+
+$("#changePasswordForm").submit(function(event) {
+  event.preventDefault();
+  $('.change-password-error .my-error').hide('slow');
+  var OldPwd= document.getElementById('OldPwd').value;
+  var NewPwd= document.getElementById('NewPwd').value;
+  var RenewPwd= document.getElementById('RenewPwd').value;
+  if (OldPwd == null || OldPwd == "") {
+    $('.change-password-error .my-error').show('slow').text('Please Enter Your Old Password');
+    return false;
+  }
+  if (NewPwd == null || NewPwd == "") {
+    $('.change-password-error .my-error').show('slow').text('Please Enter Your New Password');
+    return false;
+  }
+  if (NewPwd.length <= 6) {
+    $('.change-password-error .my-error').show('slow').text('Password must be greater than 6 character');
+    return false;
+  }
+  if (RenewPwd == null || RenewPwd == "") {
+    $('.change-password-error .my-error').show('slow').text('Please Retype Your New Password');
+    return false;
+  }
+  if(OldPwd==NewPwd)
+  {
+        $('.change-password-error .my-error').show('slow').text('Please Enter Different password than Older');
+        return false;
+  }
+  if(NewPwd!=RenewPwd)
+  {
+        $('.change-password-error .my-error').show('slow').text('Password Does Not Match');
+        return false;
+  }
+
+  var $form = $( this );
+  var url = $form.attr( 'action' );
+   //fire a post request to set report abuse
+  $.post(url, {oldPassword: OldPwd , newPassword1: NewPwd , newPassword2: RenewPwd }, function(data) {
+    //after receiving of the response
+    if(data.success){
+      //show pop up on successful response
+      $('#myModal .modal-body').text(data.message)
+        $('#myModal').fadeIn();
+        setTimeout(function() {
+          $('#myModal').fadeOut();
+        }, 3000);
+         $("a[href*='#myProfile']").click();
+
+    } else {
+      //show pop up on successful response
+      $('#myModal .modal-body').text(data.message)
+        $('#myModal').fadeIn();
+        setTimeout(function() {
+          $('#myModal').fadeOut();
+        }, 3000);
+    }
+  });
+});
+
+
+
+// wishlist-icon click handler
+$(".wishlist-listing").on("click", function(){
+
+  var $icon = $(this);
+  toggleWishlist($icon);
+
+  return false;
+});
+
+$(".remove.remove-item").on("click", function(){
+
+  var $icon = $(this).parent().find(".wishlist-listing");
+  toggleWishlist($icon);
+  return false;
+});
+
+//toggle wishlist
+function toggleWishlist($icon){
+  $.post($icon.attr("href"), {}, function(data){
+
+    if (data.success){
+      //change wishlist icon class
+      $icon.toggleClass("filled");
+      $icon.parent().parent().remove();
+
+      if (!$("#myProfile .item").length) {
+        $("#myProfile .no-list").removeClass("hidden");
+      }
+
+    } else {
+        // trigger click on sign up and login button
+        BTUtils.signinClickTrigger();
+        //add return to link on the sign up and login button
+        // so that user redirect to current page after login
+        BTUtils.updateLinks($(document.loginForm),  window.location.href);
+        BTUtils.updateLinks($(document.signupForm), window.location.href);
+
+    }
+
+  }, "json");
+
+}
+
+
+/*vishnu code ends*/
+  var BTUserFeeds = {};
+
+  $(function(){
+
+    setInterval(function(){
+    
+      if (document.hidden !== "undefined" && document.hidden) return;
+      
+      $.get("/user/userfeeds", function(data){
+        if (data.success){
+          BTUserFeeds.feeds = data.userFeeds;
+        }
+      });
+
+      var newFeeds = BTUserFeeds.getNewFeeds();      
+       var html = templates["activity-feed"].render({
+        userFeeds: newFeeds
+      });
+
+      $("#activityFeed .activity-feed ul").prepend(html);
+
+    }, 30000);
+
+    BTUserFeeds.getNewFeeds = function(){
+
+      var $firstFeed = $("#activityFeed .activity-feed ul li").first();
+
+      if (!$firstFeed.length) return BTUserFeeds.feeds;
+
+      var latestFeedId = $firstFeed.data("feedId");
+      latestFeedId = parseInt(latestFeedId);
+
+      var newFeeds = [];
+
+      for (var i = 0; i < BTUserFeeds.feeds.length; i++){
+        if (latestFeedId == BTUserFeeds.feeds[i].id) break;
+        newFeeds.push(BTUserFeeds.feeds[i]);
+      }
+
+      return newFeeds.slice(-4);
+    }
+
+    BTUserFeeds.getNextFeeds = function(){
+      
+      var $lastFeed = $("#activityFeed .activity-feed ul li").last();
+
+      if (!$lastFeed.length) return [];
+
+      var lastFeedId = $lastFeed.data("feedId");
+      lastFeedId = parseInt(lastFeedId);
+      var nextFeeds = [];
+      var i;
+
+      for (i = 0; i < BTUserFeeds.feeds.length; i++){
+        if (lastFeedId == BTUserFeeds.feeds[i].id) break;
+      }
+
+      return BTUserFeeds.feeds.slice(i + 1, 16+i);   
+    }
+
+    BTUserFeeds.init = function(){
+      $.get("/user/userfeeds", function(data){
+        if (data.success){
+          BTUserFeeds.feeds = data.userFeeds;
+          if(BTUserFeeds.feeds.length){
+            BTUserFeeds.showNextFeed(BTUserFeeds.feeds.slice(0, 15));
+          }else{
+            jQuery(".no-feed-msg").removeClass("hide");
+            jQuery(".activity-feed").addClass("hide");
+          }
+          
+        }
+      });
+    }
+
+    BTUserFeeds.showNextFeed = function(feeds){
+
+      var html = templates["activity-feed"].render({
+        userFeeds: feeds
+      });
+
+
+      $("#activityFeed .activity-feed ul").append(html);
+
+    }
+
+  });
+
+  $(document).ready(function() {
+    BTUserFeeds.init();
+    $(window).scroll(function() {
+      if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+        $(".loading-feed").removeClass("hide");
+        BTUserFeeds.showNextFeed(BTUserFeeds.getNextFeeds());
+        $(".loading-feed").addClass("hide");
+      }
+    });
+
+  });
+
+  bindFeedForm();
+  function bindFeedForm(){
+
+    $(document).on("submit", ".feed-form.accept-form", function(){
+
+      var ladda = Ladda.create($(this).find(".ladda-button").get(0));
+      ladda.start();
+
+      $.post($(this).attr("action"), $(this).serialize(), function(data){
+
+        if (data.success) {
+          window.location.reload();
+        } else {
+          ladda.stop();
+        }
+
+      }, "json")
+
+      return false;
+    });
+
+    $(document).on("submit", ".feed-form.reject-form", function(){
+
+      var ladda = Ladda.create($(this).find(".ladda-button").get(0));
+      ladda.start();
+
+      $.post($(this).attr("action"), $(this).serialize(), function(data){
+
+        if (data.success) {
+          window.location.reload();
+        } else {
+          ladda.stop();
+        }
+
+      }, "json")
+
+      return false;
+    });
+
+
+    $(document).on("submit", "[name=barter-offer-form].feed-form", function(){
+
+      /*if (!confirm("Other users will not be able to see your listing after this.\n\nAre you sure you have Exchanged the Item(s).")){
+        return false;
+      }*/
+      
+      var ladda = Ladda.create($(this).find(".ladda-button").get(0));
+      ladda.start();
+
+      $.post($(this).attr("action"), $(this).serialize(), function(data){
+
+        if (data.success) {
+          window.location.reload();
+        } else {
+          ladda.stop();
+          $('.alert-popup-text').text(data.message);
+          $('#alert-container-popup').modal('show');
+          //alert(data.message);
+          window.location.reload();
+        }
+
+      }, "json")
+
+      return false;
+    });
+
+  }
+
+  /* Change dropdown value in my request subtab selection */
+  $(".dropdown-menu li a").click(function(){
+    var selText = $(this).text();
+    // $(this).parents('.dropdown').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
+  });
+
+  $(".cityDropDown").select2({
+    theme: "classic",
+    dropdownCssClass: "locationDrop",
+    dropdownAutoWidth: true,
+    ajax: {
+      url: "/location/cities?top=true",
+      dataType: 'json',
+      delay: 0,
+      data: function(params) {
+        return {
+          query: params.term, // search term
+        };
+      },
+      processResults: function(data, page) {
+        return {
+          results: _.map(data, function(city) {
+            return {
+              id: city.id,
+              text: city.name,
+              city: city.name,
+              state: city.State.name
+            };
+          })
+        };
+      },
+      cache: true,
+      minimumInputLength: 2
+    },
+    templateResult: function(data){
+      if (!data.city) return data.text;
+      return data.city + ", " + data.state;
+    }
+  });
+
+  $(document).ready(function () {
+    $('.cityDropDown ').change(function(){
+      var cityId = $('.cityDropDown option:selected').attr('value');
+      window.location.href = '/my-account/'+cityId+'/#tab-leaderBoard';
+    });
+  
+    var hash = window.location.hash;
+    if(hash == "#tab-myProfile"){
+      recommendSliderJs("userItemSlider");
+      recommendSliderJs("userWishlistSlider");
+    }
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      if($(e.target).hasClass("my-profile-link")){
+        recommendSliderJs("userItemSlider");
+        recommendSliderJs("userWishlistSlider");   
+      }
+    });
+
+  });
+</script>
+
+<style type="text/css" media="all">
+  .offer-price {
+    color: rgb(241, 131, 42);
+    font-weight: bold;
+    font-size: 25px;
+  }
+</style>

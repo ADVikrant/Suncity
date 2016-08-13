@@ -1,0 +1,402 @@
+﻿@using SunCity.Core;
+@{
+    // ViewBag.Title = "_MasterLayout";
+    if (SunCity.Core.Session.Current.UserId == 0)
+    {
+        Response.Redirect("~/Accounts/Login", false);
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Suncity - @ViewBag.Title</title>
+
+    <link href="~/Content/css/style.default.css" rel="stylesheet" />
+    <link href="~/Content/css/morris.css" rel="stylesheet" />
+    <link href="~/Content/css/select2.css" rel="stylesheet" />
+    <link href="~/Content/css/style.datatables.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/responsive/1.0.1/css/dataTables.responsive.css" rel="stylesheet">
+
+    <link href="~/Content/css/jquery.tagsinput.css" rel="stylesheet" />
+    <link href="~/Content/css/toggles.css" rel="stylesheet" />
+    <link href="~/Content/css/colorpicker.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+
+    <header>
+        <div class="headerwrapper">
+            <div class="header-left">
+                <a href="@Url.Action("Index", "Dashboard")" class="logo">
+                    <img src="~/Content/images/Sun-City-Club-Logo-03.png" alt="" />
+                    @*<span style="color:#A99B76;font-size:18px;font-weight:bold;">Suncity</span>*@
+                </a>
+                <div class="pull-right">
+                    <a href="" class="menu-collapse">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- header-left -->
+
+            <div class="header-right">
+
+                <div class="pull-right">
+                    <div class="btn-group btn-group-option">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a href="@Url.Action("MyProfile", "Accounts")"><i class="glyphicon glyphicon-user"></i>My Profile</a></li>
+                            @*<li><a href="#"><i class="glyphicon glyphicon-star"></i>Activity Log</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-cog"></i>Account Settings</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i>Help</a></li>*@
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("LogOut", "Accounts")"><i class="glyphicon glyphicon-log-out"></i>Sign Out</a></li>
+                        </ul>
+                    </div>
+                    <!-- btn-group -->
+
+                </div>
+                <!-- pull-right -->
+
+            </div>
+            <!-- header-right -->
+
+        </div>
+        <!-- headerwrapper -->
+    </header>
+
+    <section>
+        <div class="mainwrapper">
+            <div class="leftpanel">
+                <div class="media profile-left">
+                    @*<a class="pull-left profile-thumb" href="profile.html">*@
+                    @*<img class="img-circle" src="images/photos/profile.png" alt="">
+                    </a>*@
+                    <div class="media-body">
+                        <h4 class="media-heading">@SunCity.Core.Session.Current.EmployeeName</h4>
+                        <small class="text-muted">@SunCity.Core.Session.Current.RoleName</small>
+                    </div>
+                </div>
+                <!-- media -->
+
+                <h5 class="leftpanel-title">Navigation</h5>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active" id="parentdashboard"><a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-home"></i><span>Dashboard</span></a></li>
+                    <li class="parent" id="parentmembershipregs"><a href="#"><i class="fa fa-briefcase"></i><span>Membership Enrollment</span></a>
+                        <ul class="children">
+                            @*<li id="childmemberregs"><a href="@Url.Action("AddMembershipRegistration", "Function")">New Enrollment</a></li>
+                            <li id="childviewmemberregs"><a href="@Url.Action("ViewMembershipRegistration", "Function")">View Membership</a></li>*@
+                            <li id="childmemberregs"><a href="@Url.Action("NewMembership", "Dashboard")">New Enrollment</a></li>
+                            <li id="childviewmemberregs"><a href="@Url.Action("ViewMembershipList", "Dashboard")">View Membership</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent" id="parentmembers"><a href="#"><i class="fa fa-users"></i><span>Members</span></a>
+                        <ul class="children">
+                            <li id="childviewmember"><a href="@Url.Action("ViewMemberList", "Dashboard")">View Members</a></li>
+                        </ul>
+                        <ul class="children">
+                             <li id="childblockmember"><a href="@Url.Action("NewBlockedMembers", "Dashboard")">Blocked Members</a></li>
+                        </ul>
+                        @*<ul class="children">
+                            <li id="childviewmember"><a href="@Url.Action("ViewMember", "Function")">View Members</a></li>
+                        </ul>
+                        <ul class="children">
+                            <li id="childblockmember"><a href="@Url.Action("BlockedMembers", "Function")">Blocked Members</a></li>
+                        </ul>*@
+                        @*<ul class="children">
+                            <li id="childunblockmember"><a href="@Url.Action("UnblockedMembers", "Function")">Unblocked Members</a></li>
+                        </ul>*@
+                    </li>
+                     <li class="parent" id="parentmembershipplan"><a href="#"><i class="fa fa-clipboard"></i><span>Membership Plan</span></a>
+                        <ul class="children">
+                            <li id="childmemberplann"><a href="@Url.Action("NewMembershipPlan", "Dashboard")">Add Membership Plan</a></li>
+                            <li id="childviewmemberplann"><a href="@Url.Action("GridMembershipPlans", "Dashboard")">View Membership Plan</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="parent" id="parentpackage"><a href="#"><i class="fa fa-file"></i><span>Package</span></a>
+                        <ul class="children">
+                            <li id="childaddpackage"><a href="@Url.Action("AddPackage", "Function")">Add Package</a></li>
+                            <li id="childviewpackage"><a href="@Url.Action("ViewPackage", "Function")">View Package</a></li>
+                            <li id="childmappackage"><a href="@Url.Action("MapPackageActivity", "Function")">Map Activities</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent" id="parentactivity"><a href="#"><i class="fa fa-life-bouy"></i><span>Activities</span></a>
+                        <ul class="children">
+                            <li id="childactivity"><a href="@Url.Action("AddActivity", "Function")">Add Activity</a></li>
+                            <li id="childviewactivity"><a href="@Url.Action("ViewActivity", "Function")">View Activity</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent" id="parentnotifier"><a href="#"><i class="fa fa-life-bouy"></i><span>Festival Notifications</span></a>
+                        <ul class="children">
+                            <li id="childdaynoti"><a href="@Url.Action("NewFestival", "Function")">Add Festival/Day</a></li>
+                            <li id="childviewadaynoti"><a href="@Url.Action("ViewFestival", "Function")">View Festival/Day</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent" id="parentuser"><a href="#"><i class="fa fa-user"></i><span>Users</span></a>
+                        <ul class="children">
+                            <li id="childadduser"><a href="@Url.Action("AddUser", "Function")">Add Users</a></li>
+                            <li id="childviewuser"><a href="@Url.Action("ViewUser", "Function")">View Users</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent" id="parentroles"><a href="#"><i class="fa fa-tasks"></i><span>Roles</span></a>
+                        <ul class="children">
+                            <li id="childaddrole"><a href="@Url.Action("AddRole", "Function")">Add Roles</a></li>
+                            <li id="childviewrole"><a href="@Url.Action("Permission", "Function")">Manage Roles</a></li>
+                        </ul>
+                    </li>
+                   
+                    
+                    
+
+
+                </ul>
+
+            </div>
+            <!-- leftpanel -->
+
+            <div class="mainpanel">
+                <div class="pageheader">
+                    <div class="media">
+                        @*<div class="pageicon pull-left">
+                            <i class="fa fa-home"></i>
+                        </div>*@
+                        <div class="media-body">
+                            <ul class="breadcrumb">
+                                <li><a href="@Url.Action("Index", "Dashboard")"><i class="glyphicon glyphicon-home"></i></a></li>
+                                <li>@ViewBag.Title</li>
+                            </ul>
+                            <h4>@ViewBag.Title</h4>
+                        </div>
+                    </div>
+                    <!-- media -->
+                </div>
+                <!-- pageheader -->
+
+                <div class="contentpanel">
+                    @RenderBody()
+
+
+                </div>
+                <!-- contentpanel -->
+
+            </div>
+            <!-- mainpanel -->
+        </div>
+        <!-- mainwrapper -->
+    </section>
+
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.gritter.min.js"></script>
+    <script src="~/Content/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/Content/js/jquery-ui-1.10.3.min.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    
+    <script src="~/Content/js/modernizr.min.js"></script>
+    <script src="~/Content/js/pace.min.js"></script>
+    <script src="~/Content/js/retina.min.js"></script>
+    <script src="~/Content/js/jquery.cookies.js"></script>
+    <script src="~/Content/js/jquery.validate.min.js"></script>
+    @*<script src="~/Content/js/flot/jquery.flot.min.js"></script>
+    <script src="~/Content/js/flot/jquery.flot.resize.min.js"></script>
+    <script src="~/Content/js/flot/jquery.flot.spline.min.js"></script>
+    <script src="~/Content/js/jquery.sparkline.min.js"></script>*@
+    <script src="~/Content/js/morris.min.js"></script>
+    <script src="~/Content/js/raphael-2.1.0.min.js"></script>
+    <script src="~/Content/js/bootstrap-wizard.min.js"></script>
+    @*<script src="~/Content/MyUploadify/jquery.uploadify-3.1.js"></script>*@
+
+
+
+    <script src="~/Content/js/jquery.dataTables.min.js"></script>
+    @*<script src="//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script src="//cdn.datatables.net/responsive/1.0.1/js/dataTables.responsive.js"></script>*@
+    <script src="~/Content/js/dataTables.bootstrap.js"></script>
+    <script src="~/Content/js/dataTables.responsive.js"></script>
+    <script src="~/Content/js/bootstrap-timepicker.min.js"></script>
+    <script src="~/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="~/Content/js/select2.min.js"></script>
+    <script src="~/Content/js/custom.js"></script>
+    <script src="~/Content/MyUploadify/jquery.uploadify-3.1.min.js"></script>
+    @*<script src="~/Content/js/dashboard.js"></script>*@
+    @RenderSection("scripts", required: false)
+    <script>
+        jQuery(document).ready(function () {
+            // initiate layout and plugins
+
+            var pathname = window.location.pathname;
+            if (pathname.indexOf("/Dashboard") != -1) {
+
+                $("#parentuser").removeClass("active");
+                $("#parentroles").removeClass("active");
+                $("#parentactivity").removeClass("active");
+                $("#parentpackage").removeClass("active");
+                $("#parentmembershipplan").removeClass("active");
+                $("#parentmembershipregs").removeClass("active");
+                $("#parentmembers").removeClass("active");
+            }
+
+            if (pathname.indexOf("/Function/AddUser") != -1) {
+                $("#parentuser").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                $("#childadduser").addClass("active");
+            }
+            if (pathname.indexOf("/Function/ViewUser") != -1) {
+                $("#parentuser").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                $("#childviewuser").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/EditUser") != -1) {
+                $("#parentuser").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                $("#childviewuser").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/AddRole") != -1) {
+                $("#parentroles").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childaddrole").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/Permission") != -1) {
+                $("#parentroles").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewrole").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/EditRoles") != -1) {
+                $("#parentroles").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewrole").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/AddActivity") != -1) {
+                $("#parentactivity").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childactivity").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/ViewActivity") != -1) {
+                $("#parentactivity").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewactivity").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/EditActivity") != -1) {
+                $("#parentactivity").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewactivity").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/AddPackage") != -1) {
+                $("#parentpackage").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childaddpackage").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/ViewPackage") != -1) {
+                $("#parentpackage").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewpackage").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/EditPackage") != -1) {
+                $("#parentpackage").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewpackage").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/NewFestival") != -1) {
+                $("#parentnotifier").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childdaynoti").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/ViewFestival") != -1) {
+                $("#parentnotifier").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewadaynoti").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/MapPackageActivity") != -1) {
+                $("#parentpackage").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childmappackage").addClass("active");
+            }
+            else if (pathname.indexOf("/Dashboard/NewMembershipPlan") != -1) {
+                $("#parentmembershipplan").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childmemberplann").addClass("active");
+            }
+            else if (pathname.indexOf("/Dashboard/GridMembershipPlans") != -1) {
+                $("#parentmembershipplan").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewmemberplann").addClass("active");
+            }
+            else if (pathname.indexOf("/Dashboard/EditMembershipPlan") != -1) {
+                $("#parentmembershipplan").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewmemberplann").addClass("active");
+            }
+            else if (pathname.indexOf("/Dashboard/NewMembership") != -1) {
+                $("#parentmembershipregs").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childmemberregs").addClass("active");
+            }
+            else if (pathname.indexOf("/Dashboard/ViewMembershipList") != -1) {
+                $("#parentmembershipregs").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewmemberregs").addClass("active");
+            }
+            else if (pathname.indexOf("/Dashboard/NewViewMembership") != -1) {
+                $("#parentmembershipregs").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewmemberregs").addClass("active");
+            }
+            else if (pathname.indexOf("/Dashboard/ViewMemberList") != -1) {
+                $("#parentmembers").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewmember").addClass("active");
+            }
+            else if (pathname.indexOf("/Dashboard/NewEditMember") != -1) {
+                $("#parentmembers").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childviewmember").addClass("active");
+            }
+            else if (pathname.indexOf("/Dashboard/NewBlockedMembers") != -1) {
+                $("#parentmembers").addClass("active");
+                $("#parentdashboard").removeClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childblockmember").addClass("active");
+            }
+            else if (pathname.indexOf("/Function/UnblockedMembers") != -1) {
+                $("#parentdashboard").removeClass("active");
+                $("#parentmembers").addClass("active");
+                //$("#parentuser").removeClass("active");
+                $("#childunblockmember").addClass("active");
+            }
+        });
+    </script>
+</body>
+</html>

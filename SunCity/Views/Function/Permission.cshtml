@@ -1,0 +1,160 @@
+﻿@model SunCity.Models.MasterPermission
+@{
+    ViewBag.Title = "Permission";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                <a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Permission</h4>
+            <p>This form is used to grant permission to roles.</p>
+        </div>
+
+
+
+        <div class="panel-body">
+            <table id="tablePermission" class="table table-striped table-bordered table-hover">
+                <thead id="thead">
+                    <tr>
+                        <th class="center" style="vertical-align: middle;">Permission Type</th>
+                        @foreach (var eachp in Model.AllRole)
+                        {
+                            <th class="center">
+                                @eachp.RoleName
+                                <br />
+                                <input type="checkbox" id="@eachp.RoleName.Replace(' ', '_')" />
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var each in Model.Permission)
+                    {
+                        <tr id="@each.AllPermission.Id">
+                            <td class="center">@each.AllPermission.Name</td>
+                            @foreach (var item in Model.AllRole)
+                            {
+                                string value = each.AllPermission.Id + "_" + item.RoleId;
+                                var flag = false;
+                                foreach (var eachitem in each.PermissionRoleMap)
+                                {
+                                    if (item.RoleId == eachitem.Role_Id)
+                                    {
+                                        flag = true;
+                                <td class="center" id="@value">
+                                    <input type="checkbox" class="@item.RoleName.Replace(' ', '_')" checked />
+                                </td>
+                                    }
+                                }
+                                if (flag == false)
+                                {
+                                <td class="center" id="@value">
+                                    <input type="checkbox" class="@item.RoleName.Replace(' ', '_')" />
+                                </td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- panel-body -->
+        <div class="panel-footer">
+            <button class="btn btn-primary" type="submit" id="btnSubmit">Save</button>
+        </div>
+        <!-- panel-footer -->
+
+    </div>
+    <!-- panel -->
+</div>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(function () {
+        $('#btnSubmit').on('click', function () {
+            var checked = "", unchecked = "";
+            //$('#tbody tr').filter(':has(:checkbox)').each(function () {
+            //    $tr = $(this);
+            //    $('td', $tr).filter(':has(:checkbox:checked)').each(function () {
+            //        $('#checked').append(this.id + ",");
+            //    });
+            //    $('td', $tr).filter(':has(:checkbox:not(:checked))').each(function () {
+            //        $('#unchecked').append(this.id + ",");
+            //    });
+            //});
+            $('#tbody tr td').filter(':has(:checkbox:checked)').each(function () {
+                checked += "," + this.id;
+            });
+            $('#tbody tr td').filter(':has(:checkbox:not(:checked))').each(function () {
+                unchecked += "," + this.id;
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '/Function/SavePermission',
+                data: { "check": checked, "uncheck": unchecked },
+                dataType: "text",
+                success: function (result) {
+                    if (result == 1) {
+                        alert('Permissions updated.');
+                    } else {
+                        alert('Something went wrong! Please try again later.');
+                    }
+                },
+                error: function (result) {
+                    alert('Service call failed: ' + result.status + ' Type :' + result.statusText);
+                }
+            });
+        });
+
+        $("#tbody").on("change", "tr td :input[type=checkbox]", function () {
+            var classname = $(this).attr('class');
+            var count = 0;
+            var check = false;
+            var all = true;
+            $("[class=" + classname + "]").each(function () {
+                if (count == 0) {
+                    count = 1;
+                    check = $(this).is(':checked');
+                    if (!check) {
+                        $('#' + classname).prop('checked', false);
+                        all = false;
+                        return false;
+                    }
+                }
+                else {
+                    if (check != $(this).is(':checked')) {
+                        $('#' + classname).prop('checked', false);
+                        all = false;
+                        return false;
+                    }
+                }
+            });
+            if (all) {
+                $('#' + classname).prop('checked', true);
+            }
+        });
+
+        $("#thead").on("change", "tr th :input[type=checkbox]", function () {
+            var id = this.id;
+            $("." + id).prop("checked", $(this).is(':checked'));
+        });
+
+        $("#thead tr th :input[type=checkbox]").each(function () {
+            var id = this.id;
+            var check = true;
+            $("[class=" + id + "]").each(function () {
+                if (check != $(this).is(':checked')) {
+                    check = false;
+                    return false;
+                }
+            });
+            $(this).prop('checked', check);
+        });
+    });
+</script>

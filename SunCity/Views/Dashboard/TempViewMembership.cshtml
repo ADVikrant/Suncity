@@ -1,0 +1,312 @@
+﻿@model SunCity.Models.TempViewRegModel
+@{
+    ViewBag.Title = "TempViewMembership";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+<link href="~/Content/MyUploadify/uploadify.css" rel="stylesheet" />
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership</strong> updated successfully.
+                               
+    </div>
+}
+<div class="col-md-7">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                @*<a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>*@
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Membership Registration</h4>
+            <p>This form is used to add new members to our world.</p>
+        </div>
+        @using (Html.BeginForm("TempViewMembership", "Dashboard", FormMethod.Post, new { id = "FrmAddMemberRegistration", name = "FrmAddMemberRegistration" }))
+        {  
+            @Html.HiddenFor(x => x.objtempreg.TempMembershipRegistrationId)
+
+            
+        
+            <div class="panel-body">
+                <div class="alert alert-danger" id="divphnmsg" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Please enter valid 10 digit mobile number.
+               
+                </div>
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Membership Plan</label>
+                                @Html.DropDownListFor(x => x.objtempreg.TempPlanId, new SelectList(Model.listMembershipPlan, "MembershipPlanId", "MembershipPlanName"), "Select Membership Plan", new { @class = "width300", @id = "MembershipPlanId", @required = "required", @title = "Select Membership Plan!", @disabled = "disabled" })
+                                <input type="hidden" name="MembershipPlanId" value="@Model.objtempreg.TempPlanId" />
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-5">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Package</label>
+                                @Html.DropDownListFor(x => x.objtempreg.TempPackageId, new SelectList(Model.listPackages, "PackageId", "PackageName"), "Select Package", new { @class = "width300", @id = "PackageId", @required = "required", @title = "Select Package!", @disabled = "disabled" })
+                                <input type="hidden" name="PackageId" value="@Model.objtempreg.TempPackageId" />
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Start Date</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.objtempreg.TempStartDate, new { @class = "form-control", @placeholder = "yyyy-mm-dd", @required = "required", @title = "Select Membership Start Date!", @id = "MembershipStartDate", @disabled = "disabled" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">End Date</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.objtempreg.TempEndDate, new { @class = "form-control", @placeholder = "yyyy-mm-dd", @required = "required", @title = "Select Membership Start Date!", @id = "MembershipStartDate", @disabled = "disabled" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Amount</label>
+                                <div class="input-group">
+                                    <input type="text" id="DAmount" name="DAmount" value="@Model.objtempreg.Amount" disabled="disabled" class="form-control" />
+                                    
+                                </div>
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Documents</label>
+                            <input type="hidden" name="hiddendocs" id="hiddendocs" />
+                            <input type="file" name="membershipdocs" id="membershipdocs" class="form-control" required="required" title="Documents are required!" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="control-label">Documents submitted</label>
+                        <div class="input-group">
+                            <ul>
+                                @foreach (var doc in Model.listdocuments)
+                                {
+                                    if (Model.listdocuments.Count > 0)
+                                    {
+                                    <li>@doc.DocumentName.Substring(20)<a href="@Url.Action("Download", "Dashboard", new { docid = doc.DocumentId })" title="Download">&nbsp;&nbsp;<span class="glyphicon glyphicon-download"></span></a> <a title="Delete" style="cursor:pointer;" href="@Url.Action("DeleteDocument", "Function", new { Documentid = doc.DocumentId, MembershipRegistrationId = Model.objtempreg.TempMembershipRegistrationId })"><span class="glyphicon glyphicon-trash"></span></a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="binddata">
+                    <div class="panel panel-primary-head">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Members List</h4>
+                            @*<p>Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example.</p>*@
+                        </div>
+                        <!-- panel-heading -->
+
+                        <table id="UserTable" class="table table-striped table-bordered responsive">
+                            <thead class="">
+                                <tr>
+                                    <th style="display: none">Member#</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Active</th>
+
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var p in Model.lstdeserialize)
+                                {
+
+                                    if (@p.UserTypeId == 1)
+                                    {
+                                    <tr>
+                                        <td style="display: none;">@p.MemberId</td>
+                                        <td>@p.debobj[0].value @p.debobj[1].value @p.debobj[2].value</td>
+                                        <td>@p.debobj[9].value</td>
+                                        <td>@p.debobj[7].value</td>
+                                        <td>
+                                            @if (p.Isdeleted == true)
+                                            {
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            }
+                                            else
+                                            { 
+                                                <span class="glyphicon glyphicon-ok"></span>
+                            
+                                            }
+
+                                        </td>
+
+                                        <td><a href="@Url.Action("TempEditMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" onclick="javascript:return ConfirmDeleteMember();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    }
+                                    else if (@p.UserTypeId == 2)
+                                    {
+                                    <tr>
+                                        <td style="display: none;">@p.MemberId</td>
+                                        <td>@p.debobj[0].value @p.debobj[1].value @p.debobj[2].value</td>
+                                        <td>@p.debobj[9].value</td>
+                                        <td>@p.debobj[7].value</td>
+                                        <td>
+                                            @if (p.Isdeleted == true)
+                                            {
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            }
+                                            else
+                                            { 
+                                                <span class="glyphicon glyphicon-ok"></span>
+                            
+                                            }
+
+                                        </td>
+
+                                        <td><a href="@Url.Action("TempEditMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" onclick="javascript:return ConfirmDeleteMember();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    }
+                                    else if (@p.UserTypeId == 3)
+                                    {
+                                    <tr>
+                                        <td style="display: none;">@p.MemberId</td>
+                                        <td>@p.debobj[0].value </td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>
+                                            @if (p.Isdeleted == true)
+                                            {
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            }
+                                            else
+                                            { 
+                                                <span class="glyphicon glyphicon-ok"></span>
+                            
+                                            }
+
+                                        </td>
+
+                                        <td><a href="@Url.Action("TempEditMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" onclick="javascript:return ConfirmDeleteMember();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    }
+                                    else if (@p.UserTypeId == 4)
+                                    {
+                                    <tr>
+                                        <td style="display: none;">@p.MemberId</td>
+                                        <td>@p.debobj[0].value </td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>
+                                            @if (p.Isdeleted == true)
+                                            {
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            }
+                                            else
+                                            { 
+                                                <span class="glyphicon glyphicon-ok"></span>
+                            
+                                            }
+
+                                        </td>
+
+                                        <td><a href="@Url.Action("TempEditMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" onclick="javascript:return ConfirmDeleteMember();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <input type="hidden" id="hiddendeleteflag" name="hiddendeleteflag" value="0" />
+                @*<button class="btn btn-warning" type="submit" onclick="setDeleteFlag();">Delete</button>*@
+                <input type="hidden" id="hiddencancelflag" name="hiddencancelflag" value="0" />
+                @*<button class="btn btn-default" type="submit" onclick="setCancelFlag();">Cancel</button>*@
+                <a href="@Url.Action("ViewMembershipRegistration", "Function")" class="btn btn-default" >Cancel</a>
+                @*<input type="hidden" id="hiddencorporateflag" name="hiddencorporateflag" />
+                <button class="btn btn-dark btn-sm" type="submit" onclick="setCorporateFlag();">Update Members</button>
+                @if (Model.MembershipPlanId == Convert.ToInt32(SunCity.Core.Enum.MembershipPlan.Corporate_Plan))
+                {
+
+                }*@
+            </div>
+        }
+    </div>
+
+</div>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/MyUploadify/jquery.uploadify-3.1.js"></script>
+<script src="~/Content/MyUploadify/jquery.uploadify-3.1.min.js"></script>
+<script>
+    $(function () {
+        var str = "";
+        $('#membershipdocs').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreDocs", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'multi': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, data, response) {
+                //$("#hiddendocs").val(data);
+
+                str += data + ",";
+                //console.log(str);
+                $("#hiddendocs").val(str);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        jQuery("#MembershipPlanId,#PackageId").select2({ minimumResultsForSearch: -1 });
+        jQuery('#MembershipStartDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+</script>

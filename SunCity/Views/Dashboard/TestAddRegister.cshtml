@@ -1,0 +1,218 @@
+﻿@model SunCity.DAL.TblMembershipRegistration
+@{
+    ViewBag.Title = "TestAddRegister";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+<div class="col-md-7">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                @*<a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>*@
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Membership Registration</h4>
+            <p>This form is used to add new members to our world.</p>
+        </div>
+        @using (Html.BeginForm("AddMembershipRegistration", "Function", FormMethod.Post, new { id = "FrmAddMemberRegistration", name = "FrmAddMemberRegistration" }))
+        {  
+            @Html.HiddenFor(x => x.MembershipRegistrationId)
+
+            
+        
+            <div class="panel-body">
+                <div class="alert alert-danger" id="divphnmsg" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Please enter valid 10 digit mobile number.
+               
+                </div>
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Membership Plan</label>
+                                @Html.DropDownListFor(x => x.MembershipPlanId, new SelectList(Model.listMembershipPlan, "MembershipPlanId", "MembershipPlanName"), "Select Membership Plan", new { @class = "width250", @id = "MembershipPlanId", @required = "required", @title = "Select Membership Plan!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-5">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Package</label>
+                                @Html.DropDownListFor(x => x.PackageId, new SelectList(Model.listPackages, "PackageId", "PackageName"), "Select Package", new { @class = "width250", @id = "PackageId", @required = "required", @title = "Select Package!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                </div>
+                <div class="row" id="binddata">
+                </div>
+            </div>
+          
+        }
+    </div>
+    <div id="bindselect">
+
+    </div>
+</div>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        jQuery("#MembershipPlanId,#PackageId").select2({ minimumResultsForSearch: -1 });
+
+        $("#MembershipPlanId").click(function () {
+            var pid = $("#MembershipPlanId").select2("val"); //get the value
+            $.ajax({
+                url: '@Url.Action("GetPlanDetails", "Dashboard")',
+                data: {
+                    planid: pid
+                },
+                type: 'GET'
+            }).done(function (data) {
+                var str = "";
+                str += " <div class='panel-group' id='accordion2' style='display: block;'> ";
+                for (i = 0; i < data.lstmapplanusertype.Usercount; i++) {
+                    
+
+                    //Main div open
+                    str += "<div class='panel panel-primary' id='Member_" + i + "' >";
+                    str += "<div class='panel-heading' data-toggle='collapse' data-parent='#accordion2' href='#FormMember" + i + "' style='background-color: #2E424B; color: white;'>"
+                    str += "<h4 class='panel-title'>      <a data-toggle='collapse' data-parent='#accordion2' href='#FormMember" + i + "'>Personal Detail </a></h4></div>";
+                    
+                    //start of Form div
+                    str += "<div id='FormMember" + i + "' class='panel-collapse collapse in'>"
+                    str += "<div class='panel-body'>";
+                    //First row
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>Surname</label>";
+                    str += "<input type='text' name='mem_" + i + "_lastname' id='mem_" + i + "_lastname' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />"
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>First Name</label>";
+                    str += "<input type='text' name='mem_" + i + "_firstname' id='mem_" + i + "_firstname' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />"
+                    str += "</div></div>";
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>Middle Name</label>";
+                    str += "<input type='text' name='mem_" + i + "_middlename' id='mem_" + i + "_middlename' class='form-control' required='required' title='Memeber#1 Middle name is required!' maxlength='25' />"
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //Closing of first row
+                    //Start of second row
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>Sex</label>";
+                    str += "<input type='hidden' name='mem_" + i + "_gen' id='mem_" + i + "_gen' />"
+                    str += "<select id='Member_" + i + "_gender' data-placeholder='Choose One' class='width200'  required='required' title='Select Member#2 Gender!'>";
+                    str += "<option value=''>Choose One</option> <option value='Male'>Male</option> <option value='Female'>Female</option> </select>";
+                    str += "</div></div>";
+                
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>Address</label>";
+                    str += "<input type='text' name='mem_" + i + "_address' id='mem_" + i + "_address' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />"
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of second row
+
+                    str += "</div>";
+                    //Main div closed
+                    str += "</div>";
+                    $("#Member_" + i + "_gender").click(function () {
+                        var gen2 = $("#Member_" + id + "_gender").select2("val"); //get the value
+                        $("#mem_" + id + "_gen").val(gen2);
+                        alert(gen2);
+                    });
+
+                }
+
+                //Close of accordin div
+                str += "</div>";
+                //console.log(str);
+                $("#binddata").html(str);
+                for (i = 0; i < data.NOFAdults; i++) {
+                    jQuery("#Member_" + i + "_gender").select2({ allowClear: true });
+                }
+
+            });
+        });
+    });
+    @*function getplanid() {
+        var pid = $("#MembershipPlanId").select2("val"); //get the value
+        $.ajax({
+            url: '@Url.Action("GetPlanDetails", "Dashboard")',
+            data: {
+                planid: pid
+            },
+            type: 'GET'
+        }).done(function (data) {
+            var str = "";
+            str += " <div class='panel-group' id='accordion2' style='display: block;'> ";
+            for (i = 0; i < data.NOFAdults; i++) {
+                $("select").select2({ allowClear: true });
+
+                //Main div open
+                str += "<div class='panel panel-primary' id='Member_" + i + "' >";
+                str += "<div class='panel-heading' data-toggle='collapse' data-parent='#accordion2' href='#FormMember" + i + "' style='background-color: #2E424B; color: white;'>"
+                str += "<h4 class='panel-title'>      <a data-toggle='collapse' data-parent='#accordion2' href='#FormMember" + i + "'>Personal Detail </a></h4></div>";
+                //start of Form div
+                str += "<div id='FormMember" + i + "' class='panel-collapse collapse in'>"
+                str += "<div class='panel-body'>";
+                //First row
+                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>Surname</label>";
+                str += "<input type='text' name='mem_" + i + "_lastname' id='mem_" + i + "_lastname' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />"
+                str += "</div></div>";
+
+                str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>First Name</label>";
+                str += "<input type='text' name='mem_" + i + "_firstname' id='mem_" + i + "_firstname' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />"
+                str += "</div></div>";
+                str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>Middle Name</label>";
+                str += "<input type='text' name='mem_" + i + "_middlename' id='mem_" + i + "_middlename' class='form-control' required='required' title='Memeber#1 Middle name is required!' maxlength='25' />"
+                str += "</div></div>";
+
+                str += "</div></div>";
+                //Closing of first row
+                addselectbutton(i);
+                //Start of second row
+                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>Sex</label>";
+                str += "<input type='hidden' name='mem_" + i + "_gen' id='mem_" + i + "_gen' />"
+                str += "<select id='Member_" + i + "_gender' data-placeholder='Choose One' class='width200' onclick='getgendermember(" + i + ");' required='required' title='Select Member#2 Gender!'>";
+                str += "<option value=''>Choose One</option> <option value='Male'>Male</option> <option value='Female'>Female</option> </select>";
+                str += "</div></div>";
+                
+                str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>Address</label>";
+                str += "<input type='text' name='mem_" + i + "_address' id='mem_" + i + "_address' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />"
+                str += "</div></div>";
+
+                str += "</div></div>";
+                //End of second row
+
+                str += "</div>";
+                //Main div closed
+                str += "</div>";
+
+
+            }
+
+            //Close of accordin div
+            str += "</div>";
+            //console.log(str);
+            $("#binddata").html(str);
+        });*@
+
+        function getgendermember(id)
+        {
+            var gen2 = $("#Member_"+id+"_gender").select2("val"); //get the value
+            $("#mem_" + id + "_gen").val(gen2);
+            alert(gen2);
+        }
+        function addselectbutton()
+        {
+
+
+        }
+    
+</script>

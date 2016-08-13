@@ -1,0 +1,165 @@
+﻿@model SunCity.DAL.TblUser
+@{
+    ViewBag.Title = "Add User";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>User</strong> saved successfully.
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                @*<a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>*@
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Add User</h4>
+            <p>This form is used to add new user.</p>
+        </div>
+        @using (Html.BeginForm("AddUser", "Function", FormMethod.Post, new { id = "FrmAddUser" }))
+        {  
+            @Html.HiddenFor(x => x.UserId)
+
+            <div class="panel-body">
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">First Name</label>
+                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @title = "First name is required!", @required = "required" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Middle Name</label>
+                            @Html.TextBoxFor(x => x.MiddleName, new { @class = "form-control", @title = "Middle name is required!", @required = "required" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Last Name</label>
+                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @title = "Last name is required!", @required = "required" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Role</label>
+                            @Html.DropDownListFor(x => x.RoleId, new SelectList(Model.listRole, "RoleId", "RoleName"), "Select Role", new { @class = "width100p", @id = "RoleId" })
+                        </div>
+                    </div>
+                    @*<div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Is Deleted</label>
+                            <div class="checkbox block">
+                                @if (Model.IsDeleted == false)
+                                {
+                                
+                                    <label>
+                                        <input type="checkbox" name="IsDeleted" /></label>
+                                
+                                }
+                                else
+                                {
+                                
+                                    <label>
+                                        <input type="checkbox" name="IsDeleted" checked="checked" /></label>
+                                }
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Username</label>
+                            @Html.TextBoxFor(x => x.Username, new { @class = "form-control", @title = "Username is required!", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Password</label>
+                            @Html.TextBoxFor(x => x.Userpwd, new { @class = "form-control", @title = "Password is required!", @required = "required",@type="password" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @title = "Email is required!", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Phone</label>
+                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @title = "Phone is required!", @required = "required",@onkeypress = "return isNumberKey(event,this.id)",@maxlength="10" })
+                        </div>
+                    </div>
+                </div>
+                <!-- row -->
+            </div>
+            <!-- panel-body -->
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+            <!-- panel-footer -->
+        }
+    </div>
+    <!-- panel -->
+</div>
+<!-- col-md-6 -->
+
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        // Error Message In One Container
+        $("#FrmAddUser").validate({
+            rules: {
+                Email: {
+                    email: true
+                },
+            },
+            messages: {
+
+                Email: {
+                    email: "Invalid Email"
+                }
+            },
+            errorLabelContainer: $("#FrmAddUser div.errorForm")
+        });
+
+        jQuery("#RoleId").select2();
+
+
+    });
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+        </script>
+
+<!-- end id-form  -->

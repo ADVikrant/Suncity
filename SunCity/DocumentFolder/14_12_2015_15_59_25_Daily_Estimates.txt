@@ -1,0 +1,19 @@
+=========15-09-2015===========
+----------Drumil-----------------------
+Use of Content Provider and Content Resolver in notepad app - 4.30 hour (succed)
+
+color picker in all screens & other ui changes-1 hour (Failed)
+
+- Save should happen when i click back in notepad
+- Data showing same text when i click on all the notepads created
+- grid color should also reflect
+- 
+----------Bhavin------------
+>Item detail-View pager in header-1.5 to 2 Hrs
+>Item detail-Footer click event on phone and opening dialer-30 min to 1 Hr
+>Filter-5-6 Hrs only design (I have no prior knowledge about upto 3 to 4 level of nested expandable listview so time may be vary)
+
+- Start of with listing creation
+- Implement profile and shared prefernce code
+
+---------xxxxxxxxxxxxxx----------------------

@@ -1,0 +1,15 @@
+
+Log Entry :
+ Date Time :18-12-2015 15:11:59
+Activity:-  Member Id:1 has been unblocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :18-12-2015 15:12:08
+Activity:-  Member Id:1 has been blocked by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :18-12-2015 15:16:11
+Activity:-  Member Id:1 has been deleted by Pratik Patel
+----------------------------------------------------------------------------------

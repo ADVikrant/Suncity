@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "tupload";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+<link href="~/Content/MyUploadify/uploadify.css" rel="stylesheet" />
+<form action="@Url.Action("tupload", "Dashboard")" method="post">
+
+    <input type="file" id="Image" />
+    <input type="hidden" name="ty" id="ty" />
+    <input type="button" id="placeorder11" value="Place Order" class="btn btn-primary pull-right">
+</form>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(function () {
+        $('#Image').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreImage", "Dashboard")',
+            //'fileTypeExts': '*.jpg;*.jpeg;*.png',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'removeCompleted': false,
+            'clearQueue': false,
+            'multi': false,
+            'buttonText': 'Browse',
+            'height': '20',
+            'width': '90',
+            'line-height': '19',
+            'onCancel': function (file) {
+                //alert(file.name);
+            },
+            'onUploadSuccess': function (file, data, response) {
+                //$("#imgname").val($("#imgname").val() + "," + data);
+                console.log(file.name);
+                $("#ty").val(file.name);
+            },
+            'onComplete': function(event,queueID,fileObj,response,data) {
+                $('#ty').val(fileObj.name);
+            },
+            //'onAllComplete': function () {
+            //    $("#loadingDiv").dialog("close");
+            //},
+            'onQueueComplete': function (queueData) {
+                //window.location.href = '@Url.Action("Dashboard", "Default", new { msgdisplay = 1 })';
+                //$("#loadingDiv").dialog("close");
+
+            }
+        });
+
+        //$("#Image-queue").on("click", "div div.cancel a", function () {
+        //    var filename = $(this).parent("div.cancel").next("span.fileName").html();
+        //    alert(filename);
+        //});
+    });
+
+        $(document).ready(function () {
+
+            $("#placeorder11").click(function () {
+
+                $.ajax({
+                    url: '@Url.Action("tupload", "Dashboard")',
+                data: {
+                    //orderName: $("#txtprojectname").val(),
+                    //instructions: instruction,
+                    //deliveryDeadline: $("#txtdeliverytime").val(),
+                    //quote: $("#txtbudget").val(),
+                    //txtbtntype: $("#txtbtntype").val(),
+                    //ordertypeID: $("#ordertype").val(),
+                    //gridNo: 0
+                    i:"23"
+                },
+                type: 'POST',
+                success: function (data) {
+
+                    if (data != "false") {
+                        
+                            //window.location.href = '@Url.Action("Dashboard", "Default", new { msgdisplay = 1 })';
+                         
+                             $('#Image').uploadify('upload', '*');
+                         
+
+                     }
+                     else {
+                         // window.location.href = '@Url.Action("Dashboard", "Default", new { msgdisplay = "success" })';
+                     }
+
+                 }
+            }).complete(function () {
+
+
+            });
+
+        });
+
+    });
+
+</script>

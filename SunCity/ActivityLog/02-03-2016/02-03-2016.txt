@@ -1,0 +1,15 @@
+
+Log Entry :
+ Date Time :02-03-2016 16:01:11
+Activity:-  Membership Plan:TestM has been added by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :02-03-2016 16:05:31
+Activity:-  Membership Plan:TestM has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :02-03-2016 16:05:55
+Activity:-  Membership Plan:asdas has been added by Pratik Patel
+----------------------------------------------------------------------------------

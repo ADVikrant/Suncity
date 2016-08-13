@@ -1,0 +1,292 @@
+<ul id="myRequest-requestReceivedTab" role="tabpanel" class="requestReceivedTab tab-pane active">
+  {{^barterReceived}} 
+
+  <div class="empty_msg">
+    <span>No New Request</span>
+  </div>
+  {{/barterReceived}} 
+  
+  {{#barterReceived.length}}
+
+  {{#barterReceived}}
+  <li id="barter-request-{{id}}">
+    <div class="clearfix thead">
+      <div class="col-sm-5 col-md-4">
+        <a href="/dashboard/{{User.UserProfile.UserId}}">{{User.UserProfile.name}}s</a> Listing <svg class="icon icon-phone"><use xlink:href="#icon-phone"></use></svg>  {{offerCombo.Listings.0.contact}}
+      </div>
+      <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1">My Listing</div>
+      <div class="hidden-sm hidden-xs col-md-3 text-center">Status</div>
+    </div>
+    {{#message}}
+    <div class="col-sm-12 tooltip-details">
+      <div class="tooltip-arrow"></div>
+      {{message}}
+    </div>
+    {{/message}}
+    <div class="clearfix tbody">
+      <div class="barter-ikon-lg hidden-xs">
+        <svg class="icon icon-barter2"><use xlink:href="#icon-barter2"></use></svg>
+      </div>
+      <div class="col-sm-5 col-md-4 desc user-listing">
+        {{#offerCombo.Listings}}
+
+        {{#disabledByAdmin}} (
+        <div class="clearfix prod disabled">
+          {{/disabledByAdmin}}
+          {{^disabledByAdmin}}
+          <div class="clearfix prod">
+            {{/disabledByAdmin}}
+            <div class="item">
+
+              {{^disabledByAdmin}}
+              {{#inBarterProcess}}
+              <div class="featured {{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+                {{^disabledByAdmin}}
+                {{/disabledByAdmin}}
+                <span class="featured-txt">
+                  {{#bartered}}
+                  Gone
+                  {{/bartered}}
+
+                  {{^bartered}}
+                                    {{#enabled}}
+                  May Go Soon
+                  {{/enabled}}
+                  {{^enabled}}
+                  {{#disabledByAdmin}}
+                  Disabled By Admin
+                  {{/disabledByAdmin}}
+                  {{^disabledByAdmin}}
+                  Disabled By User
+                  {{/disabledByAdmin}}
+                  {{/enabled}}
+                  {{/bartered}}
+                </span>
+              </div>
+              {{/inBarterProcess}}
+              {{^inBarterProcess}}
+
+              {{^enabled}}
+              <div class="featured {{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+                <span class="featured-txt">
+                  {{#disabledByAdmin}}
+                  Disabled By Admin
+                  {{/disabledByAdmin}}
+                  {{^disabledByAdmin}}
+                  Disabled By User
+                  {{/disabledByAdmin}}
+                </span>
+              </div>      
+              {{/enabled}}
+
+              {{/inBarterProcess}}
+              {{/disabledByAdmin}}
+
+
+            </div>
+
+            <div class="pull-left img-cont">
+              {{#ListingImages.0}}
+              <img src="{{host}}{{imageName}}" class="img-rounded"/>
+              {{/ListingImages.0}}
+              {{^ListingImages.length}}
+              <img src="/images/default.jpg" class="img-rounded"/>
+              {{/ListingImages.length}}
+            </div>
+            <h3>
+			<!-- As we are in Listing combo then consider title of listing combo-->
+              <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+            </h3>
+            <a href="#"><img src="/images/map-icon1.png"> {{#locality}}{{locality}}, {{/locality}}{{City.name}}</a>
+          </div>
+          {{/offerCombo.Listings}}
+
+
+          {{#hasCash}}
+          <span class="offer-price">
+            <i class="fa fa-plus fa-1"></i>
+            <span>Rs: {{ offerPrice }}</span>
+          </span>
+          {{/hasCash}}
+          <div class="req-barter-icon visible-xs-block">
+            <svg class="icon icon-barter2"><use xlink:href="#icon-barter2"></use></svg>
+          </div>
+        </div>
+
+        <div class="col-sm-5 col-md-4 col-sm-offset-2 col-md-offset-1 desc">
+          {{#listingCombo.Listings}} 
+		  <!--Start of disablebyadmin block for true-->
+          {{#disabledByAdmin}}(i.e. In this if in listingcombo.listings if disablebyadmin is true then set the div with value "Disabled by admin")
+          <div class="clearfix prod disabled">(i.e. set here the "Disabbled by admin block and close the div tag")
+            {{/disabledByAdmin}}
+			<!-- End of disablebyadmin block for true-->
+            {{^disabledByAdmin}}
+            <div class="clearfix prod">
+              {{/disabledByAdmin}}
+              <div class="item">
+
+
+                {{^disabledByAdmin}}
+                {{#inBarterProcess}}
+                <div class="featured 
+				<!--if bartere == true then set the "May go soon" ribbion with red strip , if it is false or null set the "May go soon" with pink strip   -->
+				{{^disabledByAdmin}}{{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}{{/disabledByAdmin}}{{#disabledByAdmin}}red-back{{/disabledByAdmin}}">
+                  <span class="featured-txt">
+				  <!--if bartered == true then set "gone" tag/text will appear , if bartere == false then "May go soon text , if bartered == false and enabled is true then show
+				  "may go soon" text, and second if bartered is false and enabled is false then show it is "disabled by user"-->
+                    {{#bartered}}
+                    Gone
+                    {{/bartered}}
+                    {{^bartered}}
+                    {{#enabled}}
+                    May Go Soon
+                    {{/enabled}}
+                    {{^enabled}}
+                    {{#disabledByAdmin}}
+                    Disabled By Admin
+                    {{/disabledByAdmin}}
+                    {{^disabledByAdmin}}
+                    Disabled By User
+                    {{/disabledByAdmin}}
+                    {{/enabled}}
+                    {{/bartered}}
+                  </span>
+                </div>
+                {{/inBarterProcess}}
+				<!-- If inBarterProcess== false and enabled is false then show "Disabbled by user" -->
+                {{^inBarterProcess}}
+                {{^enabled}}
+                <div class="featured {{#bartered}}red-back{{/bartered}}{{^bartered}}pink-back{{/bartered}}">
+                  <span class="featured-txt">
+                    {{#disabledByAdmin}}
+                    {{#disabledByAdmin}}
+                    Disabled By Admin
+                    {{/disabledByAdmin}}
+                    {{^disabledByAdmin}}
+                    Disabled By User
+                    {{/disabledByAdmin}}
+                  </span>
+                </div>      
+                {{/enabled}}
+                {{/inBarterProcess}}
+                {{/disabledByAdmin}}
+
+              </div>
+
+              <div class="pull-left img-cont">
+                {{#ListingImages.0}}
+                <img src="{{host}}{{imageName}}" class="img-rounded"/>
+                {{/ListingImages.0}}
+                {{^ListingImages.length}}
+                <img src="/images/default.jpg" class="img-rounded"/>
+                {{/ListingImages.length}}
+              </div>
+              <h3>
+			  <!--if we are in listing combo then consider title of listing combo -->
+                <a href="/listing/{{id}}/{{slug}}" title="{{title}}" class="pure-link">{{title}}</a>
+              </h3>
+            </div>
+            {{/listingCombo.Listings}}
+          </div>
+          <div class="col-sm-12 visible-sm-block visible-xs-block text-center status-bar">
+            Status<!-- it just a static text not related to api response -->
+          </div>
+          <div class="col-sm-12 col-md-3 text-center">
+
+            
+
+
+<!--if accepted is true (then start with curly brasis { then check for  listingcombo.active == true if it is true then we have two possibilities true and false. if listingcombo.active == true {check two conditions i) if(offerCombo.active ==true OR bartered == true ) { "Accepted offer"} ii) if( offercombo.active == false and bartered == false) {" It seems <a href="/dashboard/{{User.UserProfile.UserId}}">{{User.UserProfile.name}}</a> has Exchanged this item with some other user. "} } else {It seems you have exchanged all your items with some other offer}
+
+
+ -->
+            {{#accepted}}
+
+            {{^listingCombo.bartered}}
+<!--if listingcombo.active== true &&   -->
+            {{#listingCombo.active}}
+            {{#offerCombo.active}}
+            {{#offerCombo.active}}
+            Offer Accepted
+              {{/offerCombo.active}}
+
+              {{^offerCombo.active}}
+              {{#offerCombo.bartered}}
+              Offer Accepted
+                {{/offerCombo.bartered}}
+
+                {{^offerCombo.bartered}}
+                It seems <a href="/dashboard/{{User.UserProfile.UserId}}">{{User.UserProfile.name}}</a> has Exchanged this item with some other user.
+                {{/offerCombo.bartered}}
+                {{/offerCombo.active}}
+
+                {{/listingCombo.active}}
+
+
+                {{^listingCombo.active}}
+                It seems you have exchanged all your items with some other offer
+                {{/listingCombo.active}}
+
+                {{/listingCombo.bartered}}
+
+                {{/accepted}}
+
+
+                {{#rejected}}
+                <div class="status awaiting-response">Rejected!</div>
+                {{/rejected}}
+          </div>
+
+          <div class="request-time">
+            Request Received on {{time}}
+          </div>
+
+        </div>
+  </li>
+  {{/barterReceived}}
+  {{/barterReceived.length}}
+
+  <!-- @pratik: You can ingrore the section from here -->
+  <li>
+    {{# invitaionsReceived.length }}
+    <h3> Demand List Invitations Received </h3>
+    <table class="table" >
+      <thead>
+        <tr>
+          <th>From User</th>
+          <th>Offers(s)</th>
+          <th>Message </th>
+          <th> Date </th>
+        </tr>
+        </tr>
+      </thead>
+      <tbody>
+        {{# invitaionsReceived }}
+        <tr>
+          <td>
+            <a href="/dashboard/{{senderId}}"> <h4>{{ sender.UserProfile.name }}</h4> </a>
+          </td>
+          <td>
+            <ul>
+              {{# offeredListings }}
+              <li>
+                <a href="/listing/{{id}}/{{slug}}">{{ title }}</a>
+              </li>
+              {{/ offeredListings }}
+            </ul>
+          </td>
+          <td><p>{{ message }}</p></td>
+          <td>
+            {{ createdAt }}
+          </td>
+        </tr>
+        {{/ invitaionsReceived }}
+      </tbody>
+    </table>
+
+    {{/ invitaionsReceived.length }}
+  </li>
+
+
+</ul>
+

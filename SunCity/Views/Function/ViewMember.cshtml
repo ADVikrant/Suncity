@@ -1,0 +1,81 @@
+﻿@model SunCity.Models.Member
+@{
+    ViewBag.Title = "View Member";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Member</strong> updated successfully.
+                               
+    </div>
+}
+@if (TempData["deletestatusmember"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Member</strong> deleted successfully.
+                               
+    </div>
+}
+@if (TempData["blockstatusmember"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Member</strong> blocked successfully.
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+<div class="col-md-8">
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.Action("_GridMembers")
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        // Error Message In One Container
+        $("#FrmViewMember").validate({
+            rules: {
+                EmailId: {
+                    email: true
+                },
+            },
+            messages: {
+
+                EmailId: {
+                    email: "Invalid Email"
+                }
+            },
+            errorLabelContainer: $("#FrmViewMember div.errorForm")
+        });
+
+        jQuery("#Member1-gender").select2({ minimumResultsForSearch: -1 });
+        jQuery('#mem1dob').datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+    });
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+        </script>
+
+<!-- end id-form  -->

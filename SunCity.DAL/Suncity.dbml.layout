@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 18, 16.375" name="Suncity">
+  <DataContextMoniker Name="/SuncityDataContext" />
+  <nestedChildShapes>
+    <classShape Id="c007362f-5ea4-440e-b0ea-49deafc1e413" absoluteBounds="0.75, 3.75, 2, 3.6939111328124992">
+      <DataClassMoniker Name="/SuncityDataContext/BackUpMember" />
+      <nestedChildShapes>
+        <elementListCompartment Id="09f73437-224b-47e5-bfa3-2c9a4e0115d9" absoluteBounds="0.765, 4.21, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="76abf275-5a74-4583-82f3-bfbfb318785e" absoluteBounds="3.75, 3.75, 2, 3.6939111328124992">
+      <DataClassMoniker Name="/SuncityDataContext/TempMembershipReg" />
+      <nestedChildShapes>
+        <elementListCompartment Id="de795624-4d6c-4990-bf97-7aea71c1e174" absoluteBounds="3.765, 4.21, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="acef2520-0c36-4926-afe5-4cc4a3a3b841" absoluteBounds="0.75, 0.875, 2, 1.5785953776041664">
+      <DataClassMoniker Name="/SuncityDataContext/PermissionRecord" />
+      <nestedChildShapes>
+        <elementListCompartment Id="079bd5c8-5c0a-44fe-9690-ffcb15ef2cf5" absoluteBounds="0.765, 1.335, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1f0dc6d1-52e6-4df0-8ef1-c43ecc8a67f8" absoluteBounds="3.5, 1, 2, 1.3862939453125003">
+      <DataClassMoniker Name="/SuncityDataContext/PermissionRecord_Role_Mapping" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5f491c24-021d-4adf-b17d-e291b4677631" absoluteBounds="3.515, 1.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="72aaeee2-ce67-419d-92c5-6358ffea24f0" absoluteBounds="6.75, 0.75, 2, 1.7708968098958329">
+      <DataClassMoniker Name="/SuncityDataContext/TblActivity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7c5f0495-2fd1-4768-8880-5a8659ab3ec9" absoluteBounds="6.765, 1.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a4ee0436-65e9-4677-a764-3773074083a6" absoluteBounds="6.75, 3.75, 2, 1.7708968098958327">
+      <DataClassMoniker Name="/SuncityDataContext/TblDepartment" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b0993728-4392-42ae-8908-cd07f3e68573" absoluteBounds="6.765, 4.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8f839c02-cd5e-44b4-86dc-45699f0fd3bb" absoluteBounds="6.75, 6.75, 2, 1.7708968098958327">
+      <DataClassMoniker Name="/SuncityDataContext/TblDocument" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5f56ae3e-abe1-4500-978c-c83072df2edf" absoluteBounds="6.765, 7.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="517c2992-2c8e-4457-bf84-cef7938b51df" absoluteBounds="0.75, 8.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/SuncityDataContext/TblFestival" />
+      <nestedChildShapes>
+        <elementListCompartment Id="16b38e02-2542-44cf-9262-a9b042a044c9" absoluteBounds="0.765, 9.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="56b1a745-25ce-4f15-a23e-28d6869c4c50" absoluteBounds="9.75, 0.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SuncityDataContext/TblField" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f849bab7-6eee-4f07-8481-04fd8c1e304f" absoluteBounds="9.765, 1.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a401efe2-ad7c-419c-95b5-9c9835326d21" absoluteBounds="9.75, 3.75, 2, 1.3862939453125005">
+      <DataClassMoniker Name="/SuncityDataContext/TblMapFieldUserType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="36b156a4-4a72-45c6-ad00-4696d0a004f8" absoluteBounds="9.765, 4.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6e73e517-29e5-44cc-a78f-ebf2b7d90b63" absoluteBounds="3.75, 9.75, 2, 1.3862939453124987">
+      <DataClassMoniker Name="/SuncityDataContext/TblMapMemberProfilePicture" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6453dfa8-667f-42be-a527-8caff721fc06" absoluteBounds="3.765, 10.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4d0f5ebd-5dba-4808-a618-75d70f797051" absoluteBounds="9.75, 6.75, 2, 1.3862939453125005">
+      <DataClassMoniker Name="/SuncityDataContext/TblMapPackageActivity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cad3002d-7b5e-4b9c-a704-73e79be5b7c5" absoluteBounds="9.765, 7.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="96cefa5f-c2a6-40de-a815-5bab88e6dbcc" absoluteBounds="6.75, 9.75, 2, 3.6939111328124987">
+      <DataClassMoniker Name="/SuncityDataContext/TblMember" />
+      <nestedChildShapes>
+        <elementListCompartment Id="21f49cb4-2941-4845-a308-4ebea5f1c839" absoluteBounds="6.765, 10.21, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="55118ddc-02e8-44ac-8cd6-2ea5b9bde5da" absoluteBounds="9.75, 9.75, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/SuncityDataContext/TblMembershipPlan" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b10198bf-2edb-4684-9737-2876feec1104" absoluteBounds="9.765, 10.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c7a672b4-db88-4c79-a1cf-92cf3c423cb1" absoluteBounds="12.75, 0.75, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/SuncityDataContext/TblMembershipRegistration" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e6b8bd05-2bce-4839-8176-3ce1db161de9" absoluteBounds="12.765, 1.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a2522103-1b45-4d8a-8486-468ba38f9906" absoluteBounds="0.75, 12.75, 2, 1.7708968098958344">
+      <DataClassMoniker Name="/SuncityDataContext/TblPackage" />
+      <nestedChildShapes>
+        <elementListCompartment Id="746813df-a38c-4198-b305-08f85b713db2" absoluteBounds="0.765, 13.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c2cc8c26-0ce6-4721-8d77-822147e4fb1f" absoluteBounds="12.75, 4.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SuncityDataContext/TblProfilePicture" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8b49a61c-7ef7-4bc5-b312-0c84a8595778" absoluteBounds="12.765, 5.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="bdb02a88-278c-4cb1-ab41-dc20764b94cc" absoluteBounds="12.75, 7.75, 2, 1.7708968098958335">
+      <DataClassMoniker Name="/SuncityDataContext/TblRole" />
+      <nestedChildShapes>
+        <elementListCompartment Id="69e71eee-1957-45e1-a36a-0c833c51437a" absoluteBounds="12.765, 8.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="cbd16dd2-e02e-4ad8-94c1-d7c0d5089692" absoluteBounds="12.75, 10.75, 2, 3.3093082682291666">
+      <DataClassMoniker Name="/SuncityDataContext/TblUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5c33cae7-8f41-4ac1-a53a-0dcaaa8837c2" absoluteBounds="12.765, 11.21, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8e825e26-0cac-42eb-84f3-90528943409f" absoluteBounds="3.75, 14.75, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/SuncityDataContext/TblUserType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1e99a34b-0fef-4736-b2d2-28e4c8ab4314" absoluteBounds="3.765, 15.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="05b5a297-8c43-4a19-bf26-d2a7e6186e27" absoluteBounds="6.75, 14.75, 2, 1.3862939453124987">
+      <DataClassMoniker Name="/SuncityDataContext/TempMapMember" />
+      <nestedChildShapes>
+        <elementListCompartment Id="18771a5b-8d36-4a1d-8795-d4eec05f91d3" absoluteBounds="6.765, 15.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="bf242f45-1d30-4b49-af50-65f7e067084c" absoluteBounds="15.75, 0.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SuncityDataContext/TempMapPlanUserType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2d298e0a-03c3-47da-abcd-ae8e07679114" absoluteBounds="15.765, 1.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="34cd7f57-d77c-4e9d-b93c-c91a42b7c826" absoluteBounds="15.75, 3.75, 2, 2.347801106770834">
+      <DataClassMoniker Name="/SuncityDataContext/TempMember" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ae49ff90-05f7-4138-8cb2-a63fad35fa1d" absoluteBounds="15.765, 4.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4d19f9df-a6f0-46be-9340-c3de4c34fa91" absoluteBounds="15.75, 7.75, 2, 2.3478011067708344">
+      <DataClassMoniker Name="/SuncityDataContext/TempMembershipPlan" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4c909c8c-1b14-4c8e-bcd5-d00910b4e49e" absoluteBounds="15.765, 8.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 1.69314697265625); (3.5 : 1.69314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SuncityDataContext/PermissionRecord/PermissionRecord_PermissionRecord_Role_Mapping" />
+      <nodes>
+        <classShapeMoniker Id="acef2520-0c36-4926-afe5-4cc4a3a3b841" />
+        <classShapeMoniker Id="1f0dc6d1-52e6-4df0-8ef1-c43ecc8a67f8" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

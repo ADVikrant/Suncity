@@ -1,0 +1,93 @@
+-- =============================================
+
+-- Nirmal
+
+-- 2015/03/11
+
+-- 
+
+-- =============================================
+
+CREATE PROCEDURE [dbo].[OrderToCreateInvoice] 
+
+	@companyid int =null
+
+AS
+
+BEGIN
+
+	-- SET NOCOUNT ON added to prevent extra result sets from
+
+	-- interfering with SELECT statements.
+
+	SET NOCOUNT ON;
+
+	if @companyid is null 
+
+begin
+
+set @companyid=-1
+
+end
+
+
+
+select 
+
+a.OrderId
+
+,b.ClientId
+
+,a.OrderDate
+
+,a.OrderName
+
+,a.ReferenceNo
+
+,a.Quote
+
+,e.OrderTypeName
+
+,f.[Status]
+
+,b.CompanyId
+
+,c.Name 
+
+,b.FirstName as ClientName
+
+,a.Quote as amount
+
+from (select  a.* from [order] a
+
+left outer join invoice b on a.orderid=b.orderid
+
+where  a.orderid > 55000 and a.Isdeleted=0 and a.StatusId=38 and b.invoiceid is null ) a
+
+join OrderType e on a.OrderTypeId=e.OrderTypeId
+
+join OrderStatus f on a.StatusId=f.OrderStatusId
+
+join clientinfo b on a.ClientId=b.ClientId
+
+join Company c on b.CompanyId=c.CompanyId
+
+--join payment d on a.orderid=d.orderid
+
+where 
+
+(case 
+
+when @companyid !=-1 then
+
+c.companyid
+
+else
+
+ -1
+
+end = @companyid)
+
+order by a.orderid desc
+
+END

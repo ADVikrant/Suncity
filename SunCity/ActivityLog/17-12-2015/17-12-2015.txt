@@ -1,0 +1,105 @@
+
+Log Entry :
+ Date Time :17-12-2015 12:14:28
+Activity:-  Member:a1 a1 has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 12:18:27
+Activity:-  Member:a2 a3 has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 13:01:19
+Activity:-  Member:2b 2c has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 13:18:01
+Activity:-  Member:A+ve Male has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 14:51:50
+Activity:-  Member:A+ve Male has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 15:01:03
+Activity:-  Member:1 1 has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 15:01:21
+Activity:-  Member:1 1 has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 15:05:19
+Activity:-  Member:1 1 has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 15:06:16
+Activity:-  Member:2b 2c has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 15:13:03
+Activity:-  Membership Plan:Corporate Membership Package has been added by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 16:34:45
+Activity:-  Membership Plan:a has been added by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 16:37:08
+Activity:-  Membership Plan:Corporate Membership Package has been added by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 17:27:30
+Activity:-  Membership Plan:Corporate Membership Package has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 17:32:46
+Activity:-  Membership Plan:Corporate Membership Package has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 17:33:28
+Activity:-  Membership Plan:Corporate Membership Package has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 17:49:05
+Activity:-  Membership Plan:Corporate Membership Package has been deleted by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 18:18:16
+Activity:-  Membership Plan:Single Male Membership has been added by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 18:39:48
+Activity:-  Membership Plan:Single Male Membership has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 18:40:29
+Activity:-  Membership Plan:Single Male Membership has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 19:28:22
+Activity:-  Photo of Member#:27 has been updated by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :17-12-2015 19:29:04
+Activity:-  Member:Vadodara 12312 has been edited by Pratik Patel
+----------------------------------------------------------------------------------

@@ -1,0 +1,20 @@
+
+Log Entry :
+ Date Time :27-02-2016 14:23:30
+Activity:-  Festival:Holi has been added by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :27-02-2016 16:12:44
+Activity:-  Festival:Holi has been added by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :27-02-2016 16:58:13
+Activity:-  Activity:Holi2016 has been edited by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :27-02-2016 17:20:08
+Activity:-  Activity:Holi2016 has been deleted by Pratik Patel
+----------------------------------------------------------------------------------

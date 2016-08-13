@@ -1,0 +1,25 @@
+
+Log Entry :
+ Date Time :29-12-2015 18:17:54
+Activity:-  Role:Manager has been added by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :29-12-2015 18:19:09
+Activity:-  User:Manager Homes  has been added by Pratik Patel
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :29-12-2015 18:19:13
+Activity:- Pratik Patel logged out of system
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :29-12-2015 18:40:13
+Activity:- Pratik Patel logged out of system
+----------------------------------------------------------------------------------
+
+Log Entry :
+ Date Time :29-12-2015 18:44:34
+Activity:- Manager Homes logged out of system
+----------------------------------------------------------------------------------

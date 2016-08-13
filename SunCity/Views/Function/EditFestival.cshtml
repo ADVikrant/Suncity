@@ -1,0 +1,130 @@
+﻿
+@model SunCity.DAL.TblFestival
+@{
+    ViewBag.Title = "Edit Festival";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Festival Detail</strong> added successfully.
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+<div class="col-md-6">
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                @*<a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>*@
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Add Festival Details</h4>
+            <p>This form is used to add festival date and summary of the event to be held.</p>
+        </div>
+        @using (Html.BeginForm("EditFestival", "Function", FormMethod.Post, new { id = "Adduserrole" }))
+        {  
+            @Html.HiddenFor(x => x.NotificationId)
+
+            <div class="panel-body">
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Festival</label>
+                            @Html.TextBoxFor(x => x.FestivalName, new { @class = "form-control", @title = "Festival/Event name is required!", @required = "required" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                </div>
+                
+                <!-- row -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Festival event summary</label>
+                            @Html.TextBoxFor(x => x.FestivalNote, new { @class = "form-control", @title = "Festival name is required!" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Date</label>
+                            @Html.TextBoxFor(x => x.FestivalDate, new { @class = "form-control", @placeholder = "yyyy-mm-dd", @required = "required", @title = "Festival/Event Date is required!", @id = "FestivalDate" })@*<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>*@
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                </div>
+
+                <!-- row -->
+            </div>
+            <!-- panel-body -->
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+                
+                <input type="hidden" id="hiddendeleteflag" name="hiddendeleteflag" value="0" />
+                @*<button class="btn btn-warning" type="submit" onclick="setDeleteFlag();">Delete</button>*@
+                <input type="hidden" id="hiddencancelflag" name="hiddencancelflag" value="0" />
+                <button class="btn btn-default" type="submit" onclick="setCancelFlag();">Cancel</button>
+            </div>
+            <!-- panel-footer -->
+        }
+    </div>
+    <!-- panel -->
+</div>
+<!-- col-md-6 -->
+
+
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    function setDeleteFlag() {
+        var r = confirm("Are you sure you want to delete this Role?");
+        if (r == true) {
+            $("#hiddendeleteflag").val("1");
+        } else {
+            $("#hiddendeleteflag").val("0");
+            return false;
+        }
+
+    }
+    function setCancelFlag() {
+        $("#hiddencancelflag").val("1");
+    }
+    $(document).ready(function () {
+
+        // Error Message In One Container
+        $("#Adduserrole").validate({
+            errorLabelContainer: $("#Adduserrole div.errorForm")
+        });
+
+        jQuery('#FestivalDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            //showOn: "button",
+            //buttonImage: "/Content/images/calendaricon.png",
+            //buttonImageOnly: true,
+            //buttonText: "Select date"
+
+        });
+
+
+    });
+        </script>

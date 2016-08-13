@@ -1,0 +1,95 @@
+﻿@model List<SunCity.DAL.TempMembershipPlan>
+@{
+    ViewBag.Title = "GridMembershipPlans";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership Plan</strong> updated successfully.
+                               
+    </div>
+}
+@if (TempData["deletestatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership Plan</strong> deleted successfully.
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+<div class="panel panel-primary-head">
+    <div class="panel-heading">
+        <h4 class="panel-title">Membership Plan List</h4>
+        @*<p>Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example.</p>*@
+    </div>
+    <!-- panel-heading -->
+
+    <table id="MembershipPlanTable" class="table table-striped table-bordered responsive">
+        <thead class="">
+            <tr>
+                <th style="display: none">MemberPlan#</th>
+                <th>Membership Plan Name</th>
+                <th>Membership Period</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var p in Model)
+            {
+
+                <tr>
+
+                    <td style="display: none;">@p.TempPlanId</td>
+                    <td>@p.TempPlanName</td>
+                    <td>@p.TempPeriod</td>
+                    <td >
+                        @if (p.IsDeleted == true)
+                        {
+                            
+                            <span class="glyphicon glyphicon-remove"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon-ok"></span>
+                        }
+
+                    </td>
+                    <td><a href="@Url.Action("EditMembershipPlan", new { TempPlanId = p.TempPlanId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMembershipPlan", new { TempPlanId = p.TempPlanId })" onclick="javascript:return ConfirmDeleteMembershipPlan();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<!-- panel -->
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery('#MembershipPlanTable').DataTable({
+            responsive: true
+        });
+        var MembershipPlanTable = $('#MembershipPlanTable').dataTable();
+        // Sort immediately with columns 0 and 1
+        MembershipPlanTable.fnSort([[0, 'desc']]);
+    });
+
+    function ConfirmDeleteMembershipPlan() {
+        return confirm("Are you sure want to delete this Membership Plan?");
+    }
+
+</script>
+

@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Suncity" Class="SuncityDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LENOVO-PC\SQLEXPRESS;Initial Catalog=Suncity;Persist Security Info=True;User ID=sa" SettingsObjectName="SunCity.DAL.Properties.Settings" SettingsPropertyName="SuncityConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.BackUpMembers" Member="BackUpMembers">
+    <Type Name="BackUpMember">
+      <Column Name="BkpId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MemberFirstName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MemberLastName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MemberMiddleName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MemberDOB" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="EmailId" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsBlocked" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MembershipRegistrationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TempMembershipReg" Member="TempMembershipRegs">
+    <Type Name="TempMembershipReg">
+      <Column Name="TempMembershipRegistrationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TempPlanId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TempPackageId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TempStartDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TempEndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Amount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="TempMembershipNo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NameofClub" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="OtherMembershipType" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ReferenceName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="RelationtoMember" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="HowLong" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PermissionRecord" Member="PermissionRecords">
+    <Type Name="PermissionRecord">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="SystemName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Category" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="PermissionRecord_PermissionRecord_Role_Mapping" Member="PermissionRecord_Role_Mappings" ThisKey="Id" OtherKey="PermissionRecord_Id" Type="PermissionRecord_Role_Mapping" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PermissionRecord_Role_Mapping" Member="PermissionRecord_Role_Mappings">
+    <Type Name="PermissionRecord_Role_Mapping">
+      <Column Name="PermissionMappingId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PermissionRecord_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Role_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="PermissionRecord_PermissionRecord_Role_Mapping" Member="PermissionRecord" ThisKey="PermissionRecord_Id" OtherKey="Id" Type="PermissionRecord" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblActivity" Member="TblActivities">
+    <Type Name="TblActivity">
+      <Column Name="ActivityId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActivityName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblDepartment" Member="TblDepartments">
+    <Type Name="TblDepartment">
+      <Column Name="DeptId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DeptName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblDocuments" Member="TblDocuments">
+    <Type Name="TblDocument">
+      <Column Name="DocumentId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DocumentName" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="MembershipRegistrationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblFestival" Member="TblFestivals">
+    <Type Name="TblFestival">
+      <Column Name="NotificationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FestivalName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FestivalNote" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="FestivalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblField" Member="TblFields">
+    <Type Name="TblField">
+      <Column Name="FieldId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FieldName" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="FieldText" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="FieldType" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblMapFieldUserType" Member="TblMapFieldUserTypes">
+    <Type Name="TblMapFieldUserType">
+      <Column Name="MapFieldUserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserTypeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FieldId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblMapMemberProfilePicture" Member="TblMapMemberProfilePictures">
+    <Type Name="TblMapMemberProfilePicture">
+      <Column Name="MemberProfileId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MemberId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ProfilePictureId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblMapPackageActivity" Member="TblMapPackageActivities">
+    <Type Name="TblMapPackageActivity">
+      <Column Name="MapPkgActId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PackageId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ActivityId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblMembers" Member="TblMembers">
+    <Type Name="TblMember">
+      <Column Name="MemberId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MemberFirstName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MemberLastName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MemberMiddleName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MemberDOB" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="EmailId" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsBlocked" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MembershipRegistrationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblMembershipPlan" Member="TblMembershipPlans">
+    <Type Name="TblMembershipPlan">
+      <Column Name="MembershipPlanId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MembershipPlanName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MembershipPeriod" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Amount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="NOFAdults" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NOFCouple" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NOFChilds" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblMembershipRegistration" Member="TblMembershipRegistrations">
+    <Type Name="TblMembershipRegistration">
+      <Column Name="MembershipRegistrationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MembershipPlanId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PackageId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MembershipStartDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MembershipEndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MembershipNo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Amount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblPackage" Member="TblPackages">
+    <Type Name="TblPackage">
+      <Column Name="PackageId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PackageName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblProfilePicture" Member="TblProfilePictures">
+    <Type Name="TblProfilePicture">
+      <Column Name="ProfilePictureId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProfiePictureName" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblRole" Member="TblRoles">
+    <Type Name="TblRole">
+      <Column Name="RoleId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblUser" Member="TblUsers">
+    <Type Name="TblUser">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Userpwd" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MiddleName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DeptId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RoleId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblUserType" Member="TblUserTypes">
+    <Type Name="TblUserType">
+      <Column Name="UserTypeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserType" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TempMapMember" Member="TempMapMembers">
+    <Type Name="TempMapMember">
+      <Column Name="TempMapMemberId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TempMemberId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserDataobj" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TempMapPlanUserType" Member="TempMapPlanUserTypes">
+    <Type Name="TempMapPlanUserType">
+      <Column Name="MapPlanUserTypeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TempPlanId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserTypeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usercount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TempMember" Member="TempMembers">
+    <Type Name="TempMember">
+      <Column Name="TempMemberId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TempMembershipRegistrationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserTypeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserDataobj" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsBlocked" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PinNo" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="BarcodeImage" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TempMembershipPlan" Member="TempMembershipPlans">
+    <Type Name="TempMembershipPlan">
+      <Column Name="TempPlanId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TempPlanName" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="TempPeriod" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TempAmount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TempMembershipCode" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

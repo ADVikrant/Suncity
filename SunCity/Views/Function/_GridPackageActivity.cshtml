@@ -1,0 +1,52 @@
+﻿@model List<SunCity.DAL.TblPackage>
+
+<div class="panel panel-primary-head">
+    <div class="panel-heading">
+        <h4 class="panel-title">Package-Activity List</h4>
+        @*<p>Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example.</p>*@
+    </div>
+    <!-- panel-heading -->
+
+    <table id="PackageActivityTable" class="table table-striped table-bordered responsive">
+        <thead class="">
+            <tr>
+                <th style="display: none">Package#</th>
+                <th>Package Name</th>
+                <th>Activities</th>
+                
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var p in Model)
+            {
+
+                <tr>
+                    <td style="display: none;">@p.MapPackageId</td>
+                    <td>@p.MapPackageName</td>
+                    <td>
+                       @p.Activities
+
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<!-- panel -->
+ <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery('#PackageActivityTable').DataTable({
+            responsive: true
+        });
+        var PackageActivityTable = $('#PackageActivityTable').dataTable();
+        // Sort immediately with columns 0 and 1
+        PackageActivityTable.fnSort([[0, 'desc']]);
+    });
+
+   
+
+</script>

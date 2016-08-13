@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "View Membership Plan";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership Plan</strong> updated successfully.
+                               
+    </div>
+}
+@if (TempData["deletestatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership Plan</strong> deleted successfully.
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+<div class="col-md-8">
+    <div class="row">
+        <div class="col-sm-9">
+            @Html.Action("_GridMembershipPlans")
+        </div>
+    </div>
+</div>
+
+    

@@ -1,0 +1,147 @@
+﻿@model SunCity.DAL.TblUser
+@{
+    ViewBag.Title = "My Profile";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                <a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">My Profile</h4>
+            <p>This form is used to edit user profile.</p>
+        </div>
+        @using (Html.BeginForm("MyProfile", "Accounts", FormMethod.Post, new { id = "FrmEditUser" }))
+        {  
+            @Html.HiddenFor(x => x.UserId)
+
+            <div class="panel-body">
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">First Name</label>
+                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @title = "First name is required!", @required = "required" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Middle Name</label>
+                            @Html.TextBoxFor(x => x.MiddleName, new { @class = "form-control", @title = "Middle name is required!", @required = "required" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Last Name</label>
+                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @title = "Last name is required!", @required = "required" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Role</label>
+                            @Html.DropDownListFor(x => x.RoleId, new SelectList(Model.listRole, "RoleId", "RoleName"), "Select Role", new { @class = "width100p", @id = "RoleId" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Is Deleted</label>
+                            <div class="checkbox block">
+                                @if (Model.IsDeleted == false)
+                                {
+                                
+                                    <label>
+                                        <input type="checkbox" name="IsDeleted" /></label>
+                                
+                                }
+                                else
+                                {
+                                
+                                    <label>
+                                        <input type="checkbox" name="IsDeleted" checked="checked" /></label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Username</label>
+                            @Html.TextBoxFor(x => x.Username, new { @class = "form-control", @title = "Username is required!", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Password</label>
+                            @Html.TextBoxFor(x => x.Userpwd, new { @class = "form-control", @title = "Password is required!", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @title = "Email is required!", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Phone</label>
+                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @title = "Phone is required!", @required = "required",@onkeypress = "return isNumberKey(event,this.id)" })
+                        </div>
+                    </div>
+                </div>
+                <!-- row -->
+            </div>
+            <!-- panel-body -->
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+            <!-- panel-footer -->
+        }
+    </div>
+    <!-- panel -->
+</div>
+
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        // Error Message In One Container
+        $("#FrmEditUser").validate({
+            rules: {
+                Email: {
+                    email: true
+                },
+            },
+            messages: {
+
+                Email: {
+                    email: "Invalid Email"
+                }
+            },
+            errorLabelContainer: $("#FrmEditUser div.errorForm")
+        });
+
+        jQuery("#RoleId").select2();
+
+
+    });
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+        </script>

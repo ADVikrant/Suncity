@@ -1,0 +1,1424 @@
+﻿@model SunCity.Models.TempViewRegModel
+@{
+    ViewBag.Title = "View Membership";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<link href="~/Content/MyUploadify/uploadify.css" rel="stylesheet" />
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership</strong> updated successfully.
+                               
+    </div>
+}
+@if (TempData["deletestatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Membership</strong> deleted successfully.
+   
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+   
+    </div>
+}
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+
+                @*<a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>*@
+                @*<a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>*@
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Membership Registration
+                <div style="float: right;">
+                    @if (Model.objtempreg.TempPlanId != Convert.ToInt32(SunCity.Core.Enum.TempMembershipPlan.Corporate_Membership_Package) && Model.objtempreg.TempPlanId != Convert.ToInt32(SunCity.Core.Enum.TempMembershipPlan.Single_Male_Membership) && Model.objtempreg.TempPlanId != Convert.ToInt32(SunCity.Core.Enum.TempMembershipPlan.Single_Female_Membership))
+                    {
+                        <button class="btn btn-dark btn-sm" data-toggle="modal" data-target=".bs-example-modal-static">Add New Member</button>
+                    }
+                </div>
+            </h4>
+
+            @*<p>This form is used to add new members to our world.</p>*@
+        </div>
+        @using (Html.BeginForm("NewViewMembership", "Dashboard", FormMethod.Post, new { id = "FrmAddMemberRegistration", name = "FrmAddMemberRegistration" }))
+        {  
+            @Html.HiddenFor(x => x.objtempreg.TempMembershipRegistrationId)
+
+            
+        
+            <div class="panel-body">
+                <div class="alert alert-danger" id="divphnmsg" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Please enter valid 10 digit mobile number.
+               
+                </div>
+                <div class="errorForm"></div>
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="hidden" name="MembershipPlanId" value="@Model.objtempreg.TempPlanId" />
+                                <label class="control-label">Membership Plan</label>
+                                @Html.DropDownListFor(x => x.objtempreg.TempPlanId, new SelectList(Model.templistMembershipPlan, "TempPlanId", "TempPlanName"), "Select Membership Plan", new { @class = "width300", @id = "MembershipPlanId", @required = "required", @title = "Select Membership Plan!", @disabled = "disabled" })
+
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-5">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="hidden" name="PackageId" value="@Model.objtempreg.TempPackageId" />
+                                <label class="control-label">Package</label>
+                                @Html.DropDownListFor(x => x.objtempreg.TempPackageId, new SelectList(Model.listPackages, "PackageId", "PackageName"), "Select Package", new { @class = "width300", @id = "PackageId",  @title = "Select Package!" })
+
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Start Date</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.objtempreg.TempStartDate, new { @class = "form-control", @placeholder = "yyyy-mm-dd", @required = "required", @title = "Select Membership Start Date!", @id = "MembershipStartDate", @disabled = "disabled" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">End Date</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.objtempreg.TempEndDate, new { @class = "form-control", @placeholder = "yyyy-mm-dd", @required = "required", @title = "Select Membership Start Date!", @id = "MembershipStartDate", @disabled = "disabled" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Amount</label>
+                                <div class="input-group">
+                                    <input type="text" id="DAmount" name="DAmount" value="@Model.objtempreg.Amount" disabled="disabled" class="form-control" />
+
+                                </div>
+                            </div>
+                            <!-- input-group -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Documents</label>
+                            <input type="hidden" name="hiddendocs" id="hiddendocs" />
+                            <input type="file" name="membershipdocs" id="membershipdocs" class="form-control" required="required" title="Documents are required!" />
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="control-label">Documents submitted</label>
+                        <div class="input-group">
+                            <ul>
+                                @foreach (var doc in Model.listdocuments)
+                                {
+                                    if (Model.listdocuments.Count > 0)
+                                    {
+                                    <li>@doc.DocumentName.Substring(20)<a href="@Url.Action("Download", "Dashboard", new { docid = doc.DocumentId })" title="Download">&nbsp;&nbsp;<span class="glyphicon glyphicon-download"></span></a> <a title="Delete" style="cursor:pointer;" href="@Url.Action("DeleteDocument", "Function", new { Documentid = doc.DocumentId, MembershipRegistrationId = Model.objtempreg.TempMembershipRegistrationId })"><span class="glyphicon glyphicon-trash"></span></a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="binddata">
+                    <div class="panel panel-primary-head">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Members List</h4>
+                            @*<p>Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example.</p>*@
+                        </div>
+                        <!-- panel-heading -->
+
+                        <table id="UserTable" class="table table-striped table-bordered responsive">
+                            <thead class="">
+                                <tr>
+                                    <th style="display: none">Member#</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Active</th>
+
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var p in Model.lstdeserialize)
+                                {
+
+                                    if (p.UserTypeId == 1)
+                                    {
+                                    <tr>
+                                        <td style="display: none;">@p.MemberId</td>
+                                        <td>@p.debobj[0].value @p.debobj[1].value @p.debobj[2].value</td>
+                                        <td>@p.debobj[9].value</td>
+                                        <td>@p.debobj[7].value</td>
+                                        <td>
+                                            @if (p.Isdeleted == true)
+                                            {
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            }
+                                            else
+                                            { 
+                                                <span class="glyphicon glyphicon-ok"></span>
+                            
+                                            }
+
+                                        </td>
+
+                                        <td><a href="@Url.Action("NewEditMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" onclick="javascript:return ConfirmDeleteMember();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    }
+                                    else if (p.UserTypeId == 2)
+                                    {
+                                    <tr>
+                                        <td style="display: none;">@p.MemberId</td>
+                                        <td>@p.debobj[0].value @p.debobj[1].value @p.debobj[2].value</td>
+                                        <td>@p.debobj[9].value</td>
+                                        <td>@p.debobj[7].value</td>
+                                        <td>
+                                            @if (p.Isdeleted == true)
+                                            {
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            }
+                                            else
+                                            { 
+                                                <span class="glyphicon glyphicon-ok"></span>
+                            
+                                            }
+
+                                        </td>
+
+                                        <td><a href="@Url.Action("NewEditMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" onclick="javascript:return ConfirmDeleteMember();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    }
+                                    else if (p.UserTypeId == 3)
+                                    {
+                                    <tr>
+                                        <td style="display: none;">@p.MemberId</td>
+                                        <td>@p.debobj[0].value </td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>
+                                            @if (p.Isdeleted == true)
+                                            {
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            }
+                                            else
+                                            { 
+                                                <span class="glyphicon glyphicon-ok"></span>
+                            
+                                            }
+
+                                        </td>
+
+                                        <td><a href="@Url.Action("NewEditMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" onclick="javascript:return ConfirmDeleteMember();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    }
+                                    else if (p.UserTypeId == 4)
+                                    {
+                                    <tr>
+                                        <td style="display: none;">@p.MemberId</td>
+                                        <td>@p.debobj[0].value </td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>
+                                            @if (p.Isdeleted == true)
+                                            {
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            }
+                                            else
+                                            { 
+                                                <span class="glyphicon glyphicon-ok"></span>
+                            
+                                            }
+
+                                        </td>
+
+                                        <td><a href="@Url.Action("NewEditMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" title="Edit" class="icon-1 info-tooltip"><span class="glyphicon glyphicon-list-alt"></span></a>&nbsp;&nbsp;<a href="@Url.Action("DeleteMember", new { MemberId = p.MemberId, rtflag = Model.objtempreg.TempMembershipRegistrationId })" onclick="javascript:return ConfirmDeleteMember();" title="Delete" ><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Membership of Other clubs:</h4>
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Name of Club</label>
+                                @Html.TextBoxFor(x => x.objtempreg.NameofClub, new { @class = "form-control", @title = "Enter Name of other clubs!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Membership Type</label>
+                                @Html.TextBoxFor(x => x.objtempreg.OtherMembershipType, new { @class = "form-control", @title = "Enter Membership Type!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Reference Details:</h4>
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Reference name of existing Suncity member</label>
+                                @Html.TextBoxFor(x => x.objtempreg.ReferenceName, new { @class = "form-control", @title = "Enter Reference name of existing Suncity club members!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Relation with member</label>
+                                @Html.TextBoxFor(x => x.objtempreg.RelationtoMember, new { @class = "form-control", @title = "Enter Relation with member!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">How long are you known to the referrer member</label>
+                                @Html.TextBoxFor(x => x.objtempreg.HowLong, new { @class = "form-control", @title = "Enter How long are you known to the referrer member!" })
+                            </div>
+                        </div>
+                        <!-- form-group -->
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <input type="hidden" id="hiddendeleteflag" name="hiddendeleteflag" value="0" />
+                @*<button class="btn btn-warning" type="submit" onclick="setDeleteFlag();">Delete</button>*@
+                <input type="hidden" id="hiddencancelflag" name="hiddencancelflag" value="0" />
+                @*<button class="btn btn-default" type="submit" onclick="setCancelFlag();">Cancel</button>*@
+                <a href="@Url.Action("ViewMembershipList", "Dashboard")" class="btn btn-default" >Cancel</a>
+                @*<input type="hidden" id="hiddencorporateflag" name="hiddencorporateflag" />
+                <button class="btn btn-dark btn-sm" type="submit" onclick="setCorporateFlag();">Update Members</button>
+                @if (Model.MembershipPlanId == Convert.ToInt32(SunCity.Core.Enum.MembershipPlan.Corporate_Plan))
+                {
+
+                }*@
+            </div>
+        }
+    </div>
+
+</div>
+<div class="modal fade bs-example-modal-static" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" style="width: 750px;">
+
+        <div class="modal-content">
+            <form>
+                <div class="errorForm"></div>
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                    <h4 class="modal-title">New Member</h4>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">UserType</label>
+
+                                <select id="SelUserType" name="SelUserType" onchange="GetUsertypeFields();" class="width300">
+                                </select>
+                            </div>
+                            <!-- form-group -->
+                        </div>
+                        <!-- col-sm-6 -->
+
+                    </div>
+                </div>
+
+                <div id="mapfields">
+                </div>
+
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" id="AddNewMember" name="AddNewMember" onclick="AddNewConditionsForm();">Save</button>
+                    <button class="btn btn-default" type="button" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/MyUploadify/jquery.uploadify-3.1.js"></script>
+<script src="~/Content/MyUploadify/jquery.uploadify-3.1.min.js"></script>
+<script>
+    $(function () {
+        var str = "";
+        $('#membershipdocs').uploadify({
+            'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+            'uploader': '@Url.Action("StoreDocs", "Dashboard")',
+            'fileTypeExts': '*.*',
+            'auto': true,
+            'multi': true,
+            'removeCompleted': false,
+            'clearQueue': true,
+            'buttonText': 'Browse',
+            'height': '24',
+            'width': '90',
+            'line-height': '21',
+            'onUploadSuccess': function (file, data, response) {
+                //$("#hiddendocs").val(data);
+
+                str += data + ",";
+                //console.log(str);
+                $("#hiddendocs").val(str);
+            },
+
+            'onCancel': function (file) {
+                alert('The upload of ' + file.name + ' has been canceled!');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        jQuery("#MembershipPlanId,#PackageId,#mem_gen,#mem_maritial,#SelUserType").select2({ minimumResultsForSearch: -1 });
+        jQuery('#MembershipStartDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true
+        });
+
+        //Bind user type
+        $.ajax({
+            url: '@Url.Action("Getusertype", "Dashboard")',
+            type: 'GET'
+        }).done(function (data) {
+            var appenddata;
+            appenddata += "<option value = '-1' selected='selected'>Select UserType </option>";
+            $.each(data, function (key, value) {
+                appenddata += "<option value = '" + value.UserTypeId + " '>" + value.UserType + " </option>";
+            });
+            $('#SelUserType').html(appenddata);
+
+        });
+    });
+
+        function ConfirmDeleteMember() {
+            return confirm("Are you sure want to delete this Member?");
+        }
+        function GetUsertypeFields() {
+            var getval = $("#SelUserType").val();
+            $.ajax({
+                url: '@Url.Action("Getuserfields", "Dashboard")',
+                data: {
+                    usertypeid: getval
+                },
+                type: 'GET'
+            }).done(function (data) {
+                var str = "";
+                $("#mapfields").html("");
+                if (data[0].UserTypeId == 1) {
+                    //First row - Surname,firstname, middlename
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data[0].FieldText + "</label>";
+                    str += "<input type='text' name='mem_sname' id='mem_sname' class='form-control' required='required' title='" + data[0].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data[1].FieldText + "</label>";
+                    str += "<input type='text' name='mem_fname' id='mem_fname' class='form-control' required='required' title='" + data[1].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data[2].FieldText + "</label>";
+                    str += "<input type='text' name='mem_mname' id='mem_mname'  class='form-control' required='required' title='" + data[2].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    ////Closing of first row
+
+
+                    ////Start of second row-Sex,Fathers name
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'> <div class='col-sm-6'>    <div class='form-group'> <label class='control-label'>" + data[3].FieldText + "</label>";
+                    //str += "<input type='hidden' name='mem_" + i + "_gen' id='mem_" + i + "_gen' />" onclick='getgendermember(mem_gen);';
+                    str += "<select id='mem_gen' id='mem_gen'   data-placeholder='Choose One' class='width200'  required='required' title='Select '" + data[3].FieldText + " !'>";
+                    str += "<option value=''>Choose One</option> <option value='Male'>Male</option> <option value='Female'>Female</option> </select>";
+                    str += "</div></div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[4].FieldText + "</label>";
+                    str += "<input type='text' name='mem_father' id='mem_father' class='form-control' required='required' title='" + data[4].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of second row
+
+                    //Start of third row--Address, Phone No.(Res)
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[5].FieldText + "</label>";
+                    str += "<input type='text' name='mem_Address' id='mem_Address' class='form-control' required='required' title='" + data[5].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[6].FieldText + "</label>";
+                    str += "<input type='text' name='mem_PhoneHome' id='mem_PhoneHome' class='form-control'  title='" + data[6].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    ////End of third row
+
+                    ////Start of fourth row-- Phone(M), Nationality
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[7].FieldText + "</label>";
+                    str += "<input type='text' name='mem_PhoneMobile' id='mem_PhoneMobile' class='form-control' required='required' title='" + data[7].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[8].FieldText + "</label>";
+                    str += "<input type='text' name='mem_nationality' id='mem_nationality' class='form-control' required='required' title='" + data[8].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    ////End of fourth row
+
+                    ////Start of fifth row-- Email,PAN No.
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[9].FieldText + "</label>";
+                    str += "<input type='text' name='mem_email' id='mem_email' class='form-control' required='required' title='" + data[9].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[10].FieldText + "</label>";
+                    str += "<input type='text' name='mem_pan' id='mem_pan' class='form-control' title='" + data[10].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    ////End of fifth row
+
+                    ////Start of sixth row-- Date of birth,Maritial Status
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[11].FieldText + "</label>";
+                    str += "<input type='text' name='mem_dob' id='mem_dob'   class='form-control' required='required' title='" + data[11].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+
+
+                    str += "<div class='col-sm-4'> <div class='col-sm-6'>    <div class='form-group'> <label class='control-label'>" + data[12].FieldText + "</label>";
+                    //str += "<input type='hidden' name='mem_" + i + "_mar' id='mem_" + i + "_mar' />";
+                    str += "<select id='mem_maritial' id='mem_maritial'  data-placeholder='Choose One' class='width200'  required='required' title='Select '" + data[12].FieldText + "!'>";
+                    str += "<option value=''>Choose One</option> <option value='Married'>Married</option> <option value='UnMarried'>UnMarried</option> </select>";
+                    str += "</div></div></div></div> </div>";
+
+                    //End of sixth row
+
+                    //Start of seventh row-- Educational, Blood Group
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[13].FieldText + "</label>";
+                    str += "<input type='text' name='mem_education' id='mem_education' class='form-control'  title='" + data[13].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[14].FieldText + "</label>";
+                    str += "<input type='text' name='mem_blood' id='mem_blood' class='form-control'  title='" + data[14].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of seventh row
+
+                    //Start of eight row--Marriage Date,Religion
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[15].FieldText + "</label>";
+                    str += "<input type='text' name='mem_marriage' id='mem_marriage' class='form-control'  title='" + data[15].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[16].FieldText + "</label>";
+                    str += "<input type='text' name='mem_religion' id='mem_religion' class='form-control'  title='" + data[16].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of eight row
+
+                    //Start of nineth row-- Physical Disability, Interests/Hobbies
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[17].FieldText + "</label>";
+                    str += "<input type='text' name='mem_disability' id='mem_disability' class='form-control'  title='" + data[17].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[18].FieldText + "</label>";
+                    str += "<input type='text' name='mem_interest' id='mem_interest' class='form-control'  title='" + data[18].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of nineth row
+
+                    //Adding Bussiness professional details
+                    str += "<h4>Business / Professional / Service Details</h4>";
+
+                    //
+
+                    //Start of tenth row-- Name  of FIrm,Business Address
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[19].FieldText + "</label>";
+                    str += "<input type='text' name='mem_firm' id='mem_firm' class='form-control'  title='" + data[19].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[20].FieldText + "</label>";
+                    str += "<input type='text' name='mem_businessaddress' id='mem_businessaddress' class='form-control'  title='" + data[20].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of tenth row
+
+                    //Start of eleventh row- Office Address, Email
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[21].FieldText + "</label>";
+                    str += "<input type='text' name='mem_officeaddress' id='mem_officeaddress' class='form-control'  title='" + data[21].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[22].FieldText + "</label>";
+                    str += "<input type='text' name='mem_officeemail' id='mem_officeemail' class='form-control'  title='" + data[22].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of eleventh row
+
+                    //Start of twelveth row- office phone,Nature of business card
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[23].FieldText + "</label>";
+                    str += "<input type='text' name='mem_officephone' id='mem_officephone' class='form-control'  title='" + data[23].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[24].FieldText + "</label>";
+                    str += "<input type='text' name='mem_businesscard' id='mem_businesscard' class='form-control'  title='" + data[24].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of twelveth row
+
+                    //Start of thirtenth row-- Designation,Annual Income
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[25].FieldText + "</label>";
+                    str += "<input type='text' name='mem_designation' id='mem_designation' class='form-control'  title='" + data[25].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[26].FieldText + "</label>";
+                    str += "<input type='text' name='mem_annualincome' id='mem_annualincome' class='form-control'  title='" + data[26].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of thirtenth row
+
+                    //Start of fourteen row- Profile pic
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>Photo</label>";
+                    str += "<input type='hidden' name='hiddenmemphoto' id='hiddenmemphoto' />";
+                    str += "<input type='text' name='mem_photo' id='mem_photo' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of fourteen row
+
+                }
+                else if (data[0].UserTypeId == 2) {
+                    //First row - Surname,firstname, middlename
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data[0].FieldText + "</label>";
+                    str += "<input type='text' name='smem_surname' id='smem_surname' class='form-control' required='required' title='" + data[0].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data[1].FieldText + "</label>";
+                    str += "<input type='text' name='smem_firstname' id='smem_firstname' class='form-control' required='required' title='" + data[1].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data[2].FieldText + "</label>";
+                    str += "<input type='text' name='smem_middlename' id='smem_middlename'  class='form-control' required='required' title='" + data[2].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    ////Closing of first row
+
+
+                    ////Start of second row-Blood group ,DOB
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[3].FieldText + "</label>";
+                    str += "<input type='text' name='smem_blood' id='smem_blood' class='form-control'  title='" + data[3].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[4].FieldText + "</label>";
+                    str += "<input type='text' name='smem_dob' id='smem_dob' class='form-control' required='required' title='" + data[4].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of second row
+
+                    //Start of third row--Nationality,Email
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[5].FieldText + "</label>";
+                    str += "<input type='text' name='smem_nationality' id='smem_nationality' class='form-control' required='required' title='" + data[5].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[6].FieldText + "</label>";
+                    str += "<input type='text' name='smem_email' id='smem_email' class='form-control'  title='" + data[6].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    ////End of third row
+
+                    ////Start of fourth row-- Phone(res), PAN No.
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[7].FieldText + "</label>";
+                    str += "<input type='text' name='smem_PhoneRes' id='smem_PhoneRes' class='form-control' required='required' title='" + data[7].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[8].FieldText + "</label>";
+                    str += "<input type='text' name='smem_pan' id='smem_pan' class='form-control' required='required' title='" + data[8].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    ////End of fourth row
+
+                    ////Start of fifth row-- Educational qualification,Occupation
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[9].FieldText + "</label>";
+                    str += "<input type='text' name='smem_education' id='smem_education' class='form-control' required='required' title='" + data[9].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[10].FieldText + "</label>";
+                    str += "<input type='text' name='smem_occupation' id='smem_occupation' class='form-control' title='" + data[10].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    ////End of fifth row
+
+                    ////Start of sixth row-- Designation, Annual income
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[11].FieldText + "</label>";
+                    str += "<input type='text' name='smem_designation' id='smem_designation'  class='form-control' required='required' title='" + data[11].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+
+
+                    str += "<div class='col-sm-6'> <div class='col-sm-12'>    <div class='form-group'> <label class='control-label'>" + data[12].FieldText + "</label>";
+                    //str += "<input type='hidden' name='mem_" + i + "_mar' id='mem_" + i + "_mar' />";
+                    str += "<input type='text' name='smem_annual' id='smem_annual' class='form-control'  title='" + data[12].FieldText + " is required!' maxlength='25' />";
+
+                    str += "</div></div></div></div> </div>";
+
+                    //End of sixth row
+
+                    //Start of seventh row---Interests/Hobbies
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[13].FieldText + "</label>";
+                    str += "<input type='text' name='smem_interest' id='smem_interest' class='form-control'  title='" + data[13].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of seventh row
+
+
+
+                    //Start of eight row- Profile pic
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>Photo</label>";
+                    str += "<input type='hidden' name='shiddenmemphoto' id='shiddenmemphoto' />";
+                    str += "<input type='text' name='smem_photo' id='smem_photo' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of eight row
+
+                }
+                else if (data[0].UserTypeId == 3) {
+                    //First row - Name,Blood grp, sex
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data[0].FieldText + "</label>";
+                    str += "<input type='text' name='cmem_name' id='cmem_name' class='form-control' required='required' title='" + data[0].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-4'>     <div class='form-group'> <label class='control-label'>" + data[1].FieldText + "</label>";
+                    str += "<input type='text' name='cmem_blood' id='cmem_blood' class='form-control'  title='" + data[1].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-4'> <div class='col-sm-4'>    <div class='form-group'> <label class='control-label'>" + data[2].FieldText + "</label>";
+                    str += "<input type='hidden' name='cmem_sex' id='cmem_sex' />";
+                    str += "<select id='cmem_gen' id='cmem_gen'   data-placeholder='Choose One' class='width200'  required='required' title='Select " + data[2].FieldText + "!'>";
+                    str += "<option value=''>Choose One</option> <option value='Male'>Male</option> <option value='Female'>Female</option> </select>";
+                    str += "</div></div></div>";
+
+                    str += "</div></div>";
+                    //Closing of first row
+
+                    //Start of second row- DOB,Name of school
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[3].FieldText + "</label>";
+                    str += "<input type='text' name='cmem_dob' id='cmem_dob' class='form-control' required='required' title='" + data[3].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[4].FieldText + "</label>";
+                    str += "<input type='text' name='cmem_school' id='cmem_school' class='form-control' title='" + data[4].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of second row
+
+                    //Start of third row-Interests/Hobbies,Allergy
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[5].FieldText + "</label>";
+                    str += "<input type='text' name='cmem_interest' id='cmem_interest' class='form-control' title='" + data[5].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[6].FieldText + "</label>";
+                    str += "<input type='text' name='cmem_allergy' id='cmem_allergy' class='form-control' title='" + data[6].FieldText + " is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of third row
+
+                    //Start of fourth row-photo
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>Photo</label>";
+                    str += "<input type='hidden' name='chiddenmemphoto' id='chiddenmemphoto' />";
+                    str += "<input type='text' name='cmem_photo' id='cmem_photo' class='form-control' required='required' title='Photo is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of fourth row
+                }
+                else if (data[0].UserTypeId == 4) {
+                    //Start of first row- Name,address
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[0].FieldText + "</label>";
+                    str += "<input type='text'  name='semem_name' id='semem_name' class='form-control'  title='" + data[0].FieldText + "' is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[1].FieldText + "</label>";
+                    str += "<input type='text' name='semem_address' id='semem_address' class='form-control' required='required' title='" + data[1].FieldText + "' is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of first row
+
+                    //Start of second row-- PHone no,dob
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>" + data[2].FieldText + "</label>";
+                    str += "<input type='text' name='semem_phone' id='semem_phone' class='form-control' required='required' title='" + data[2].FieldText + "' is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "<div class='col-sm-6'>     <div class='form-group'> <label class='control-label'>" + data[3].FieldText + "</label>";
+                    str += "<input type='text'  name='semem_dob' id='semem_dob' class='form-control' required='required' title='" + data[3].FieldText + "' is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of second row
+
+                    //Start of third row- profile
+                    str += "<div class='row'>                                            <div class='col-sm-12'>";
+                    str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>Photo</label>";
+                    str += "<input type='hidden' name='seniormemphoto' id='seniormemphoto' />";
+                    str += "<input type='text' name='semem_photo' id='semem_photo' class='form-control' required='required' title='Memeber#1 First name is required!' maxlength='25' />";
+                    str += "</div></div>";
+
+                    str += "</div></div>";
+                    //End of third row
+                }
+
+                //Start of by default- additional charge
+                str += "<div class='row'>                                            <div class='col-sm-12'>";
+                str += "<div class='col-sm-6'>   <div class='form-group'> <label class='control-label'>Extra amount</label>";
+                str += "<input type='text' name='extra_amount' id='extra_amount' value='50000' class='form-control' required='required' title=' Extra Amount is required!' maxlength='25' />";
+                str += "</div></div>";
+                str += "</div></div>";
+
+                //End of by default
+
+                $("#mapfields").html(str);
+                if (data[0].UserTypeId == 1) {
+                    jQuery("#mem_gen,#mem_maritial").select2({ minimumResultsForSearch: -1 });
+                    jQuery('#mem_marriage').datepicker({
+                        dateFormat: "yy-mm-dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                    jQuery('#mem_dob').datepicker({
+                        dateFormat: "yy-mm-dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                    adduploader('mem_photo');
+                }
+                else if (data[0].UserTypeId == 2) {
+                    jQuery('#smem_dob').datepicker({
+                        dateFormat: "yy-mm-dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                    sadduploader('smem_photo');
+                }
+                else if (data[0].UserTypeId == 3) {
+                    jQuery("#cmem_gen").select2({ minimumResultsForSearch: -1 });
+                    jQuery('#cmem_dob').datepicker({
+                        dateFormat: "yy-mm-dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                    cadduploader('cmem_photo');
+                }
+                else if (data[0].UserTypeId == 4) {
+                    jQuery('#semem_dob').datepicker({
+                        dateFormat: "yy-mm-dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                    seadduploader('semem_photo');
+                }
+            });
+
+        }
+        function adduploader(id) {
+            $('#' + id).uploadify({
+                'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+                'uploader': '@Url.Action("StoreImage", "Dashboard")',
+                'fileTypeDesc': 'Image Files',
+                'fileTypeExts': '*.jpg; *.png;*.jpeg;*.pdf',
+                'auto': true,
+                'removeCompleted': false,
+                'clearQueue': true,
+                'buttonText': 'Browse',
+                'height': '24',
+                'width': '90',
+                'line-height': '21',
+                'onUploadSuccess': function (file, uploaddata, response) {
+                    //var vb = 'hiddenmem' + id + 'photo';
+                    $('#hiddenmemphoto').val(uploaddata);
+                    //console.log(data);
+                    // alert($('#' + vb).val());
+                    alert($('#hiddenmemphoto').val());
+                },
+
+                'onCancel': function (file) {
+                    alert('The upload of ' + file.name + ' has been canceled!');
+                }
+            });
+
+        }
+        function sadduploader(id) {
+            $('#' + id).uploadify({
+                'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+                'uploader': '@Url.Action("StoreImage", "Dashboard")',
+                'fileTypeDesc': 'Image Files',
+                'fileTypeExts': '*.jpg; *.png;*.jpeg;*.pdf',
+                'auto': true,
+                'removeCompleted': false,
+                'clearQueue': true,
+                'buttonText': 'Browse',
+                'height': '24',
+                'width': '90',
+                'line-height': '21',
+                'onUploadSuccess': function (file, uploaddata, response) {
+                    //var vb = 'hiddenmem' + id + 'photo';
+                    $('#shiddenmemphoto').val(uploaddata);
+                    //console.log(data);
+                    // alert($('#' + vb).val());
+                    alert($('#shiddenmemphoto').val());
+                },
+
+                'onCancel': function (file) {
+                    alert('The upload of ' + file.name + ' has been canceled!');
+                }
+            });
+
+        }
+        function cadduploader(id) {
+            $('#' + id).uploadify({
+                'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+                'uploader': '@Url.Action("StoreImage", "Dashboard")',
+                'fileTypeDesc': 'Image Files',
+                'fileTypeExts': '*.jpg; *.png;*.jpeg;*.pdf',
+                'auto': true,
+                'removeCompleted': false,
+                'clearQueue': true,
+                'buttonText': 'Browse',
+                'height': '24',
+                'width': '90',
+                'line-height': '21',
+                'onUploadSuccess': function (file, uploaddata, response) {
+                    //var vb = 'hiddenmem' + id + 'photo';
+                    $('#chiddenmemphoto').val(uploaddata);
+                    //console.log(data);
+                    // alert($('#' + vb).val());
+                    alert($('#chiddenmemphoto').val());
+                },
+
+                'onCancel': function (file) {
+                    alert('The upload of ' + file.name + ' has been canceled!');
+                }
+            });
+
+        }
+        function seadduploader(id) {
+            $('#' + id).uploadify({
+                'swf': '@Url.Content("~/Content/MyUploadify/uploadify.swf")',
+                'uploader': '@Url.Action("StoreImage", "Dashboard")',
+                'fileTypeDesc': 'Image Files',
+                'fileTypeExts': '*.jpg; *.png;*.jpeg;*.pdf',
+                'auto': true,
+                'removeCompleted': false,
+                'clearQueue': true,
+                'buttonText': 'Browse',
+                'height': '24',
+                'width': '90',
+                'line-height': '21',
+                'onUploadSuccess': function (file, uploaddata, response) {
+                    //var vb = 'hiddenmem' + id + 'photo';
+                    $('#seniormemphoto').val(uploaddata);
+                    //console.log(data);
+                    // alert($('#' + vb).val());
+                    alert($('#seniormemphoto').val());
+                },
+
+                'onCancel': function (file) {
+                    alert('The upload of ' + file.name + ' has been canceled!');
+                }
+            });
+
+        }
+        function AddNewConditionsForm() {
+            //get usertype and check validation as per usertype
+            var getusertype = $("#SelUserType").val();
+        @*if (getusertype == 1) {
+
+            if ($("#mem_dob").val() == "") {
+                alert("Please select dob!");
+                return;
+            }
+
+            var child1date = $("#mem_dob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+            todayDate = new Date();
+            todayYear = todayDate.getFullYear();
+            todayMonth = todayDate.getMonth();
+            todayDay = todayDate.getDate();
+            age = todayYear - year;
+            //alert(age);
+            if (day == todayDay) {
+                alert("DOB cannot be today's date");
+                return;
+            }
+
+            
+            //register main
+            $.ajax({
+                url: '@Url.Action("AddNewMainMember", "Dashboard")',
+                //contentType: "application/json",
+                data: {
+                    MembershipRegistrationId: MembershipRegistrationId,
+                    usertype: usertype,
+                    profilename: profilename,
+                    sname: sname,
+                    fname: fname,
+                    mname: mname,
+                    sex: sex,
+                    father: father,
+                    address: address,
+                    phoneres: phoneres,
+                    phonem: phonem,
+                    nationality: nationality,
+                    email: email,
+                    pan: pan,
+                    adob: adob,
+                    maritial: maritial,
+                    education: education,
+                    blood: blood,
+                    marriagedate: marriagedate,
+                    religion: religion,
+                    physical: physical,
+                    interest: interest,
+                    firm: firm,
+                    businessaddress: businessaddress,
+                    addressoffice: addressoffice,
+                    emailoffice: emailoffice,
+                    phoneoffice: phoneoffice,
+                    businesscard: businesscard,
+                    designation: designation,
+                    annualincome: annualincome,
+                    extraamount: extraamt
+                },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "true") {
+                        alert("Succsess");
+
+                    }
+                    else {
+                        //alert("Something went wrong. Please try again later");
+                        var memid = MembershipRegistrationId;
+                        var link = '@Url.Action("NewViewMembership", "Dashboard", new { MembershipRegestrationId = "replace" })';
+                        link = link.replace("replace", memid);
+                        window.location.href = link;
+                    }
+
+                }
+            });
+
+        }*@
+            if (getusertype == 1) {
+
+                if ($("#mem_dob").val() == "") {
+                    alert("Please select dob!");
+                    return;
+                }
+
+                var child1date = $("#mem_dob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+                todayDate = new Date();
+                todayYear = todayDate.getFullYear();
+                todayMonth = todayDate.getMonth();
+                todayDay = todayDate.getDate();
+                age = todayYear - year;
+                //alert(age);
+                if (day == todayDay) {
+                    alert("DOB cannot be today's date");
+                    return;
+                }
+
+                var child1date = $("#mem_dob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+                todayDate = new Date();
+                todayYear = todayDate.getFullYear();
+                todayMonth = todayDate.getMonth();
+                todayDay = todayDate.getDate();
+                age = todayYear - year;
+                //alert(age);
+                if (age <= 18) {
+                    alert("Age should be greater than 18");
+                    return;
+                }
+
+                var MembershipRegistrationId = '@Model.objtempreg.TempMembershipRegistrationId';
+            var usertype = getusertype;
+            var profilename = $("#hiddenmemphoto").val();
+            var sname = $("#mem_sname").val();
+            var fname = $("#mem_fname").val();
+            var mname = $("#mem_mname").val();
+            var sex = $("#mem_gen").val();
+            var father = $("#mem_father").val();
+            var address = $("#mem_Address").val();
+            var phoneres = $("#mem_PhoneHome").val();
+            var phonem = $("#mem_PhoneMobile").val();
+            var nationality = $("#mem_nationality").val();
+            var email = $("#mem_email").val();
+            var pan = $("#mem_pan").val();
+            var adob = $("#mem_dob").val();
+            var maritial = $("#mem_maritial").val();
+            var education = $("#mem_education").val();
+            var blood = $("#mem_blood").val();
+            var marriagedate = $("#mem_marriage").val();
+            var religion = $("#mem_religion").val();
+            var physical = $("#mem_disability").val();
+            var interest = $("#mem_interest").val();
+            var firm = $("#mem_firm").val();
+            var businessaddress = $("#mem_businessaddress").val();
+            var addressoffice = $("#mem_officeaddress").val();
+            var emailoffice = $("#mem_officeemail").val();
+            var phoneoffice = $("#mem_officephone").val();
+            var businesscard = $("#mem_businesscard").val();
+            var designation = $("#mem_designation").val();
+            var annualincome = $("#mem_annualincome").val();
+            var extraamt = $("#extra_amount").val();
+
+            $.ajax({
+                url: '@Url.Action("EditNewMainMember", "Dashboard")',
+                //contentType: "application/json",
+                data: {
+                    MembershipRegistrationId: MembershipRegistrationId,
+                    usertype: usertype,
+                    profilename: profilename,
+                    sname: sname,
+                    fname: fname,
+                    mname: mname,
+                    sex: sex,
+                    father: father,
+                    address: address,
+                    phoneres: phoneres,
+                    phonem: phonem,
+                    nationality: nationality,
+                    email: email,
+                    pan: pan,
+                    adob: adob,
+                    maritial: maritial,
+                    education: education,
+                    blood: blood,
+                    marriagedate: marriagedate,
+                    religion: religion,
+                    physical: physical,
+                    interest: interest,
+                    firm: firm,
+                    businessaddress: businessaddress,
+                    addressoffice: addressoffice,
+                    emailoffice: emailoffice,
+                    phoneoffice: phoneoffice,
+                    businesscard: businesscard,
+                    designation: designation,
+                    annualincome: annualincome,
+                    extraamount: extraamt
+                },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "true") {
+                        alert("Member saved");
+                        var memid = MembershipRegistrationId;
+                        var link = '@Url.Action("NewViewMembership", "Dashboard", new { MembershipRegestrationId = "replace" })';
+                        link = link.replace("replace", memid);
+                        window.location.href = link;
+                    }
+                    else {
+                        //alert("Something went wrong. Please try again later");
+                        var memid = MembershipRegistrationId;
+                        var link = '@Url.Action("NewViewMembership", "Dashboard", new { MembershipRegestrationId = "replace" })';
+                         link = link.replace("replace", memid);
+                         window.location.href = link;
+                     }
+
+                }
+            });
+         }
+         if (getusertype == 2) {
+
+             var child1date = $("#smem_dob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+             todayDate = new Date();
+             todayYear = todayDate.getFullYear();
+             todayMonth = todayDate.getMonth();
+             todayDay = todayDate.getDate();
+             age = todayYear - year;
+             //alert(age);
+             if (age <= 18) {
+                 alert("Age should be greater than 18");
+                 return;
+             }
+
+
+             var MembershipRegistrationId = '@Model.objtempreg.TempMembershipRegistrationId';
+             var usertype = getusertype;
+             var profilename = $("#shiddenmemphoto").val();
+             var sname = $("#smem_surname").val();;
+             var fname = $("#smem_firstname").val();;
+             var mname = $("#smem_middlename").val();;
+             var blood = $("#smem_blood").val();;
+             var sdob = $("#smem_dob").val();;
+             var nation = $("#smem_nationality").val();;
+             var email = $("#smem_email").val();;
+             var pan = $("#smem_pan").val();;
+             var edu = $("#smem_education").val();;
+             var occup = $("#smem_occupation").val();;
+             var designation = $("#smem_designation").val();;
+             var annual = $("#smem_annual").val();;
+             var interest = $("#smem_interest").val();;
+             var phone = $("#smem_PhoneRes").val();;
+             var extraamt = $("#extra_amount").val();
+             $.ajax({
+                 url: '@Url.Action("AddNewSpouseMember", "Dashboard")',
+                //contentType: "application/json",
+                data: {
+                    MembershipRegistrationId: MembershipRegistrationId,
+                    usertype: usertype,
+                    profilename: profilename,
+                    sname: sname,
+                    fname: fname,
+                    mname: mname,
+                    blood: blood,
+                    sdob: sdob,
+                    nation: nation,
+                    email: email,
+                    pan: pan,
+                    edu: edu,
+                    occup: occup,
+                    designation: designation,
+                    annual: annual,
+                    interest: interest,
+                    phone: phone,
+                    extraamount: extraamt
+                },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "true") {
+                        alert("Member saved");
+                        var memid = MembershipRegistrationId;
+                        var link = '@Url.Action("NewViewMembership", "Dashboard", new { MembershipRegestrationId = "replace" })';
+                        link = link.replace("replace", memid);
+                        window.location.href = link;
+                    }
+                    else {
+                        //alert("Something went wrong. Please try again later");
+                        var memid = MembershipRegistrationId;
+                        var link = '@Url.Action("NewViewMembership", "Dashboard", new { MembershipRegestrationId = "replace" })';
+                        link = link.replace("replace", memid);
+                        window.location.href = link;
+                    }
+
+                }
+            });
+        }
+        if (getusertype == 3) {
+
+            var child1date = $("#cmem_dob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+            todayDate = new Date();
+            todayYear = todayDate.getFullYear();
+            todayMonth = todayDate.getMonth();
+            todayDay = todayDate.getDate();
+            age = todayYear - year;
+            //alert(age);
+            if (age >= 18) {
+                alert("Age should be less than 18");
+                return;
+            }
+
+
+
+
+            var MembershipRegistrationId = '@Model.objtempreg.TempMembershipRegistrationId';
+            var usertype = getusertype;
+            var profilename = $("#chiddenmemphoto").val();
+
+            var name = $("#cmem_name").val();;
+            var blood = $("#cmem_blood").val();;
+            var gender = $("#cmem_gen").val();;
+            var childdob = $("#cmem_dob").val();
+            var school = $("#cmem_school").val();;
+            var interest = $("#cmem_interest").val();;
+            var allergy = $("#cmem_allergy").val();
+
+            var extraamt = $("#extra_amount").val();
+            $.ajax({
+                url: '@Url.Action("AddNewChildMember", "Dashboard")',
+                //contentType: "application/json",
+                data: {
+                    MembershipRegistrationId: MembershipRegistrationId,
+                    usertype: usertype,
+                    profilename: profilename,
+                    name: name,
+                    blood: blood,
+                    gender: gender,
+                    childdob: childdob,
+                    school: school,
+                    interest: interest,
+                    allergy: allergy,
+                    extraamount: extraamt
+                },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "true") {
+                        alert("Member saved");
+                        var memid = MembershipRegistrationId;
+                        var link = '@Url.Action("NewViewMembership", "Dashboard", new { MembershipRegestrationId = "replace" })';
+                        link = link.replace("replace", memid);
+                        window.location.href = link;
+                    }
+                    else {
+                        //alert("Something went wrong. Please try again later");
+                        var memid = MembershipRegistrationId;
+                        var link = '@Url.Action("NewViewMembership", "Dashboard", new { MembershipRegestrationId = "replace" })';
+                        link = link.replace("replace", memid);
+                        window.location.href = link;
+                    }
+
+                }
+            });
+
+        }
+        if (getusertype == 4) {
+
+            var child1date = $("#semem_dob").datepicker('getDate'), day = child1date.getDate(), month = child1date.getMonth(), year = child1date.getFullYear();
+            todayDate = new Date();
+            todayYear = todayDate.getFullYear();
+            todayMonth = todayDate.getMonth();
+            todayDay = todayDate.getDate();
+            age = todayYear - year;
+            //alert(age);
+            if (age <= 60) {
+                alert("Age should be greater then or equal to 60");
+                return;
+            }
+
+            var MembershipRegistrationId = '@Model.objtempreg.TempMembershipRegistrationId';
+            var usertype = getusertype;
+            var profilename = $("#seniormemphoto").val();
+            var seniorname = $("#semem_name").val();;
+            var senioraddress = $("#semem_address").val();;
+            var seniorphone = $("#semem_phone").val();;
+            var seniordob = $("#semem_dob").val();
+            var extraamt = $("#extra_amount").val();
+            $.ajax({
+                url: '@Url.Action("AddNewSeniorMember", "Dashboard")',
+                //contentType: "application/json",
+                data: {
+                    MembershipRegistrationId: MembershipRegistrationId,
+                    usertype: usertype,
+                    profilename: profilename,
+                    seniorname: seniorname,
+                    senioraddress: senioraddress,
+                    seniorphone: seniorphone,
+                    seniordob: seniordob,
+                    extraamount: extraamt
+                },
+                type: 'POST',
+                success: function (data) {
+                    if (data == "true") {
+                        alert("Member saved");
+                        var memid = MembershipRegistrationId;
+                        var link = '@Url.Action("NewViewMembership", "Dashboard", new { MembershipRegestrationId = "replace" })';
+                        link = link.replace("replace", memid);
+                        window.location.href = link;
+                    }
+                    else {
+                        //alert("Something went wrong. Please try again later");
+                        var memid = MembershipRegistrationId;
+                        var link = '@Url.Action("NewViewMembership", "Dashboard", new { MembershipRegestrationId = "replace" })';
+                        link = link.replace("replace", memid);
+                        window.location.href = link;
+                    }
+
+                }
+            });
+
+
+        }
+
+    }
+</script>
+

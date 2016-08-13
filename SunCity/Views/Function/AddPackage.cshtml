@@ -1,0 +1,103 @@
+﻿@model SunCity.DAL.TblPackage
+@{
+    ViewBag.Title = "Add Package";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+@if (TempData["alertstatus"] == "Success")
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Package</strong> added successfully.
+                               
+    </div>
+}
+@if (TempData["alertstatus"] == "Error")
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> Something went wrong. Please try submitting again.
+                               
+    </div>
+}
+
+
+
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-minimize tooltips" data-toggle="tooltip" title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                @*<a href="" class="panel-close tooltips" data-toggle="tooltip" title="Close Panel"><i class="fa fa-times"></i></a>*@
+            </div>
+            <!-- panel-btns -->
+            <h4 class="panel-title">Add Package</h4>
+            <p>This form is used to add new packages.</p>
+        </div>
+        @using (Html.BeginForm("AddPackage", "Function", FormMethod.Post, new { id = "AddPackage" }))
+        {  
+            @Html.HiddenFor(x => x.PackageId)
+
+            <div class="panel-body">
+                <div class="errorForm"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Package Name</label>
+                            @Html.TextBoxFor(x => x.PackageName, new { @class = "form-control", @title = "Package name is required!", @required = "required" })
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <!-- col-sm-6 -->
+                </div>
+                @*<div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Is Deleted</label>
+                            <div class="checkbox block">
+                                @if (Model.IsDeleted == false)
+                                {
+                                
+                                    <label>
+                                        <input type="checkbox" name="IsDeleted" /></label>
+                                
+                                }
+                                else
+                                {
+                                
+                                    <label>
+                                        <input type="checkbox" name="IsDeleted" checked="checked" /></label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>*@
+                <!-- row -->
+
+
+                <!-- row -->
+            </div>
+            <!-- panel-body -->
+            <div class="panel-footer">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+            <!-- panel-footer -->
+        }
+    </div>
+    <!-- panel -->
+</div>
+<!-- col-md-6 -->
+
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        // Error Message In One Container
+        $("#AddPackage").validate({
+            errorLabelContainer: $("#AddPackage div.errorForm")
+        });
+
+
+
+    });
+        </script>
